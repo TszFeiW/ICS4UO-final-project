@@ -11,7 +11,7 @@ public class SplashScreen extends JComponent {
    private BufferedImage play2;
    private BufferedImage exit;
    private BufferedImage exit2;
-   private boolean selected;
+   private int selected;
    private int choice = -1;
    private Color bg;
 
@@ -27,7 +27,7 @@ public class SplashScreen extends JComponent {
       catch (IOException ioe) {
          System.out.println("Missing image file.");
       }
-      selected = true; // on the first button
+      selected = 0; // on the first button
       bg = new Color(245, 228, 255);
    }
    
@@ -36,13 +36,12 @@ public class SplashScreen extends JComponent {
          int key = e.getKeyCode();
          
          if (key == KeyEvent.VK_DOWN)
-            selected = false;
+            selected = 1;
          else if (key == KeyEvent.VK_UP)
-            selected = true;
+            selected = 0;
          else if (key == KeyEvent.VK_ENTER)
-            choice = selected ? 0 : 1;
-            
-         System.out.println(choice);
+            choice = selected;
+         
          SplashScreen.this.repaint();
       }
    }
@@ -50,8 +49,6 @@ public class SplashScreen extends JComponent {
    public void paintComponent(Graphics g) {
       g.setColor(bg);
       g.fillRect(0, 0, 810, 1080);
-      int w = getWidth();
-      int h = getHeight();
 
       g.drawImage(logo, 245, 100, this);
       
@@ -59,13 +56,11 @@ public class SplashScreen extends JComponent {
       g.setFont(new Font("Calibri", Font.BOLD, 50));
       g.drawString("Chat-Mod AI Inc.", 235, 520);
       
-      if (selected) {
-         System.out.println("wee");
+      if (selected == 0) {
          g.drawImage(play2, 255, 600, this);
          g.drawImage(exit, 255, 720, this);
       }
       else {
-         System.out.println("woo");
          g.drawImage(play, 255, 600, this);
          g.drawImage(exit2, 255, 720, this);
       }
