@@ -5,25 +5,58 @@ import javax.swing.*;
 
 public class Main {
    
-   public static void main(String[] args) throws InterruptedException {
-      JFrame window = new JFrame("CMod Socializer");
-      window.setSize(810, 1080);
-      window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+   int scene = 0; // starts on splash screen
+   JFrame window;
+   
+   public static void main(String[] args) {
+      Main m = new Main();
       
-      SplashScreen ss = new SplashScreen();
-      window.getContentPane().add(ss);
-      ss.setFocusable(true);
-      ss.requestFocusInWindow();
-      window.setVisible(true);
-      while (true) { // until the user makes a choice
-         if (ss.getChoice() != -1) break;
+      m.window = new JFrame("CMod Socializer");
+      m.window.setSize(810, 1080);
+      m.window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      
+      while (m.scene != -1) { // while the user has not chosen to quit
+         switch (m.scene) {
+            case 0: 
+               SplashScreen ss = new SplashScreen();
+               m.window.getContentPane().add(ss);
+               ss.setFocusable(true);
+               ss.requestFocusInWindow();
+               m.window.setVisible(true);
+               while (true) { // until the user makes a choice
+                  if (ss.getChoice() != -1) break;
+               }
+               if (ss.getChoice() == 1) { // chooses to exit
+                  m.scene = -1;
+               }
+               else {
+                  m.scene++;
+               }
+               m.window.getContentPane().remove(ss);
+               break;
+            case 1:
+               MainMenu mm = new MainMenu();
+               m.window.getContentPane().add(mm);
+               mm.setFocusable(true);
+               mm.requestFocusInWindow();
+               m.window.setVisible(true);
+               while (true) { // until the user makes a choice
+                  if (mm.getChoice() != -1) break;
+               }
+               if (mm.getChoice() == 3) { // chooses to exit
+                  m.scene = -1;
+               }
+               else {
+                  m.scene++;
+               }
+               m.window.getContentPane().remove(mm);
+               break;
+            case -1:
+               m.window.setVisible(false); // exited
+               break;
+         }
       }
-      if (ss.getChoice() == 1) { // chooses to exit
-         window.setVisible(false);
-      }
-      window.getContentPane().remove(ss);
-      
-      
+      m.window.dispose();
    }
   
 }
