@@ -1,3 +1,16 @@
+/**
+ * This class is used to display the Main Menu for our game.
+ * @version 1
+ * May 24th, 2024
+ * Time Spent: 4 hours
+ * @author Eric Ning, Tsz Fei Wang
+ *
+ * Modifications: Class was created which runs the main menu of our game. Keyboard input is used
+ *                to detect which scene/level they would like to proceed to. The user is still
+ *                able to exit the game. The user cannot proceed to level 2 prior to level 1.
+ * 
+ */
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -6,6 +19,23 @@ import java.io.*;
 import javax.imageio.ImageIO;
 
 public class MainMenu extends JComponent {
+   /**
+    * private BufferedImage instructions         - image of the non-selected instructions button
+    * private BufferedImage instructions2        - image of the selected instructions button
+    * private BufferedImage firstLevel           - image of the non-selected level 1 button
+    * private BufferedImage firstLevel2          - image of the selected level 1 button
+    * private BufferedImage secondLevel          - image of the non-selected non-unlocked level 2 button
+    * private BufferedImage secondLevel2         - image of the selected non-unlocked level 2 button
+    * private BufferedImage secondLevelUnlocked  - image of the non-selected unlocked level 2 button
+    * private BufferedImage secondLevelUnlocked2 - image of the selected unlocked level 2 button
+    * private BufferedImage quit                 - image of the non-selected quit game button
+    * private BufferedImage quit2                - image of the selected quit game button
+    * private int selected                       - the current button that is selected (numbered 0 to 3)
+    * private int choice                         - the selected button
+    * private Color bg                           - the color of the background
+    * private boolean allowed                    - whether the user can choose level 2 or not
+    * private boolean warning                    - whether the user chose a non-unlocked level 2
+    */
    private BufferedImage instructions;
    private BufferedImage instructions2;
    private BufferedImage firstLevel;
@@ -16,13 +46,16 @@ public class MainMenu extends JComponent {
    private BufferedImage secondLevelUnlocked2;
    private BufferedImage quit;
    private BufferedImage quit2;
-   
    private int selected = 0;
    private int choice = -1;
    private Color bg;
    private boolean allowed;
    private boolean warning;
-
+   
+   /**
+    * Constructor of the class so that an instance of the class can be created in Main
+    * @param boolean level2 Whether the second level can currently be chosen or not
+    */
    public MainMenu(boolean level2) {
       this.addKeyListener(new KeyHandler());
       try {
@@ -45,7 +78,14 @@ public class MainMenu extends JComponent {
       bg = new Color(245, 228, 255);
    }
    
+   /**
+    * This private class extends KeyAdapter so the drawing can detect key inputs
+    */
    private class KeyHandler extends KeyAdapter {
+      /**
+       * This method allows the actual game to run (main method)   
+       * @param KeyEvent e An event that shows that a keyboard input as been made
+       */
       public void keyPressed(KeyEvent e) {
          int key = e.getKeyCode();
          
@@ -62,6 +102,10 @@ public class MainMenu extends JComponent {
       }
    }
    
+   /**
+    * This method is capable of actually drawing onto the JFrame window.
+    * @param Graphics g An object which is a painting tool
+    */
    public void paintComponent(Graphics g) {
       g.setColor(bg);
       g.fillRect(0, 0, 810, 1080);
@@ -100,6 +144,10 @@ public class MainMenu extends JComponent {
       warning = false;
    }
    
+   /**
+    * This method allows the Main class to access the choice that the user made 
+    * @return The choice that the user made in the menu
+    */
    public int getChoice() {
       return choice;
    }
