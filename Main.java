@@ -7,6 +7,7 @@ public class Main {
    
    int scene = 0; // starts on splash screen
    JFrame window;
+   boolean level2 = false;
    
    public static void main(String[] args) {
       Main m = new Main();
@@ -30,12 +31,12 @@ public class Main {
                   m.scene = -1;
                }
                else {
-                  m.scene++;
+                  m.scene = 1;
                }
                m.window.getContentPane().remove(ss);
                break;
             case 1:
-               MainMenu mm = new MainMenu();
+               MainMenu mm = new MainMenu(m.level2);
                m.window.getContentPane().add(mm);
                mm.setFocusable(true);
                mm.requestFocusInWindow();
@@ -43,14 +44,34 @@ public class Main {
                while (true) { // until the user makes a choice
                   if (mm.getChoice() != -1) break;
                }
-               if (mm.getChoice() == 3) { // chooses to exit
-                  m.scene = -1;
-               }
-               else {
-                  m.scene++;
+               switch (mm.getChoice()) {
+                  case 0:
+                     m.scene = 2;
+                     break;
+                  case 1:
+                     m.scene = 3;
+                     break;
+                  case 2:
+                     m.scene = 4;
+                     break;
+                  case 3:
+                     m.scene = -1;
+                     break;
                }
                m.window.getContentPane().remove(mm);
                break;
+            case 2:
+            
+               //break;
+            case 3: 
+               m.level2 = true;
+               //break;
+            case 4:
+            
+               //break;
+            case 5:
+            
+               //break;
             case -1:
                m.window.setVisible(false); // exited
                break;
