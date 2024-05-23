@@ -43,7 +43,7 @@ public class MainMenu extends JComponent {
          int key = e.getKeyCode();
          
          if (key == KeyEvent.VK_DOWN)
-            selected = Math.min(selected+1, 4);
+            selected = Math.min(selected+1, 3);
          else if (key == KeyEvent.VK_UP)
             selected = Math.max(selected-1, 0);
          else if (key == KeyEvent.VK_ENTER)
