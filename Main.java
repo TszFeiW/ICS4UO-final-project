@@ -1,4 +1,13 @@
-
+/**
+ * This class is used as the Driver class for our game.
+ * @version 1
+ * May 24th, 2024
+ * Time Spent: 1 hour
+ * @author Eric Ning 
+ 
+ * Modifications: Class was created which runs separate parts of the game in the correct order.
+ * 
+ */
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -9,6 +18,10 @@ public class Main {
    JFrame window;
    boolean level2 = false;
    
+   /**
+    * This method allows the actual game to run (main method)   
+    * @param String[] args The command-line arguments for Java
+    */
    public static void main(String[] args) {
       Main m = new Main();
       
