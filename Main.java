@@ -2,8 +2,8 @@
  * This class is used as the Driver class for our game.
  * @version 1
  * May 24th, 2024
- * Time Spent: 1 hour
- * @author Eric Ning 
+ * Time Spent: 2 hours
+ * @author Eric Ning, Tsz Fei Wang
  
  * Modifications: Class was created which runs separate parts of the game in the correct order.
  * 
@@ -74,8 +74,17 @@ public class Main {
                m.window.getContentPane().remove(mm);
                break;
             case 2:
-            
-               //break;
+               Instructions i = new Instructions();
+               m.window.getContentPane().add(i);
+               i.setFocusable(true);
+               i.requestFocusInWindow();
+               m.window.setVisible(true);
+               while (true) {
+                  if (i.getFinished()) break;
+               }
+               m.window.getContentPane().remove(i);
+               m.scene = 1;
+               break;
             case 3: 
                m.level2 = true;
                //break;
