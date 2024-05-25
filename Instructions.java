@@ -1,5 +1,5 @@
 /**
- * This class is used as the splash screen for our game.
+ * This class is used as the instructions screen for our game.
  * @version 1
  * May 24th, 2024
  * Time Spent: 1 hour
@@ -20,19 +20,19 @@ import javax.imageio.ImageIO;
 public class Instructions extends JComponent {
 
    /**
-    * private BufferedImage logo  - image of the logo
-    * private instructionsL1      - image of the instructions for level 1
-    * private instructionsL2      - image of the instructions for level 2
-    * private Color bg            - the color of the background
-    * private int choice          - the selected 
-    * private int currScreen      - which instructions panel it is on 
+    * private BufferedImage generalInstructions - image of the general instructions for the game
+    * private BufferedImage instructionsL1      - image of the instructions for level 1
+    * private BufferedImage instructionsL2      - image of the instructions for level 2
+    * private Color bg                          - the color of the background
+    * private int choice                        - the selected 
+    * private int currScreen                    - which instructions panel it is on 
     */
-   private BufferedImage logo;
+   private BufferedImage generalInstructions;
    private BufferedImage instructionsL1;
    private BufferedImage instructionsL2;
    private Color bg;
+   private boolean finished;
    private int currScreen;
-   private int choice = 2; 
    
    /**
     * Constructor of the class so that an instance of the class can be created in Main
@@ -40,7 +40,7 @@ public class Instructions extends JComponent {
    public Instructions() {
       this.addKeyListener(new KeyHandler());
       try {
-         logo = ImageIO.read(new File("logo.png"));
+         generalInstructions = ImageIO.read(new File("generalInstructions.png"));
          instructionsL1 = ImageIO.read(new File("instructionsL1.png"));
          instructionsL2 = ImageIO.read(new File("instructionsL2.png"));
       }
@@ -62,6 +62,7 @@ public class Instructions extends JComponent {
          int key = e.getKeyCode();
          
          if (key == KeyEvent.VK_ENTER) currScreen++;
+         if (currScreen == 3) finished = true;
             
          Instructions.this.repaint();
       }
@@ -75,17 +76,17 @@ public class Instructions extends JComponent {
       g.setColor(bg);
       g.fillRect(0, 0, 810, 1080);
       
-      if(currScreen == 0) g.drawImage(instructionsL1, 0, 0, this);
-      else if(currScreen == 1) { g.drawImage(instructionsL2, 0, 0, this); }
-      else if(currScreen == 2) { }
+      if(currScreen == 0) g.drawImage(generalInstructions, -10, 0, this);
+      else if(currScreen == 1) g.drawImage(instructionsL1, -10, 0, this);
+      else if(currScreen == 2) g.drawImage(instructionsL2, -10, 0, this);
    }
    
    /**
-    * This method allows the Main class to access the choice that the user made 
-    * @return The choice that the user made in the menu
+    * This method allows the Main class to access whether the user is done reading or not
+    * @return Whether the user has finished reading all instructions
     */
-   public int getChoice() {
-      return choice;
+   public boolean getFinished() {
+      return finished;
    }
    
    /**
@@ -97,4 +98,3 @@ public class Instructions extends JComponent {
    }
 
 }
-
