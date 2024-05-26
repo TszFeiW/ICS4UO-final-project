@@ -1,11 +1,11 @@
 /**
  * This class is used as the Driver class for our game.
- * @version 1
- * May 24th, 2024
+ * @version 1.1
+ * May 26th, 2024
  * Time Spent: 2 hours
  * @author Eric Ning, Tsz Fei Wang
- 
- * Modifications: Class was created which runs separate parts of the game in the correct order.
+ *
+ * Modifications: Class was modified to provide functionality for the credits screen
  * 
  */
 import java.awt.*;
@@ -68,7 +68,7 @@ public class Main {
                      m.scene = 4;
                      break;
                   case 3:
-                     m.scene = -1;
+                     m.scene = 5;
                      break;
                }
                m.window.getContentPane().remove(mm);
@@ -87,13 +87,23 @@ public class Main {
                break;
             case 3: 
                m.level2 = true;
-               //break;
+               m.scene = 1;
+               break;
             case 4:
             
                //break;
             case 5:
-            
-               //break;
+               Credits c = new Credits();
+               m.window.getContentPane().add(c);
+               c.setFocusable(true);
+               c.requestFocusInWindow();
+               m.window.setVisible(true);
+               while (true) { // until the user makes a choice
+                  if (c.getSelected()) break;
+               }
+               m.window.getContentPane().remove(c);
+               m.scene = -1;
+               break;
             case -1:
                m.window.setVisible(false); // exited
                break;
