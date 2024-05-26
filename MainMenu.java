@@ -1,6 +1,6 @@
 /**
  * This class is used to display the Main Menu for our game.
- * @version 1
+ * @version 1.0
  * May 24th, 2024
  * Time Spent: 4 hours
  * @author Eric Ning, Tsz Fei Wang
