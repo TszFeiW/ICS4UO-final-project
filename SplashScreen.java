@@ -1,6 +1,6 @@
 /**
  * This class is used as the splash screen for our game.
- * @version 1
+ * @version 1.0
  * May 24th, 2024
  * Time Spent: 3 hours
  * @author Eric Ning, Tsz Fei Wang
