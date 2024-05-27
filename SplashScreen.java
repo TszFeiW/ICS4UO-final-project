@@ -1,12 +1,11 @@
 /**
  * This class is used as the splash screen for our game.
- * @version 1.0
- * May 24th, 2024
- * Time Spent: 3 hours
+ * @version 1.1
+ * May 26th, 2024
+ * Time Spent: 5 hours
  * @author Eric Ning, Tsz Fei Wang
  *
- * Modifications: Class was created which runs the splash screen of our game. Keyboard input is used
- *                to detect whether the user wishes to continue or wishes to leave the game. 
+ * Modifications: Class was modified such that it is animated in the beginning
  * 
  */
 
@@ -20,22 +19,28 @@ import javax.imageio.ImageIO;
 public class SplashScreen extends JComponent {
 
    /**
-    * private BufferedImage logo  - image of the logo
-    * private BufferedImage play  - image of the non-selected play button
-    * private BufferedImage play2 - image of the selected play button
-    * private BufferedImage exit  - image of the non-selected exit button
-    * private BufferedImage exit2 - image of the selected exit button
-    * private int selected        - the current button that is selected (numbered 0 to 3)
-    * private int choice          - the selected button
-    * private Color bg            - the color of the background
+    * private BufferedImage logo       - image of the logo
+    * private BufferedImage logo2      - image of the logo without blue border
+    * private BufferedImage logoLarge  - image of the logo but larger
+    * private BufferedImage play       - image of the non-selected play button
+    * private BufferedImage play2      - image of the selected play button
+    * private BufferedImage exit       - image of the non-selected exit button
+    * private BufferedImage exit2      - image of the selected exit button
+    * private int selected             - the current button that is selected (numbered 0 to 3)
+    * private int choice               - the selected button
+    * private int time                 - timer variable to deal with animation
+    * private Color bg                 - the color of the background
     */
    private BufferedImage logo;
+   private BufferedImage logo2;
+   private BufferedImage logoLarge;
    private BufferedImage play;
    private BufferedImage play2;
    private BufferedImage exit;
    private BufferedImage exit2;
    private int selected;
    private int choice = -1;
+   private int time;
    private Color bg;
 
    /**
@@ -45,6 +50,8 @@ public class SplashScreen extends JComponent {
       this.addKeyListener(new KeyHandler());
       try {
          logo = ImageIO.read(new File("logo.png"));
+         logo2 = ImageIO.read(new File("logo2.png"));
+         logoLarge = ImageIO.read(new File("logoLarge.png"));
          play = ImageIO.read(new File("playButton.png"));
          play2 = ImageIO.read(new File("playButton2.png"));
          exit = ImageIO.read(new File("exitButton.png"));
@@ -66,6 +73,8 @@ public class SplashScreen extends JComponent {
        * @param KeyEvent e An event that shows that a keyboard input as been made
        */
       public void keyPressed(KeyEvent e) {
+         if (time <= 718) return; // no input when animated part is not done
+         
          int key = e.getKeyCode();
          
          if (key == KeyEvent.VK_DOWN)
@@ -84,27 +93,69 @@ public class SplashScreen extends JComponent {
     * @param Graphics g An object which is a painting tool
     */
    public void paintComponent(Graphics g) {
-      g.setColor(bg);
-      g.fillRect(0, 0, 810, 1080);
-
-      g.drawImage(logo, 245, 100, this);
+      if (time <= 360) {
+         Graphics2D g2 = (Graphics2D) g; // need setStroke method only in Graphics2D
+         g2.setColor(bg);
+         g2.fillRect(0, 0, 810, 1080);
+         g2.drawImage(logo2, 85, 50, this);
+         
+         g2.setStroke(new BasicStroke(25));
+         g2.setColor(new Color(103, 157, 255));
+         g2.drawArc(111, 73, 594, 594, time, 100);
       
-      g.setColor(Color.black);
-      g.setFont(new Font("Calibri", Font.BOLD, 50));
-      g.drawString("Chat-Mod AI Inc.", 235, 520);
-      
-      if (selected == 0) {
-         g.drawImage(play2, 255, 600, this);
-         g.drawImage(exit, 255, 720, this);
+         try { Thread.sleep(10); } catch (InterruptedException ie) {}
+         time++;
+         this.repaint();
+      }
+      else if (time <= 615) {
+         g.setColor(bg);
+         g.fillRect(0, 0, 810, 1080);
+         g.drawImage(logoLarge, 85, 50, this);
+         g.setColor(new Color(0, 0, 0, time-360));
+         
+         g.setFont(new Font("Calibri", Font.BOLD, 50));
+         g.drawString("Chat-Mod AI Inc.", 235, 750);
+         
+         try { Thread.sleep(10); } catch (InterruptedException ie) {}
+         time++;
+         this.repaint();
+      }
+      else if (time <= 718) {
+         g.setColor(bg);
+         g.fillRect(0, 0, 810, 1080);
+         g.drawImage(logoLarge, 85, 50+10*(time-615), this);
+         g.setColor(Color.black);
+         
+         g.setFont(new Font("Calibri", Font.BOLD, 50));
+         g.drawString("Chat-Mod AI Inc.", 235, 750+10*(time-615));
+         
+         try { Thread.sleep(10); } catch (InterruptedException ie) {}
+         time++;
+         this.repaint();
       }
       else {
-         g.drawImage(play, 255, 600, this);
-         g.drawImage(exit2, 255, 720, this);
+         g.setColor(bg);
+         g.fillRect(0, 0, 810, 1080);
+   
+         g.drawImage(logo, 245, 100, this);
+         
+         g.setColor(Color.black);
+         g.setFont(new Font("Calibri", Font.BOLD, 50));
+         g.drawString("Chat-Mod AI Inc.", 235, 520);
+         
+         if (selected == 0) {
+            g.drawImage(play2, 255, 600, this);
+            g.drawImage(exit, 255, 720, this);
+         }
+         else {
+            g.drawImage(play, 255, 600, this);
+            g.drawImage(exit2, 255, 720, this);
+         }
+         
+         g.setFont(new Font("Calibri", Font.BOLD, 64));
+         g.drawString("Use Arrow Keys and press", 50, 900);
+         g.drawString("‘Enter’ to Continue.", 135, 970);
       }
-      
-      g.setFont(new Font("Calibri", Font.BOLD, 64));
-      g.drawString("Use Arrow Keys and press", 50, 900);
-      g.drawString("‘Enter’ to Continue.", 135, 970);
    }
    
    /**
