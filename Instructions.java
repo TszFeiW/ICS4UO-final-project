@@ -1,6 +1,6 @@
 /**
  * This class is used as the instructions screen for our game.
- * @version 1
+ * @version 1.0
  * May 24th, 2024
  * Time Spent: 1 hour
  * @author Tsz Fei Wang
