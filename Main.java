@@ -5,7 +5,7 @@
  * Time Spent: 2 hours
  * @author Eric Ning, Tsz Fei Wang
  *
- * Modifications: Class was modified to provide functionality for the credits screen
+ * Modifications: Class was modified to provide functionality for the credits and level 1 screen
  * 
  */
 import java.awt.*;
@@ -86,6 +86,15 @@ public class Main {
                m.scene = 1;
                break;
             case 3: 
+               Level1 l1 = new Level1();
+               m.window.getContentPane().add(l1);
+               l1.setFocusable(true);
+               l1.requestFocusInWindow();
+               m.window.setVisible(true);
+               while (true) {
+                  if (l1.getFinished()) break;
+               }
+               m.window.getContentPane().remove(l1);
                m.level2 = true;
                m.scene = 1;
                break;
