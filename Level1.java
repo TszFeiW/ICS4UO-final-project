@@ -19,17 +19,18 @@ import javax.swing.JOptionPane;
 
 public class Level1 extends JComponent {
    private BufferedImage user; 
-   private String username; 
-   private boolean finished;
-   Color bg; 
-   
+   private String username = ""; 
+   private boolean finished = false;
+   private Color bg; 
+   private long lastTime = 0; 
+   private static final long INTERVAL = (long)500;
    public Level1() {
       this.addKeyListener(new KeyHandler());
       try {
-         user = ImageIO.read(new File("enter username.png"));
+         user = ImageIO.read(new File("enter username.jpg"));
          bg = new Color(245,228,255);
       }
-      catch (IOException ioe) {
+      catch (IOException ioe) {  
          System.out.println("Missing image file.");
       }
    }
@@ -44,49 +45,69 @@ public class Level1 extends JComponent {
        */
       public void keyPressed(KeyEvent e) {
          int key = e.getKeyCode();
-         
          //if (key == KeyEvent.VK_ENTER) currScreen++;
          //if (currScreen == 3) finished = true;
-            
-         Level1.this.repaint();
+         
+      }
+      
+      public void keyReleased(KeyEvent e) {
+         long timePressed = e.getWhen(); 
+         long diff = timePressed - lastTime; 
+         if(diff > INTERVAL) {
+            char c = e.getKeyChar();
+            username = username + c; 
+            Level1.this.repaint();
+            System.out.println("character entered: " + c); 
+            System.out.println("username: " + username);
+         }
+         lastTime = timePressed; 
       }
    }
    
    public void paintComponent(Graphics g) {
-      g.drawImage(user, 0, 0, this); 
-      
-      char c; 
+      g.drawImage(user, 0, 0, this);
+      char c = username.charAt(username.length()-1); 
+      int temp = 0; 
+        
       while(true) {
-         c = KeyEvent.KEY_TYPED; 
-         if (c == '\n' && username.length() >= 1) break;
+         if (c == '\n' && username.length() >= 1) { 
+            username = username.substring(0, username.length()-1); 
+            break;
+         }
          if (c == 8) {
-            if (username.length() == 0) {
+            if (username.length() == 1) {
                JOptionPane.showMessageDialog(null, "There are no characters to delete.", "Error", JOptionPane.WARNING_MESSAGE);
+               username = ""; 
                continue;
             } 
             else {
-                  username = username.substring(0, username.length() - 1);
-                  g.setColor(bg);
-                  g.fillRect(500, 420, 350, 100);
-                  g.setColor(Color.black);
-                  g.drawString(username, 480, 478);
-                  continue;
+               username = username.substring(0, username.length() - 2);
+               g.setColor(bg);
+               g.fillRect(500, 420, 350, 100);
+               g.setColor(Color.black);
+               g.drawString(username, 480, 478);
+               continue;
             }
          }
          while (!Character.isLetterOrDigit(c)) {
              JOptionPane.showMessageDialog(null, "Please only use alphanumerical characters.", "Error", JOptionPane.WARNING_MESSAGE);
-             c = KeyEvent.KEY_TYPED;
+             username = username.substring(0, username.length()-1);
          }
-
-          if (c == '\n' && username.length() < 1) {
+          if (c == '\n' && username.length() < 2) {
               JOptionPane.showMessageDialog(null, "Username too short!", "Error", JOptionPane.WARNING_MESSAGE);
+              username = username.substring(0, username.length()-1);
+              temp++; if(temp > 5) break; 
               continue;
           }
          
-          if(username.length() == 20) {
-              JOptionPane.showMessageDialog(null, "Username has reached maximum length.!", "Error", JOptionPane.WARNING_MESSAGE);
+          if(username.length() > 20) {
+              JOptionPane.showMessageDialog(null, "Username has reached maximum length!", "Error", JOptionPane.WARNING_MESSAGE);
+              username.substring(0, username.length()-1);
+              temp++; if(temp > 5) break; 
+              continue;
           }
-          else if (c != 8 && c != '\n') username += c;
+          if (c != 8 && c != '\n') continue;
+          c = ' '; 
           g.setColor(bg);
           g.fillRect(520, 520, 350, 100);
           g.setColor(Color.black);
