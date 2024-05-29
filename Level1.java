@@ -1,9 +1,9 @@
 /**
- * This class is used to display the Main Menu for our game.
+ * This class is used to display Level 1 (Deficiencies level) for our game.
  * @version 1.0
- * May 27th, 2024
- * Time Spent: 1 hour
- * @author Tsz Fei Wang
+ * May 29th, 2024
+ * Time Spent: 3 hours
+ * @author Tsz Fei Wang, Eric Ning
  *
  * Modifications: Class was created to play level 1 of the game.
  * 
@@ -78,62 +78,60 @@ public class Level1 extends JComponent {
       g.fillRect(0, 0, 810, 1080);
       if (isUsername) {
          g.drawImage(user, 0, 0, this);
-         char c = 'x';
          int temp = 0; 
-         System.out.println("username: " + username);
-         try {Thread.sleep(100);} catch (InterruptedException ie) {}
-            c = ch;
+         
+         try {Thread.sleep(50);} catch (InterruptedException ie) {}
+         char c = ch;
+         
+         if (c == 'x') return;
+         else if (c == '\n' && username.length() > 1) { 
+            isUsername = false;
+            return;
+         }
+         else if (c == 8) {
+            if (username.length() != 0) {
+               username = username.substring(0, username.length() - 1);
+               g.setColor(Color.black);
+               g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 48));
+               g.drawString(username, 110, 700);
+               c = 'x';
+            }
+         }
+         else if (!Character.isLetterOrDigit(c) && c != '\n') {
+            displayWarning("Please use alphanumerical characters.", g);
+         }
+         else if (c == '\n' && username.length() < 2) {
+            displayWarning("This username you chose is too short.", g);
+            temp++; if(temp > 5) isUsername = false;
+         }
+         else if(username.length() >= 20) {
+            displayWarning("You cannot exceed twenty characters.", g);
+            temp++; if(temp > 5) isUsername = false;
+         }
+         else {
+            username += c;
+            
+            g.setColor(Color.black);
+            g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 48));             
+            g.drawString(username, 110, 700);
+             
+            c = 'x';
             ch = 'x';
-            System.out.println(ch);
-            if (c == 'x') return;
-            
-            
-            if (c == '\n' && username.length() >= 1) { 
-               isUsername = false;
-               return;
-            }
-            if (c == 8) {
-               if (username.length() == 0) {
-                  JOptionPane.showMessageDialog(null, "There are no characters to delete.", "Error", JOptionPane.WARNING_MESSAGE);
-                  username = ""; 
-                  c = 'x';
-                  return;
-               } 
-               else {
-                  username = username.substring(0, username.length() - 1);
-                  g.setColor(bg);
-                  g.fillRect(500, 420, 350, 100);
-                  g.setColor(Color.black);
-                  g.drawString(username, 480, 478);
-                  c = 'x';
-                  return;
-               }
-            }
-            if (!Character.isLetterOrDigit(c)) {
-                JOptionPane.showMessageDialog(null, "Please only use alphanumerical characters.", "Error", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-             if (c == '\n' && username.length() < 2) {
-                 JOptionPane.showMessageDialog(null, "Username too short!", "Error", JOptionPane.WARNING_MESSAGE);
-                 temp++; if(temp > 5) isUsername = false; 
-                 return;
-             }
-            
-             if(username.length() >= 20) {
-                 JOptionPane.showMessageDialog(null, "Username has reached maximum length!", "Error", JOptionPane.WARNING_MESSAGE);
-                 temp++; if(temp > 5) isUsername = false;
-                 return; 
-             }
-             username += c;
-             
-             g.setColor(bg);
-             g.fillRect(520, 520, 350, 100);
-             g.setColor(Color.black);
-             g.drawString(username, 480, 478);
-             
-             c = 'x';
+         }
+         System.out.println("username: " + username);
       }
-  }
+   }
+   
+   public void displayWarning(String message, Graphics g) {
+      g.setFont(new Font("Calibri", Font.BOLD, 40));
+      g.setColor(new Color(162, 210, 255));
+      g.fillRect(50, 180, 710, 120);
+      g.setColor(Color.black);
+      g.drawString(message, 85, 250);
+      g.setColor(Color.black);
+      g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 48));             
+      g.drawString(username, 110, 700);
+   }
       
    public String getUsername() {
       return username;
