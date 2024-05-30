@@ -2,7 +2,7 @@
  * This class is used to display Level 1 (Deficiencies level) for our game.
  * @version 1.0
  * May 29th, 2024
- * Time Spent: 5 hours
+ * Time Spent: 6 hours
  * @author Tsz Fei Wang, Eric Ning
  *
  * Modifications: Class was created to play level 1 of the game.
@@ -23,6 +23,9 @@ public class Level1 extends JComponent {
    private BufferedImage level1text;
    private BufferedImage desk;
    private BufferedImage person;
+   private BufferedImage personComputer;
+   private BufferedImage computer;
+   private BufferedImage computerPeople;
    private String username = ""; 
    private boolean finished = false;
    private int currScene;
@@ -39,6 +42,9 @@ public class Level1 extends JComponent {
          level1text = ImageIO.read(new File("level1text.png"));
          desk = ImageIO.read(new File("desk.png"));
          person = ImageIO.read(new File("person.png"));
+         personComputer = ImageIO.read(new File("personComputer.png"));
+         computer = ImageIO.read(new File("computer.png"));
+         computerPeople = ImageIO.read(new File("computerPeople.png"));
          bg = new Color(245,228,255);
       }
       catch (IOException ioe) {  
@@ -125,12 +131,12 @@ public class Level1 extends JComponent {
          }
       }
       else if (currScene == 1) {
-         g.setColor(Color.white);
-         g.fillRect(0, 0, 810, 1080);
-         g.drawImage(level1text, 100, 150, this);
-         g.drawImage(desk, 30, 350, this);
-         g.drawImage(stool, 135, 700, this);
          if (counter < 100) {
+            g.setColor(Color.white);
+            g.fillRect(0, 0, 810, 1080);
+            g.drawImage(level1text, 100, 150, this);
+            g.drawImage(desk, 30, 350, this);
+            g.drawImage(stool, 135, 700, this);
             g.drawImage(person, 650-counter, 550, this);
             g.setColor(Color.white);
             g.fillRect(842-counter, 550, 1, 400);
@@ -139,6 +145,11 @@ public class Level1 extends JComponent {
             this.repaint();
          }
          else if (counter < 355) {
+            g.setColor(Color.white);
+            g.fillRect(0, 0, 810, 1080);
+            g.drawImage(level1text, 100, 150, this);
+            g.drawImage(desk, 30, 350, this);
+            g.drawImage(stool, 135, 700, this);
             g.drawImage(person, 550, 550, this);
             g.setColor(new Color(0, 0, 0, counter-100));
             g.fillRect(0, 0, 810, 1080);
@@ -146,9 +157,29 @@ public class Level1 extends JComponent {
             counter++;
             this.repaint();
          }
+         else if (counter < 610) {
+            g.setColor(Color.white);
+            g.fillRect(0, 0, 810, 1080);
+            g.drawImage(personComputer, 30, 350, this);
+            g.setColor(new Color(0, 0, 0, 610-counter));
+            g.fillRect(0, 0, 810, 1080);
+            try {Thread.sleep(10);} catch (InterruptedException ie) {}
+            counter++;
+            this.repaint();
+         }
+         else {
+            try {Thread.sleep(100);} catch (InterruptedException ie) {}
+            currScene++;
+            this.repaint();
+         }
       }
       else {
-      
+         g.setColor(new Color(224, 240, 244));
+         g.fillRect(0, 0, 810, 1080);
+         g.drawImage(computer, 0, 220, this);
+         g.setColor(new Color(150, 75, 0));
+         g.fillRect(0, 860, 810, 220);
+         g.drawImage(computerPeople, 23, 243, this);
       }
    }
    
