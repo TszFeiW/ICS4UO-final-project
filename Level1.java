@@ -2,7 +2,7 @@
  * This class is used to display Level 1 (Deficiencies level) for our game.
  * @version 1.0
  * May 29th, 2024
- * Time Spent: 3 hours
+ * Time Spent: 5 hours
  * @author Tsz Fei Wang, Eric Ning
  *
  * Modifications: Class was created to play level 1 of the game.
@@ -19,9 +19,14 @@ import javax.swing.JOptionPane;
 
 public class Level1 extends JComponent {
    private BufferedImage user; 
+   private BufferedImage stool;
+   private BufferedImage level1text;
+   private BufferedImage desk;
+   private BufferedImage person;
    private String username = ""; 
    private boolean finished = false;
-   private boolean isUsername = true;
+   private int currScene;
+   private int counter;
    private Color bg; 
    private char ch = 'x';
    //private long lastTime = 0; 
@@ -30,6 +35,10 @@ public class Level1 extends JComponent {
       this.addKeyListener(new KeyHandler());
       try {
          user = ImageIO.read(new File("enter username.jpg"));
+         stool = ImageIO.read(new File("stool.png"));
+         level1text = ImageIO.read(new File("level1text.png"));
+         desk = ImageIO.read(new File("desk.png"));
+         person = ImageIO.read(new File("person.png"));
          bg = new Color(245,228,255);
       }
       catch (IOException ioe) {  
@@ -46,10 +55,8 @@ public class Level1 extends JComponent {
        * @param KeyEvent e An event that shows that a keyboard input as been made
        */
       public void keyPressed(KeyEvent e) {
-         if (isUsername) {
-            
+         if (currScene == 0) {
             ch = e.getKeyChar();
-            System.out.println("char: " + ch);
             Level1.this.repaint();
          }
          //if (key == KeyEvent.VK_ENTER) currScreen++;
@@ -74,18 +81,18 @@ public class Level1 extends JComponent {
    }
    
    public void paintComponent(Graphics g) {
-      g.setColor(bg);
-      g.fillRect(0, 0, 810, 1080);
-      if (isUsername) {
+      if (currScene == 0) {
+         g.setColor(bg);
+         g.fillRect(0, 0, 810, 1080);
          g.drawImage(user, 0, 0, this);
-         int temp = 0; 
          
          try {Thread.sleep(50);} catch (InterruptedException ie) {}
          char c = ch;
          
          if (c == 'x') return;
          else if (c == '\n' && username.length() > 1) { 
-            isUsername = false;
+            currScene = 1;
+            this.repaint();
             return;
          }
          else if (c == 8) {
@@ -102,11 +109,9 @@ public class Level1 extends JComponent {
          }
          else if (c == '\n' && username.length() < 2) {
             displayWarning("This username you chose is too short.", g);
-            temp++; if(temp > 5) isUsername = false;
          }
          else if(username.length() >= 20) {
             displayWarning("You cannot exceed twenty characters.", g);
-            temp++; if(temp > 5) isUsername = false;
          }
          else {
             username += c;
@@ -118,7 +123,32 @@ public class Level1 extends JComponent {
             c = 'x';
             ch = 'x';
          }
-         System.out.println("username: " + username);
+      }
+      else if (currScene == 1) {
+         g.setColor(Color.white);
+         g.fillRect(0, 0, 810, 1080);
+         g.drawImage(level1text, 100, 150, this);
+         g.drawImage(desk, 30, 350, this);
+         g.drawImage(stool, 135, 700, this);
+         if (counter < 100) {
+            g.drawImage(person, 650-counter, 550, this);
+            g.setColor(Color.white);
+            g.fillRect(842-counter, 550, 1, 400);
+            try {Thread.sleep(10);} catch (InterruptedException ie) {}
+            counter++;
+            this.repaint();
+         }
+         else if (counter < 355) {
+            g.drawImage(person, 550, 550, this);
+            g.setColor(new Color(0, 0, 0, counter-100));
+            g.fillRect(0, 0, 810, 1080);
+            try {Thread.sleep(10);} catch (InterruptedException ie) {}
+            counter++;
+            this.repaint();
+         }
+      }
+      else {
+      
       }
    }
    
