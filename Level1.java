@@ -2,7 +2,7 @@
  * This class is used to display Level 1 (Deficiencies level) for our game.
  * @version 1.0
  * May 29th, 2024
- * Time Spent: 7 hours
+ * Time Spent: 6 hours
  * @author Tsz Fei Wang, Eric Ning
  *
  * Modifications: Class was created to play level 1 of the game.
@@ -32,6 +32,9 @@ public class Level1 extends JComponent {
    private int counter;
    private Color bg; 
    private char ch = '\\';
+   int numDisplayed;
+   public String[] messageTextDisplayed;
+   public int[] messageUserDisplayed;
    public String[] messageText;
    public int[] messageUser;
    //private long lastTime = 0; 
@@ -48,6 +51,8 @@ public class Level1 extends JComponent {
          computer = ImageIO.read(new File("computer.png"));
          computerPeople = ImageIO.read(new File("computerPeople.png"));
          bg = new Color(245,228,255);
+         messageTextDisplayed = new String[4];
+         messageUserDisplayed = new int[4];
          messageText = new String[20];
          messageUser = new int[20];
          
@@ -229,7 +234,7 @@ public class Level1 extends JComponent {
             counter++;
             this.repaint();
          }
-         else {
+         else if (counter < 220) {
             g.setColor(new Color(224, 240, 244));
             g.fillRect(0, 0, 810, 1080);
             g.drawImage(computer, 0, 220, this);
@@ -244,7 +249,45 @@ public class Level1 extends JComponent {
             g.drawString(username, 240, 450);
             g.setColor(new Color(162, 210, 255, 200));
             g.fillRect(20, 240, 750, 420);
-            try {Thread.sleep(10);} catch (InterruptedException ie) {}
+            
+            int nextMessage = counter-200; // index of next message in array
+            if (messageUser[nextMessage] == -1) {
+               numDisplayed = 0;
+            }
+            else if (numDisplayed == 4) {
+               for (int i = 0; i < 3; i++) {
+                  messageTextDisplayed[i] = messageTextDisplayed[i+1];
+                  messageUserDisplayed[i] = messageUserDisplayed[i+1];
+               }
+               messageTextDisplayed[3] = messageText[nextMessage];
+               messageUserDisplayed[3] = messageUser[nextMessage];
+            }
+            else {
+               messageTextDisplayed[numDisplayed] = messageText[nextMessage];
+               messageUserDisplayed[numDisplayed] = messageUser[nextMessage];
+               numDisplayed++;
+            }
+            
+            for (int i = 0; i < numDisplayed; i++) {
+               if (messageUserDisplayed[i] == 0) {
+                  g.setColor(Color.red);
+                  g.fillRect(50, 260+i*100, 690, 80);
+               }
+               else if (messageUserDisplayed[i] == 1) {
+                  g.setColor(new Color(254, 189, 225));
+                  g.fillRect(395, 260+i*100, 365, 80);
+               }
+               else if (messageUserDisplayed[i] == 2) {
+                  g.setColor(new Color(103, 157, 255));
+                  g.fillRect(30, 260+i*100, 365, 80);
+               }
+               else {
+                  g.setColor(new Color(126, 217, 87));
+                  g.fillRect(30, 260+i*100, 365, 80);
+               }
+            }
+            
+            try {Thread.sleep(1000);} catch (InterruptedException ie) {}
             counter++;
             this.repaint();
          }
