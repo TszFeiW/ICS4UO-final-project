@@ -3,7 +3,7 @@ Hey there! What's up?|2
 Hello! I was just about to start a game, how's it going?|1
 Great! Mind if I join you? I can play in just a minute..|2
 Alright no problem!|1
-I’ll try to wait until you are ready to start.|1
+I'll try to wait until you are ready to start.|1
 Hello, how long will this taek agian?|1
 take again*|1
 Hello?|1
