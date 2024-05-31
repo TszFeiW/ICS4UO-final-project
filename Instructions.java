@@ -1,12 +1,11 @@
 /**
  * This class is used as the instructions screen for our game.
- * @version 1.0
+ * @version 1.1
  * May 24th, 2024
  * Time Spent: 1 hour
  * @author Tsz Fei Wang
  *
- * Modifications: Class was created which runs the instructions of our game. Keyboard input is used
- *                to detect whether the user wishes to continue or wishes to leave the game. 
+ * Modifications: Location of images changed slightly
  * 
  */
 
@@ -77,8 +76,8 @@ public class Instructions extends JComponent {
       g.fillRect(0, 0, 810, 1080);
       
       if(currScreen == 0) g.drawImage(generalInstructions, -10, 0, this);
-      else if(currScreen == 1) g.drawImage(instructionsL1, -10, 0, this);
-      else if(currScreen == 2) g.drawImage(instructionsL2, -10, 0, this);
+      else if(currScreen == 1) g.drawImage(instructionsL1, -10, -50, this);
+      else if(currScreen == 2) g.drawImage(instructionsL2, -10, -50, this);
    }
    
    /**
