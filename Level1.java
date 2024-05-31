@@ -1,7 +1,7 @@
 /**
  * This class is used to display Level 1 (Deficiencies level) for our game.
  * @version 1.0
- * May 31st, 2024
+ * May 29th, 2024
  * Time Spent: 7 hours
  * @author Tsz Fei Wang, Eric Ning
  *
@@ -18,6 +18,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 public class Level1 extends JComponent {
+   private BufferedImage instructionsL1;
    private BufferedImage user; 
    private BufferedImage stool;
    private BufferedImage level1text;
@@ -42,6 +43,7 @@ public class Level1 extends JComponent {
    public Level1() {
       this.addKeyListener(new KeyHandler());
       try {
+         instructionsL1 = ImageIO.read(new File("instructionsL1.png"));
          user = ImageIO.read(new File("enter username.jpg"));
          stool = ImageIO.read(new File("stool.png"));
          level1text = ImageIO.read(new File("level1text.png"));
@@ -51,6 +53,7 @@ public class Level1 extends JComponent {
          computer = ImageIO.read(new File("computer.png"));
          computerPeople = ImageIO.read(new File("computerPeople.png"));
          bg = new Color(245,228,255);
+         currScene = -1;
          messageTextDisplayed = new String[4];
          messageUserDisplayed = new int[4];
          messageText = new String[20];
@@ -84,10 +87,8 @@ public class Level1 extends JComponent {
        * @param KeyEvent e An event that shows that a keyboard input as been made
        */
       public void keyPressed(KeyEvent e) {
-         if (currScene == 0) {
-            ch = e.getKeyChar();
-            Level1.this.repaint();
-         }
+         ch = e.getKeyChar();
+         Level1.this.repaint();
          //if (key == KeyEvent.VK_ENTER) currScreen++;
          //if (currScreen == 3) finished = true;
          
@@ -110,7 +111,17 @@ public class Level1 extends JComponent {
    }
    
    public void paintComponent(Graphics g) {
-      if (currScene == 0) {
+      if (currScene == -1) {
+         g.setColor(bg);
+         g.fillRect(0, 0, 810, 1080);
+         g.drawImage(instructionsL1, -10, -100, this);
+         if (ch == '\n') {
+            ch = '\\';
+            currScene++;
+            this.repaint();
+         }
+      }
+      else if (currScene == 0) {
          g.setColor(bg);
          g.fillRect(0, 0, 810, 1080);
          g.drawImage(user, 0, 0, this);
@@ -121,8 +132,8 @@ public class Level1 extends JComponent {
          if (c == '\\') return;
          else if (c == '\n' && username.length() > 1) { 
             currScene = 1;
+            ch = '\\';
             this.repaint();
-            return;
          }
          else if (c == 8) {
             if (username.length() != 0) {
@@ -215,7 +226,7 @@ public class Level1 extends JComponent {
             counter++;
             this.repaint();
          }
-         else if (counter < 200) {
+         else if (counter < 199) {
             g.setColor(new Color(224, 240, 244));
             g.fillRect(0, 0, 810, 1080);
             g.drawImage(computer, 0, 220, this);
@@ -249,6 +260,19 @@ public class Level1 extends JComponent {
             g.drawString(username, 240, 450);
             g.setColor(new Color(162, 210, 255, 200));
             g.fillRect(20, 240, 750, 420);
+            
+            try {Thread.sleep(50);} catch (InterruptedException ie) {}
+            if (ch == '\n') {
+               ch = '\\';
+               counter++;
+               if (counter == 220) {
+                  this.repaint();
+                  return;
+               }
+            }
+            else {
+               return;
+            }
             
             int nextMessage = counter-200; // index of next message in array
             if (messageUser[nextMessage] == -1) {
@@ -286,10 +310,9 @@ public class Level1 extends JComponent {
                   g.fillRect(30, 260+i*100, 365, 80);
                }
             }
-            
-            try {Thread.sleep(1000);} catch (InterruptedException ie) {}
-            counter++;
-            this.repaint();
+         }
+         else {
+            finished = true;
          }
       }
    }
