@@ -2,7 +2,7 @@
  * This class is used to display Level 1 (Deficiencies level) for our game.
  * @version 1.0
  * May 29th, 2024
- * Time Spent: 6 hours
+ * Time Spent: 7 hours
  * @author Tsz Fei Wang, Eric Ning
  *
  * Modifications: Class was created to play level 1 of the game.
@@ -31,7 +31,9 @@ public class Level1 extends JComponent {
    private int currScene;
    private int counter;
    private Color bg; 
-   private char ch = 'x';
+   private char ch = '\\';
+   public String[] messageText;
+   public int[] messageUser;
    //private long lastTime = 0; 
    //private static final long INTERVAL = (long)500;
    public Level1() {
@@ -46,6 +48,22 @@ public class Level1 extends JComponent {
          computer = ImageIO.read(new File("computer.png"));
          computerPeople = ImageIO.read(new File("computerPeople.png"));
          bg = new Color(245,228,255);
+         messageText = new String[20];
+         messageUser = new int[20];
+         
+         BufferedReader br = new BufferedReader(new FileReader("level1.txt"));
+         for (int i = 0; i < 20; i++) {
+            String line = br.readLine();
+            if (line == null) break;
+            else if (line.equals(".")) {
+               messageText[i] = "";
+               messageUser[i] = -1;
+            }
+            else {
+               messageText[i] = line.substring(0, line.indexOf('|'));
+               messageUser[i] = line.charAt(line.length()-1) - '0';
+            }
+         }
       }
       catch (IOException ioe) {  
          System.out.println("Missing image file.");
@@ -95,7 +113,7 @@ public class Level1 extends JComponent {
          try {Thread.sleep(50);} catch (InterruptedException ie) {}
          char c = ch;
          
-         if (c == 'x') return;
+         if (c == '\\') return;
          else if (c == '\n' && username.length() > 1) { 
             currScene = 1;
             this.repaint();
@@ -107,7 +125,7 @@ public class Level1 extends JComponent {
                g.setColor(Color.black);
                g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 48));
                g.drawString(username, 110, 700);
-               c = 'x';
+               c = '\\';
             }
          }
          else if (!Character.isLetterOrDigit(c) && c != '\n') {
@@ -126,8 +144,8 @@ public class Level1 extends JComponent {
             g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 48));             
             g.drawString(username, 110, 700);
              
-            c = 'x';
-            ch = 'x';
+            c = '\\';
+            ch = '\\';
          }
       }
       else if (currScene == 1) {
@@ -170,16 +188,66 @@ public class Level1 extends JComponent {
          else {
             try {Thread.sleep(100);} catch (InterruptedException ie) {}
             currScene++;
+            counter = 0;
             this.repaint();
          }
       }
       else {
-         g.setColor(new Color(224, 240, 244));
-         g.fillRect(0, 0, 810, 1080);
-         g.drawImage(computer, 0, 220, this);
-         g.setColor(new Color(150, 75, 0));
-         g.fillRect(0, 860, 810, 220);
-         g.drawImage(computerPeople, 23, 243, this);
+         if (counter < 125) {
+            g.setColor(new Color(224, 240, 244));
+            g.fillRect(0, 0, 810, 1080);
+            g.drawImage(computer, 0, 220, this);
+            g.setColor(new Color(150, 75, 0));
+            g.fillRect(0, 860, 810, 220);
+            g.setColor(new Color(224, 240, 244));
+            g.fillRect(20, 240, 750, 420);
+            g.drawImage(computerPeople, 23, 243, this);
+            g.setColor(new Color(254, 189, 225, counter*2));
+            g.fillRect(225, 375, 300, 100);
+            g.setColor(Color.black);
+            g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 24));     
+            try {Thread.sleep(50);} catch (InterruptedException ie) {}
+            counter++;
+            this.repaint();
+         }
+         else if (counter < 200) {
+            g.setColor(new Color(224, 240, 244));
+            g.fillRect(0, 0, 810, 1080);
+            g.drawImage(computer, 0, 220, this);
+            g.setColor(new Color(150, 75, 0));
+            g.fillRect(0, 860, 810, 220);
+            g.drawImage(computerPeople, 23, 243, this);
+            g.setColor(new Color(254, 189, 225));
+            g.fillRect(225, 375, 300, 100);
+            g.setColor(Color.black);
+            g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 24));     
+            g.drawString("Hello! My name is", 240, 415);        
+            g.drawString(username, 240, 450);
+            g.setColor(new Color(162, 210, 255, (counter-100)*2));
+            g.fillRect(20, 240, 750, 420);
+            try {Thread.sleep(10);} catch (InterruptedException ie) {}
+            counter++;
+            this.repaint();
+         }
+         else {
+            g.setColor(new Color(224, 240, 244));
+            g.fillRect(0, 0, 810, 1080);
+            g.drawImage(computer, 0, 220, this);
+            g.setColor(new Color(150, 75, 0));
+            g.fillRect(0, 860, 810, 220);
+            g.drawImage(computerPeople, 23, 243, this);
+            g.setColor(new Color(254, 189, 225));
+            g.fillRect(225, 375, 300, 100);
+            g.setColor(Color.black);
+            g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 24));     
+            g.drawString("Hello! My name is", 240, 415);        
+            g.drawString(username, 240, 450);
+            g.setColor(new Color(162, 210, 255, 200));
+            g.fillRect(20, 240, 750, 420);
+            try {Thread.sleep(10);} catch (InterruptedException ie) {}
+            counter++;
+            this.repaint();
+         }
       }
    }
    
