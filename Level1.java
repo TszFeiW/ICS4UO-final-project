@@ -2,7 +2,7 @@
  * This class is used to display Level 1 (Deficiencies level) for our game.
  * @version 1.0
  * May 29th, 2024
- * Time Spent: 6 hours
+ * Time Spent: 7 hours
  * @author Tsz Fei Wang, Eric Ning
  *
  * Modifications: Class was created to play level 1 of the game.
