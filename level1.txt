@@ -1,0 +1,20 @@
+Welcome to Lich3ss chatroom! CMod AI will be moderating your conversation today.|0
+Hey there! What's up?|2
+Hello! I was just about to start a game, how's it going?|1
+Great! Mind if I join you? I can play in just a minute..|2
+Alright no problem!|1
+I’ll try to wait until you are ready to start.|1
+Hello, how long will this taek agian?|1
+take again*|1
+Hello?|1
+WARNING. Stop harassment. You will be unable to chat for the next 5 minutes.|0
+I didn't mean to spam! I was simply asking a question. (message failed to send)|1
+Hey I'm back. Where’d you go?|2
+.
+Did you see that?|1
+Yeah! He literally just went ahead and stole all your points...|2
+Yeah it's so stupid. I hate those kinds of people :(|1
+WARNING. You will receive a 30 minutes mute for the second offence for hateful speech.|0
+St00p1d. Jump into a shark! That's what you get for calling me an 1d10t!|3
+Mod report message!|2
+I do not detect any problems with the previous message.|0
