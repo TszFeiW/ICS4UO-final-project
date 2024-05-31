@@ -2,7 +2,7 @@
  * This class is used to display Level 1 (Deficiencies level) for our game.
  * @version 1.0
  * May 29th, 2024
- * Time Spent: 7 hours
+ * Time Spent: 8 hours
  * @author Tsz Fei Wang, Eric Ning
  *
  * Modifications: Class was created to play level 1 of the game.
@@ -53,7 +53,6 @@ public class Level1 extends JComponent {
          computer = ImageIO.read(new File("computer.png"));
          computerPeople = ImageIO.read(new File("computerPeople.png"));
          bg = new Color(245,228,255);
-         currScene = -1;
          messageTextDisplayed = new String[4];
          messageUserDisplayed = new int[4];
          messageText = new String[20];
@@ -111,17 +110,7 @@ public class Level1 extends JComponent {
    }
    
    public void paintComponent(Graphics g) {
-      if (currScene == -1) {
-         g.setColor(bg);
-         g.fillRect(0, 0, 810, 1080);
-         g.drawImage(instructionsL1, -10, -100, this);
-         if (ch == '\n') {
-            ch = '\\';
-            currScene++;
-            this.repaint();
-         }
-      }
-      else if (currScene == 0) {
+      if (currScene == 0) {
          g.setColor(bg);
          g.fillRect(0, 0, 810, 1080);
          g.drawImage(user, 0, 0, this);
@@ -165,6 +154,16 @@ public class Level1 extends JComponent {
          }
       }
       else if (currScene == 1) {
+         g.setColor(bg);
+         g.fillRect(0, 0, 810, 1080);
+         g.drawImage(instructionsL1, -10, -50, this);
+         if (ch == '\n') {
+            ch = '\\';
+            currScene++;
+            this.repaint();
+         }
+      }
+      else if (currScene == 2) {
          if (counter < 100) {
             g.setColor(Color.white);
             g.fillRect(0, 0, 810, 1080);
@@ -205,6 +204,7 @@ public class Level1 extends JComponent {
             try {Thread.sleep(100);} catch (InterruptedException ie) {}
             currScene++;
             counter = 0;
+            ch = '\\';
             this.repaint();
          }
       }
@@ -243,6 +243,7 @@ public class Level1 extends JComponent {
             g.fillRect(20, 240, 750, 420);
             try {Thread.sleep(10);} catch (InterruptedException ie) {}
             counter++;
+            ch = '\\';
             this.repaint();
          }
          else if (counter < 220) {
@@ -261,6 +262,11 @@ public class Level1 extends JComponent {
             g.setColor(new Color(162, 210, 255, 200));
             g.fillRect(20, 240, 750, 420);
             
+            g.setColor(new Color(254, 189, 225));
+            g.fillRect(50, 880, 700, 90);
+            g.setColor(Color.black);
+            g.setFont(new Font("Calibri", Font.BOLD, 64));     
+            g.drawString("Press Enter to Continue", 95, 945); 
             try {Thread.sleep(50);} catch (InterruptedException ie) {}
             if (ch == '\n') {
                ch = '\\';
