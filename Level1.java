@@ -27,6 +27,7 @@ public class Level1 extends JComponent {
    private BufferedImage personComputer;
    private BufferedImage computer;
    private BufferedImage computerPeople;
+   private BufferedImage transition1; 
    private String username = ""; 
    private boolean finished = false;
    private int currScene;
@@ -52,6 +53,7 @@ public class Level1 extends JComponent {
          personComputer = ImageIO.read(new File("personComputer.png"));
          computer = ImageIO.read(new File("computer.png"));
          computerPeople = ImageIO.read(new File("computerPeople.png"));
+         transition1 = ImageIO.read(new File("transition1.png"));
          bg = new Color(245,228,255);
          messageTextDisplayed = new String[4];
          messageUserDisplayed = new int[4];
@@ -321,29 +323,32 @@ public class Level1 extends JComponent {
       Font calibri = new Font("Calibri", Font.BOLD, 20);
       g.setFont(calibri);
       for (int i = 0; i < numDisplayed; i++) {
-         if (messageUserDisplayed[i] == 0) {
+         if(i == 17 || i == 23) {
+            g.drawImage(transition1, 0, 0, this);
+         }
+         else if (messageUserDisplayed[i] == 0) {
             g.setColor(Color.red);
-            g.fillRect(45, 260+i*100, 710, 80);
+            g.fillRect(45, 260+i*100, 700, 60);
             g.setColor(Color.black); 
-            g.drawString(messageTextDisplayed[i], 55, 280+i*100);
+            g.drawString(messageTextDisplayed[i], 55, 290+i*100);
          }
          else if (messageUserDisplayed[i] == 1) {
             g.setColor(new Color(254, 189, 225));
-            g.fillRect(365, 260+i*100, 405, 80);
+            g.fillRect(365, 260+i*100, 395, 60);
             g.setColor(Color.black); 
-            g.drawString(messageTextDisplayed[i], 375, 280+i*100);
+            g.drawString(messageTextDisplayed[i], 375, 290+i*100);
          }
          else if (messageUserDisplayed[i] == 2) {
             g.setColor(new Color(103, 157, 255));
-            g.fillRect(30, 260+i*100, 405, 80);
+            g.fillRect(30, 260+i*100, 395, 60);
             g.setColor(Color.black); 
-            g.drawString(messageTextDisplayed[i], 40, 280+i*100);
+            g.drawString(messageTextDisplayed[i], 40, 290+i*100);
          }
          else {
             g.setColor(new Color(126, 217, 87));
-            g.fillRect(30, 260+i*100, 405, 80);
+            g.fillRect(30, 260+i*100, 395, 60);
             g.setColor(Color.black); 
-            g.drawString(messageTextDisplayed[i], 40, 280+i*100);
+            g.drawString(messageTextDisplayed[i], 40, 290+i*100);
          }
       }
    }
