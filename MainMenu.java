@@ -1,14 +1,25 @@
 /**
  * This class is used to display the Main Menu for our game.
- * @version 1.0
- * May 24th, 2024
- * Time Spent: 4 hours
- * @author Eric Ning, Tsz Fei Wang
- *
- * Modifications: Class was created which runs the main menu of our game. Keyboard input is used
- *                to detect which scene/level they would like to proceed to. The user is still
- *                able to exit the game. The user cannot proceed to level 2 prior to level 1.
  * 
+ * <p>
+ * Version 1.0 
+ * Time Spent: 4 hours
+ * Class was created which runs the main menu of our game. Keyboard input is used
+ * to detect which scene/level they would like to proceed to. The user is still
+ * able to exit the game. The user cannot proceed to level 2 prior to level 1.
+ * </p>
+ *
+ * <p>
+ * Version 1.1
+ * Time Spent: < 1 hour
+ * Comments modified
+ * </p>
+ * 
+ * @author Eric Ning, Tsz Fei Wang
+ * @version 1.1
+ * 
+ * Chat-Mod AI Inc.
+ * May 31st, 2024
  */
 
 import java.awt.*;
