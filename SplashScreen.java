@@ -1,12 +1,24 @@
 /**
- * This class is used as the splash screen for our game.
- * @version 1.1
- * May 26th, 2024
- * Time Spent: 5 hours
- * @author Eric Ning, Tsz Fei Wang
- *
- * Modifications: Class was modified such that it is animated in the beginning
+ * This class is used as the Splash Screen class for our game.
  * 
+ * <p>
+ * Version 1.0 
+ * Time Spent: 3 hours
+ * Class was created which runs the splash screen of our game. Keyboard input is used
+ * to detect whether the user wishes to continue or wishes to leave the game.  
+ * </p>
+ *
+ * <p>
+ * Version 1.1
+ * Time Spent: 2 hours
+ * Class was modified such that it is animated in the beginning
+ * </p>
+ * 
+ * @author Eric Ning, Tsz Fei Wang
+ * @version 1.1
+ * 
+ * Chat-Mod AI Inc.
+ * May 31st, 2024
  */
 
 import java.awt.*;
