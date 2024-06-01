@@ -1,13 +1,24 @@
 /**
- * This class is used as the credits screen for our game.
- * @version 1.0
- * May 26th, 2024
- * Time Spent: 1 hour
- * @author Tsz Fei Wang
- *
- * Modifications: Class was created which runs the credits screen of our game. Keyboard input is used
- *                to detect whether the user wishes to exit the game yet 
+ * This class is used as the credits screen for our game. 
  * 
+ * <p>
+ * Version 1.0 
+ * Time Spent: 1 hour
+ * Class was created which runs the credits screen of our game. Keyboard input
+ * is used to detect whether the user wishes to exit the game yet 
+ * </p>
+ *
+ * <p>
+ * Version 1.1
+ * Time Spent: < 1 hour
+ * Comments modified
+ * </p>
+ * 
+ * @author Tsz Fei Wang
+ * @version 1.1
+ * 
+ * Chat-Mod AI Inc.
+ * May 31st, 2024
  */
 
 import java.awt.*;

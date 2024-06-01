@@ -323,27 +323,27 @@ public class Level1 extends JComponent {
       for (int i = 0; i < numDisplayed; i++) {
          if (messageUserDisplayed[i] == 0) {
             g.setColor(Color.red);
-            g.fillRect(50, 260+i*100, 690, 80);
+            g.fillRect(45, 260+i*100, 710, 80);
             g.setColor(Color.black); 
-            g.drawString(messageTextDisplayed[i], 60, 270+i*100);
+            g.drawString(messageTextDisplayed[i], 55, 280+i*100);
          }
          else if (messageUserDisplayed[i] == 1) {
             g.setColor(new Color(254, 189, 225));
-            g.fillRect(395, 260+i*100, 365, 80);
+            g.fillRect(365, 260+i*100, 405, 80);
             g.setColor(Color.black); 
-            g.drawString(messageTextDisplayed[i], 405, 270+i*100);
+            g.drawString(messageTextDisplayed[i], 375, 280+i*100);
          }
          else if (messageUserDisplayed[i] == 2) {
             g.setColor(new Color(103, 157, 255));
-            g.fillRect(30, 260+i*100, 365, 80);
+            g.fillRect(30, 260+i*100, 405, 80);
             g.setColor(Color.black); 
-            g.drawString(messageTextDisplayed[i], 40, 270+i*100);
+            g.drawString(messageTextDisplayed[i], 40, 280+i*100);
          }
          else {
             g.setColor(new Color(126, 217, 87));
-            g.fillRect(30, 260+i*100, 365, 80);
+            g.fillRect(30, 260+i*100, 405, 80);
             g.setColor(Color.black); 
-            g.drawString(messageTextDisplayed[i], 40, 270+i*100);
+            g.drawString(messageTextDisplayed[i], 40, 280+i*100);
          }
       }
    }
