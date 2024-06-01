@@ -27,7 +27,7 @@ public class Level1 extends JComponent {
    private BufferedImage personComputer;
    private BufferedImage computer;
    private BufferedImage computerPeople;
-   private BufferedImage transition1; 
+   private BufferedImage transition1;
    private String username = ""; 
    private boolean finished = false;
    private int currScene;
@@ -35,6 +35,7 @@ public class Level1 extends JComponent {
    private Color bg; 
    private char ch = '\\';
    int numDisplayed;
+   int numMessages;
    public String[] messageTextDisplayed;
    public int[] messageUserDisplayed;
    public String[] messageText;
@@ -59,6 +60,7 @@ public class Level1 extends JComponent {
          messageUserDisplayed = new int[4];
          messageText = new String[20];
          messageUser = new int[20];
+         numMessages = 0; 
          
          BufferedReader br = new BufferedReader(new FileReader("level1.txt"));
          for (int i = 0; i < 20; i++) {
@@ -323,26 +325,30 @@ public class Level1 extends JComponent {
       Font calibri = new Font("Calibri", Font.BOLD, 20);
       g.setFont(calibri);
       for (int i = 0; i < numDisplayed; i++) {
-         if(i == 17 || i == 23) {
+         if(numMessages == 61) {
             g.drawImage(transition1, 0, 0, this);
+            numMessages++;
          }
          else if (messageUserDisplayed[i] == 0) {
             g.setColor(Color.red);
             g.fillRect(45, 260+i*100, 700, 60);
             g.setColor(Color.black); 
             g.drawString(messageTextDisplayed[i], 55, 290+i*100);
+            numMessages++;
          }
          else if (messageUserDisplayed[i] == 1) {
             g.setColor(new Color(254, 189, 225));
             g.fillRect(365, 260+i*100, 395, 60);
             g.setColor(Color.black); 
             g.drawString(messageTextDisplayed[i], 375, 290+i*100);
+            numMessages++;
          }
          else if (messageUserDisplayed[i] == 2) {
             g.setColor(new Color(103, 157, 255));
             g.fillRect(30, 260+i*100, 395, 60);
             g.setColor(Color.black); 
             g.drawString(messageTextDisplayed[i], 40, 290+i*100);
+            numMessages++;
          }
          else {
             g.setColor(new Color(126, 217, 87));
