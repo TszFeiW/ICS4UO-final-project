@@ -277,6 +277,7 @@ public class Level1 extends JComponent {
                }
             }
             else {
+               displayMessages(g);
                return;
             }
             
@@ -297,25 +298,7 @@ public class Level1 extends JComponent {
                messageUserDisplayed[numDisplayed] = messageUser[nextMessage];
                numDisplayed++;
             }
-            
-            for (int i = 0; i < numDisplayed; i++) {
-               if (messageUserDisplayed[i] == 0) {
-                  g.setColor(Color.red);
-                  g.fillRect(50, 260+i*100, 690, 80);
-               }
-               else if (messageUserDisplayed[i] == 1) {
-                  g.setColor(new Color(254, 189, 225));
-                  g.fillRect(395, 260+i*100, 365, 80);
-               }
-               else if (messageUserDisplayed[i] == 2) {
-                  g.setColor(new Color(103, 157, 255));
-                  g.fillRect(30, 260+i*100, 365, 80);
-               }
-               else {
-                  g.setColor(new Color(126, 217, 87));
-                  g.fillRect(30, 260+i*100, 365, 80);
-               }
-            }
+            displayMessages(g);
          }
          else {
             finished = true;
@@ -332,6 +315,37 @@ public class Level1 extends JComponent {
       g.setColor(Color.black);
       g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 48));             
       g.drawString(username, 110, 700);
+   }
+   
+   public void displayMessages(Graphics g) {
+      Font calibri = new Font("Calibri", Font.BOLD, 20);
+      g.setFont(calibri);
+      for (int i = 0; i < numDisplayed; i++) {
+         if (messageUserDisplayed[i] == 0) {
+            g.setColor(Color.red);
+            g.fillRect(50, 260+i*100, 690, 80);
+            g.setColor(Color.black); 
+            g.drawString(messageTextDisplayed[i], 60, 270+i*100);
+         }
+         else if (messageUserDisplayed[i] == 1) {
+            g.setColor(new Color(254, 189, 225));
+            g.fillRect(395, 260+i*100, 365, 80);
+            g.setColor(Color.black); 
+            g.drawString(messageTextDisplayed[i], 405, 270+i*100);
+         }
+         else if (messageUserDisplayed[i] == 2) {
+            g.setColor(new Color(103, 157, 255));
+            g.fillRect(30, 260+i*100, 365, 80);
+            g.setColor(Color.black); 
+            g.drawString(messageTextDisplayed[i], 40, 270+i*100);
+         }
+         else {
+            g.setColor(new Color(126, 217, 87));
+            g.fillRect(30, 260+i*100, 365, 80);
+            g.setColor(Color.black); 
+            g.drawString(messageTextDisplayed[i], 40, 270+i*100);
+         }
+      }
    }
       
    public String getUsername() {
