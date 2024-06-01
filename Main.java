@@ -1,12 +1,23 @@
 /**
  * This class is used as the Driver class for our game.
- * @version 1.1
- * May 28th, 2024
- * Time Spent: 2 hours
- * @author Eric Ning, Tsz Fei Wang
- *
- * Modifications: Class was modified to provide functionality for the credits and level 1 screen
  * 
+ * <p>
+ * Version 1.0 
+ * Time Spent: 2 hours
+ * Class was created which runs separate parts of the game in the correct order.
+ * </p>
+ *
+ * <p>
+ * Version 1.1
+ * Time Spent: < 1 hour
+ * Class was modified to provide functionality for the credits and level 1 screen
+ * </p>
+ * 
+ * @author Eric Ning, Tsz Fei Wang
+ * @version 1.1
+ * 
+ * Chat-Mod AI Inc.
+ * May 31st, 2024
  */
 import java.awt.*;
 import java.awt.event.*;
