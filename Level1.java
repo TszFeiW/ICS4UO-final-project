@@ -1,12 +1,23 @@
 /**
  * This class is used to display Level 1 (Deficiencies level) for our game.
- * @version 1.0
- * May 29th, 2024
- * Time Spent: 8 hours
- * @author Tsz Fei Wang, Eric Ning
- *
- * Modifications: Class was created to play level 1 of the game.
  * 
+ * <p>
+ * Version 1.0 
+ * Time Spent: 8 hours
+ * Class was created to play level 1 of the game.
+ * Formatting of messages not perfect, along with transition screen missing.
+ * </p>
+ *
+ * <p>
+ * Version 1.1
+ * Time Spent: 2 hours
+ * Class was modified so format of messages work
+ *
+ * @author Tsz Fei Wang, Eric Ning
+ * @version 1.0
+ * 
+ * Chat-Mod AI Inc.
+ * May 31st, 2024
  */
 
 import java.awt.*;
@@ -18,6 +29,30 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 public class Level1 extends JComponent {
+
+   /**
+    * private BufferedImage instructionsL1  - image containing the instructions for the level
+    * private BufferedImage user            - image of the enter username scene
+    * private BufferedImage stool           - image of the person's stool in front of the desk
+    * private BufferedImage level1text      - image of the "Level 1" text header
+    * private BufferedImage desk            - image of the person's computer desk
+    * private BufferedImage person          - image of the person 
+    * private BufferedImage personComputer  - image of person sitting at computer desk
+    * private BufferedImage computer        - image of the computer zoomed in
+    * private BufferedImage computerPeople  - image of people inside the computer screen
+    * private BufferedImage transition      - image of the transition screen between two blocks of messages
+    * private String username               - the user's username
+    * private Color bg                      - the color of the background
+    * private boolean finished              - whether or not the level is complete
+    * private int currScene                 - the current scene in the level being displayed
+    * private int counter                   - counter variable to deal with animation
+    * private int numDisplayed              - keeps track of number of messages being displayed
+    * private char ch                       - stores the user's input
+    * private String[] messageTextDisplayed - text in the currently displayed messages
+    * private int[] messageUserDisplayed    - the user that sent each message in currently displayed messages
+    * private String[] messageText          - contains the text of all the messages
+    * private int[] messageUser             - contains the corresponding user of all the messages
+    */
    private BufferedImage instructionsL1;
    private BufferedImage user; 
    private BufferedImage stool;
@@ -27,20 +62,22 @@ public class Level1 extends JComponent {
    private BufferedImage personComputer;
    private BufferedImage computer;
    private BufferedImage computerPeople;
-   private BufferedImage transition1;
+   private BufferedImage transition;
    private String username = ""; 
+   private Color bg; 
    private boolean finished = false;
    private int currScene;
    private int counter;
-   private Color bg; 
+   private int numDisplayed;
    private char ch = '\\';
-   int numDisplayed;
-   public String[] messageTextDisplayed;
-   public int[] messageUserDisplayed;
-   public String[] messageText;
-   public int[] messageUser;
-   //private long lastTime = 0; 
-   //private static final long INTERVAL = (long)500;
+   private String[] messageTextDisplayed;
+   private int[] messageUserDisplayed;
+   private String[] messageText;
+   private int[] messageUser;
+   
+   /**
+    * Constructor of the class so that an instance of the class can be created in Main
+    */
    public Level1() {
       this.addKeyListener(new KeyHandler());
       try {
@@ -53,15 +90,16 @@ public class Level1 extends JComponent {
          personComputer = ImageIO.read(new File("personComputer.png"));
          computer = ImageIO.read(new File("computer.png"));
          computerPeople = ImageIO.read(new File("computerPeople.png"));
-         transition1 = ImageIO.read(new File("transition1.png"));
+         transition = ImageIO.read(new File("transition.png"));
          bg = new Color(245,228,255);
          messageTextDisplayed = new String[4];
          messageUserDisplayed = new int[4];
-         messageText = new String[28];
-         messageUser = new int[28];
+         messageText = new String[27];
+         messageUser = new int[27];
          
+         // reading the information into the arrays inside the pre-created level1.txt file
          BufferedReader br = new BufferedReader(new FileReader("level1.txt"));
-         for (int i = 0; i < 29; i++) {
+         for (int i = 0; i < 27; i++) { // assumes that file is functional
             String line = br.readLine();
             if (line == null) break;
             else if (line.equals(".")) {
@@ -69,13 +107,13 @@ public class Level1 extends JComponent {
                messageUser[i] = -1;
             }
             else {
-
+               messageText[i] = line.substring(0, line.indexOf('|'));
                messageUser[i] = line.charAt(line.length()-1) - '0';
             }
          }
       }
       catch (IOException ioe) {  
-         System.out.println("Missing image file.");
+         System.out.println("IOException Occurred. File(s) may be missing.");
       }
    }
    
@@ -84,34 +122,21 @@ public class Level1 extends JComponent {
     */
    private class KeyHandler extends KeyAdapter {
       /**
-       * This method allows the actual game to run (main method)   
+       * This method allows for user key input to be detected 
        * @param KeyEvent e An event that shows that a keyboard input as been made
        */
       public void keyPressed(KeyEvent e) {
          ch = e.getKeyChar();
          Level1.this.repaint();
-         //if (key == KeyEvent.VK_ENTER) currScreen++;
-         //if (currScreen == 3) finished = true;
       }
-      /*
-      public void keyReleased(KeyEvent e) {
-         long timePressed = e.getWhen(); 
-         long diff = timePressed - lastTime; 
-         System.out.println("hihihi");
-         if(diff > INTERVAL) {
-            char c = e.getKeyChar();
-            username = username + c; 
-            Level1.this.repaint();
-            System.out.println("character entered: " + c); 
-            System.out.println("username: " + username);
-         }
-         lastTime = timePressed; 
-      }
-      */
    }
    
+   /**
+    * This method is capable of actually drawing onto the JFrame window.
+    * @param Graphics g An object which is a painting tool
+    */
    public void paintComponent(Graphics g) {
-      if (currScene == 0) {
+      if (currScene == 0) { // taking username
          g.setColor(bg);
          g.fillRect(0, 0, 810, 1080);
          g.drawImage(user, 0, 0, this);
@@ -119,14 +144,14 @@ public class Level1 extends JComponent {
          try {Thread.sleep(50);} catch (InterruptedException ie) {}
          char c = ch;
          
-         if (c == '\\') return;
-         else if (c == '\n' && username.length() > 1) { 
+         if (c == '\\') return; // default set character (does nothing)
+         else if (c == '\n' && username.length() > 1) { // username entered
             currScene = 1;
             ch = '\\';
             this.repaint();
          }
-         else if (c == 8) {
-            if (username.length() != 0) {
+         else if (c == 8) { // backspace pressed
+            if (username.length() != 0) { 
                username = username.substring(0, username.length() - 1);
                g.setColor(Color.black);
                g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 48));
@@ -134,16 +159,16 @@ public class Level1 extends JComponent {
                c = '\\';
             }
          }
-         else if (!Character.isLetterOrDigit(c) && c != '\n') {
+         else if (!Character.isLetterOrDigit(c) && c != '\n') { // not alphanumerical
             displayWarning("Please use alphanumerical characters.", g);
          }
-         else if (c == '\n' && username.length() < 2) {
+         else if (c == '\n' && username.length() < 2) { // too short
             displayWarning("This username you chose is too short.", g);
          }
-         else if(username.length() >= 20) {
+         else if(username.length() >= 20) { // too long
             displayWarning("You cannot exceed twenty characters.", g);
          }
-         else {
+         else { // otherwise it is valid, so add to username
             username += c;
             
             g.setColor(Color.black);
@@ -154,7 +179,7 @@ public class Level1 extends JComponent {
             ch = '\\';
          }
       }
-      else if (currScene == 1) {
+      else if (currScene == 1) { // instructions
          g.setColor(bg);
          g.fillRect(0, 0, 810, 1080);
          g.drawImage(instructionsL1, -10, -50, this);
@@ -164,8 +189,8 @@ public class Level1 extends JComponent {
             this.repaint();
          }
       }
-      else if (currScene == 2) {
-         if (counter < 100) {
+      else if (currScene == 2) { // no user input required, basic animation
+         if (counter < 100) { // person moving left
             g.setColor(Color.white);
             g.fillRect(0, 0, 810, 1080);
             g.drawImage(level1text, 100, 150, this);
@@ -178,7 +203,7 @@ public class Level1 extends JComponent {
             counter++;
             this.repaint();
          }
-         else if (counter < 355) {
+         else if (counter < 355) { // screen fades to black
             g.setColor(Color.white);
             g.fillRect(0, 0, 810, 1080);
             g.drawImage(level1text, 100, 150, this);
@@ -191,7 +216,7 @@ public class Level1 extends JComponent {
             counter++;
             this.repaint();
          }
-         else if (counter < 610) {
+         else if (counter < 610) { // screen fades back in, person sitting at computer
             g.setColor(Color.white);
             g.fillRect(0, 0, 810, 1080);
             g.drawImage(personComputer, 30, 350, this);
@@ -201,7 +226,7 @@ public class Level1 extends JComponent {
             counter++;
             this.repaint();
          }
-         else {
+         else { // goes to next scene of this level
             try {Thread.sleep(100);} catch (InterruptedException ie) {}
             currScene++;
             counter = 0;
@@ -209,8 +234,8 @@ public class Level1 extends JComponent {
             this.repaint();
          }
       }
-      else {
-         if (counter < 125) {
+      else { // actual messages being displayed in this scene of the level
+         if (counter < 125) { // text box fading in
             g.setColor(new Color(224, 240, 244));
             g.fillRect(0, 0, 810, 1080);
             g.drawImage(computer, 0, 220, this);
@@ -227,7 +252,7 @@ public class Level1 extends JComponent {
             counter++;
             this.repaint();
          }
-         else if (counter < 199) {
+         else if (counter < 199) { // username being displayed
             g.setColor(new Color(224, 240, 244));
             g.fillRect(0, 0, 810, 1080);
             g.drawImage(computer, 0, 220, this);
@@ -247,7 +272,7 @@ public class Level1 extends JComponent {
             ch = '\\';
             this.repaint();
          }
-         else if (counter < 229) {
+         else if (counter < 227) { // messages appear here
             g.setColor(new Color(224, 240, 244));
             g.fillRect(0, 0, 810, 1080);
             g.drawImage(computer, 0, 220, this);
@@ -263,30 +288,39 @@ public class Level1 extends JComponent {
             g.setColor(new Color(162, 210, 255, 200));
             g.fillRect(20, 240, 750, 420);
             
+            // press enter to continue message
             g.setColor(new Color(254, 189, 225));
             g.fillRect(50, 880, 700, 90);
             g.setColor(Color.black);
             g.setFont(new Font("Calibri", Font.BOLD, 64));     
             g.drawString("Press Enter to Continue", 95, 945); 
+            
             try {Thread.sleep(50);} catch (InterruptedException ie) {}
-            if (ch == '\n') {
+            if (ch == '\n') { // next message displays
                ch = '\\';
                counter++;
-               if (counter == 229) {
+               if (counter == 227) {
                   this.repaint();
                   return;
                }
-            }
-            else {
+            } 
+            else { // display same messages
                displayMessages(g);
                return;
             }
             
             int nextMessage = counter-200; // index of next message in array
             if (messageUser[nextMessage] == -1) {
+               g.drawImage(transition, -10, -20, this);
+               // press enter to continue message
+               g.setColor(new Color(254, 189, 225));
+               g.fillRect(50, 880, 700, 90);
+               g.setColor(Color.black);
+               g.setFont(new Font("Calibri", Font.BOLD, 64));     
+               g.drawString("Press Enter to Continue", 95, 945); 
                numDisplayed = 0;
             }
-            else if (numDisplayed == 4) {
+            else if (numDisplayed == 4) { // displays all 4 messages
                for (int i = 0; i < 3; i++) {
                   messageTextDisplayed[i] = messageTextDisplayed[i+1];
                   messageUserDisplayed[i] = messageUserDisplayed[i+1];
@@ -301,12 +335,17 @@ public class Level1 extends JComponent {
             }
             displayMessages(g);
          }
-         else {
+         else { // level 1 is complete
             finished = true;
          }
       }
    }
    
+   /**
+    * Utility method to display warning messages (reuses code)
+    * @param String message The warning message
+    * @param Graphics g An object which is a painting tool
+    */
    public void displayWarning(String message, Graphics g) {
       g.setFont(new Font("Calibri", Font.BOLD, 40));
       g.setColor(new Color(162, 210, 255));
@@ -318,14 +357,15 @@ public class Level1 extends JComponent {
       g.drawString(username, 110, 700);
    }
    
+   /**
+    * Utility method to display the messages in the level
+    * @param Graphics g An object which is a painting tool
+    */
    public void displayMessages(Graphics g) {
       Font calibri = new Font("Calibri", Font.BOLD, 20);
       g.setFont(calibri);
       for (int i = 0; i < numDisplayed; i++) {
-         if(counter == 217 || counter == 223) {
-            g.drawImage(transition1, 0, 0, this);
-         }
-         else if (messageUserDisplayed[i] == 0) {
+         if (messageUserDisplayed[i] == 0) {
             g.setColor(Color.red);
             g.fillRect(45, 260+i*100, 700, 60);
             g.setColor(Color.black); 
@@ -351,11 +391,19 @@ public class Level1 extends JComponent {
          }
       }
    }
-      
+   
+   /**
+    * This method allows the Main class to access the user's username for level 2
+    * @return The String containing the username
+    */
    public String getUsername() {
       return username;
    }
    
+   /**
+    * This method allows the Main class to access whether the user is done reading or not
+    * @return Whether the user has finished reading all instructions
+    */
    public boolean getFinished() {
       return finished;
    }
