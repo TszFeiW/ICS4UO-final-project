@@ -1,7 +1,7 @@
 Welcome to Lich3ss chatroom!|0
 CMod AI will be moderating your conversation today.|0
 Hey there! What's up?|2
-Hello! I was just about to start a game|1
+Hello! I was just about to start a game!|1
 How's it going?|1
 Great! Mind if I join you?|2
 I can play in just a minute..|2
@@ -21,7 +21,6 @@ Yeah! He literally just stole all your points...|2
 Yeah it's so stupid. :(|1
 I hate it when people do this|1
 WARNING. Second offence: hateful speech. 30 minute mute.|0
-.
 St00p1d. Jump into a shark!|3
 That's what you get for calling me an 1d10t!|3
 Mod report message!|2
