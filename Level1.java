@@ -35,7 +35,6 @@ public class Level1 extends JComponent {
    private Color bg; 
    private char ch = '\\';
    int numDisplayed;
-   int numMessages;
    public String[] messageTextDisplayed;
    public int[] messageUserDisplayed;
    public String[] messageText;
@@ -58,12 +57,11 @@ public class Level1 extends JComponent {
          bg = new Color(245,228,255);
          messageTextDisplayed = new String[4];
          messageUserDisplayed = new int[4];
-         messageText = new String[20];
-         messageUser = new int[20];
-         numMessages = 0; 
+         messageText = new String[28];
+         messageUser = new int[28];
          
          BufferedReader br = new BufferedReader(new FileReader("level1.txt"));
-         for (int i = 0; i < 20; i++) {
+         for (int i = 0; i < 29; i++) {
             String line = br.readLine();
             if (line == null) break;
             else if (line.equals(".")) {
@@ -71,7 +69,7 @@ public class Level1 extends JComponent {
                messageUser[i] = -1;
             }
             else {
-               messageText[i] = line.substring(0, line.indexOf('|'));
+
                messageUser[i] = line.charAt(line.length()-1) - '0';
             }
          }
@@ -94,7 +92,6 @@ public class Level1 extends JComponent {
          Level1.this.repaint();
          //if (key == KeyEvent.VK_ENTER) currScreen++;
          //if (currScreen == 3) finished = true;
-         
       }
       /*
       public void keyReleased(KeyEvent e) {
@@ -250,7 +247,7 @@ public class Level1 extends JComponent {
             ch = '\\';
             this.repaint();
          }
-         else if (counter < 220) {
+         else if (counter < 229) {
             g.setColor(new Color(224, 240, 244));
             g.fillRect(0, 0, 810, 1080);
             g.drawImage(computer, 0, 220, this);
@@ -275,7 +272,7 @@ public class Level1 extends JComponent {
             if (ch == '\n') {
                ch = '\\';
                counter++;
-               if (counter == 220) {
+               if (counter == 229) {
                   this.repaint();
                   return;
                }
@@ -325,30 +322,26 @@ public class Level1 extends JComponent {
       Font calibri = new Font("Calibri", Font.BOLD, 20);
       g.setFont(calibri);
       for (int i = 0; i < numDisplayed; i++) {
-         if(numMessages == 61) {
+         if(counter == 217 || counter == 223) {
             g.drawImage(transition1, 0, 0, this);
-            numMessages++;
          }
          else if (messageUserDisplayed[i] == 0) {
             g.setColor(Color.red);
             g.fillRect(45, 260+i*100, 700, 60);
             g.setColor(Color.black); 
             g.drawString(messageTextDisplayed[i], 55, 290+i*100);
-            numMessages++;
          }
          else if (messageUserDisplayed[i] == 1) {
             g.setColor(new Color(254, 189, 225));
             g.fillRect(365, 260+i*100, 395, 60);
             g.setColor(Color.black); 
             g.drawString(messageTextDisplayed[i], 375, 290+i*100);
-            numMessages++;
          }
          else if (messageUserDisplayed[i] == 2) {
             g.setColor(new Color(103, 157, 255));
             g.fillRect(30, 260+i*100, 395, 60);
             g.setColor(Color.black); 
             g.drawString(messageTextDisplayed[i], 40, 290+i*100);
-            numMessages++;
          }
          else {
             g.setColor(new Color(126, 217, 87));
