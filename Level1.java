@@ -311,7 +311,7 @@ public class Level1 extends JComponent {
             
             int nextMessage = counter-200; // index of next message in array
             if (messageUser[nextMessage] == -1) {
-               g.drawImage(transition, 55, 180, this);
+               g.drawImage(transition, 55, 240, this);
                // press enter to continue message
                g.setColor(new Color(254, 189, 225));
                g.fillRect(50, 880, 700, 90);

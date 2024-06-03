@@ -165,8 +165,8 @@ public class SplashScreen extends JComponent {
          }
          
          g.setFont(new Font("Calibri", Font.BOLD, 64));
-         g.drawString("Use Arrow Keys and press", 50, 900);
-         g.drawString("‘Enter’ to Continue.", 135, 970);
+         g.drawString("Use Arrow Keys and press", 50, 860);
+         g.drawString("‘Enter’ to Continue.", 135, 930);
       }
    }
    

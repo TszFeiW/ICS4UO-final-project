@@ -75,9 +75,9 @@ public class Instructions extends JComponent {
       g.setColor(bg);
       g.fillRect(0, 0, 810, 1080);
       
-      if(currScreen == 0) g.drawImage(generalInstructions, -10, 0, this);
-      else if(currScreen == 1) g.drawImage(instructionsL1, -10, -50, this);
-      else if(currScreen == 2) g.drawImage(instructionsL2, -10, -50, this);
+      if(currScreen == 0) g.drawImage(generalInstructions, -10, -20, this);
+      else if(currScreen == 1) g.drawImage(instructionsL1, -10, -70, this);
+      else if(currScreen == 2) g.drawImage(instructionsL2, -10, -70, this);
    }
    
    /**
