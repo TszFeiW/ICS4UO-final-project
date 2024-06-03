@@ -1,7 +1,9 @@
-Welcome to Lich3ss chatroom! CMod AI will be moderating your conversation today.|0
+Welcome to Lich3ss chatroom!|0
+CMod AI will be moderating your conversation today.|0
 Hello! Nice elo you got there.|1
 GG ez bozo my ELO is unmatched by plebs >:0|2
-WTF HOW DIDY OU WIn?? I hope you fall into a deep pit of snow!|2
+WTF HOW DIDY OU WIn??|2
+I hope you fall into a deep pit of snow!|2
 /
 No offences detected. Continue chatting!|0
 THEY’RE SO MEAAAAAN :(|1
@@ -14,8 +16,10 @@ Yay! Good bot.|1
 Player 2 has been banned for sending death threats|0
 Well that seems harsh.|1
 .
-Welcome to Lich3ss chatroom! CMod AI will be moderating your conversation today.|0
-WHAT?? How did I make such a stupid mistake. I’m so stupid :(|1
+Welcome to Lich3ss chatroom!|0
+CMod AI will be moderating your conversation today.|0
+WHAT?? How did I make such a stupid mistake.|1
+I’m so stupid :(|1
 Your luck is kinda stupidly op. gg|1
 /
 No offences detected. Continue chatting!|0
@@ -25,12 +29,13 @@ Player 1 has left the chat|3
 Player 1 has been muted for toxicity|0
 ??? Poor player 1|2
 /
-Player 1 has been banned for rude behaviour towards others.|0
+Player 1 has been banned for rude language.|0
 This AI detection system sucks, what was that ban??|2
 I’m out of here|2
 Player 2 has left the chat|4
 .
-Welcome to Lich3ss chatroom! CMod AI will be moderating your conversation today.|0
+Welcome to Lich3ss chatroom!|0
+CMod AI will be moderating your conversation today.|0
 jump off a cliff (in a video game)|1
 i hope you wake up in a coffin (in minecraft)|1
 /
@@ -39,7 +44,7 @@ what the f*** CMod AI he was sending me death threats|2
 Player 2 has left the chat|4
 /
 Player 1 has been temporarily muted for toxicity|0
-well I hope that person never gets in a chatroom with anyone else|2
+well I hope that person doesn't bother anyone else|2
 Player 2 has left the chat|4
 /
 Player 1 has been permanently banned for toxicity|0
