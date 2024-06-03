@@ -1,12 +1,30 @@
 /**
  * This class is used as the instructions screen for our game.
- * @version 1.1
- * May 24th, 2024
- * Time Spent: 1 hour
- * @author Tsz Fei Wang
- *
- * Modifications: Location of images changed slightly
  * 
+ * <p>
+ * Version 1.0 
+ * Time Spent: 1 hour
+ * Class was created which runs the instructions of our game. Keyboard input is used
+ * to detect whether the user wishes to continue or wishes to leave the game. 
+ * </p>
+ *
+ * <p>
+ * Version 1.1
+ * Time Spent: < 1 hour
+ * Location of images changed slightly, Comments modified
+ * </p>
+ * 
+ * <p>
+ * Version 1.2
+ * Time Spent: < 1 hour
+ * Coordinates of some drawings adjusted so that it fits on school monitor
+ * </p>
+ *
+ * @author Tsz Fei Wang, Eric Ning
+ * @version 1.2
+ * 
+ * Chat-Mod AI Inc.
+ * June 3rd, 2024
  */
 
 import java.awt.*;
@@ -23,7 +41,7 @@ public class Instructions extends JComponent {
     * private BufferedImage instructionsL1      - image of the instructions for level 1
     * private BufferedImage instructionsL2      - image of the instructions for level 2
     * private Color bg                          - the color of the background
-    * private int choice                        - the selected 
+    * private boolean finished                  - whether this scene of the game is finished
     * private int currScreen                    - which instructions panel it is on 
     */
    private BufferedImage generalInstructions;
@@ -54,7 +72,7 @@ public class Instructions extends JComponent {
     */
    private class KeyHandler extends KeyAdapter {
       /**
-       * This method allows the actual game to run (main method)   
+       * This method allows for user key input to be detected
        * @param KeyEvent e An event that shows that a keyboard input as been made
        */
       public void keyPressed(KeyEvent e) {

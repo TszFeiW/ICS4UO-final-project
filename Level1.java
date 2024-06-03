@@ -13,11 +13,17 @@
  * Time Spent: 2 hours
  * Class was modified so format of messages work
  *
+ * <p>
+ * Version 1.2
+ * Time Spent: < 1 hour
+ * Coordinates of some drawings adjusted so that it fits on school monitor
+ * </p>
+ *
  * @author Tsz Fei Wang, Eric Ning
- * @version 1.0
+ * @version 1.2
  * 
  * Chat-Mod AI Inc.
- * May 31st, 2024
+ * June 3rd, 2024
  */
 
 import java.awt.*;
@@ -69,7 +75,7 @@ public class Level1 extends JComponent {
    private int currScene;
    private int counter;
    private int numDisplayed;
-   private char ch = '\\';
+   private char ch = '\u0000';
    private String[] messageTextDisplayed;
    private int[] messageUserDisplayed;
    private String[] messageText;
@@ -139,15 +145,15 @@ public class Level1 extends JComponent {
       if (currScene == 0) { // taking username
          g.setColor(bg);
          g.fillRect(0, 0, 810, 1080);
-         g.drawImage(user, 0, 0, this);
+         g.drawImage(user, 0, -100, this);
          
          try {Thread.sleep(50);} catch (InterruptedException ie) {}
          char c = ch;
-         
-         if (c == '\\') return; // default set character (does nothing)
+         System.out.println(c);
+         if (c == '\u0000') return; // nothing happens
          else if (c == '\n' && username.length() > 1) { // username entered
             currScene = 1;
-            ch = '\\';
+            ch = '\u0000';
             this.repaint();
          }
          else if (c == 8) { // backspace pressed
@@ -155,8 +161,8 @@ public class Level1 extends JComponent {
                username = username.substring(0, username.length() - 1);
                g.setColor(Color.black);
                g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 48));
-               g.drawString(username, 110, 700);
-               c = '\\';
+               g.drawString(username, 110, 600);
+               c = '\u0000';
             }
          }
          else if (!Character.isLetterOrDigit(c) && c != '\n') { // not alphanumerical
@@ -173,18 +179,18 @@ public class Level1 extends JComponent {
             
             g.setColor(Color.black);
             g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 48));             
-            g.drawString(username, 110, 700);
+            g.drawString(username, 110, 600);
              
-            c = '\\';
-            ch = '\\';
+            c = '\u0000';
+            ch = '\u0000';
          }
       }
       else if (currScene == 1) { // instructions
          g.setColor(bg);
          g.fillRect(0, 0, 810, 1080);
-         g.drawImage(instructionsL1, -10, -50, this);
+         g.drawImage(instructionsL1, -10, -70, this);
          if (ch == '\n') {
-            ch = '\\';
+            ch = '\u0000';
             currScene++;
             this.repaint();
          }
@@ -195,7 +201,7 @@ public class Level1 extends JComponent {
             g.fillRect(0, 0, 810, 1080);
             g.drawImage(level1text, 100, 150, this);
             g.drawImage(desk, 30, 350, this);
-            g.drawImage(stool, 135, 700, this);
+            g.drawImage(stool, 135, 680, this);
             g.drawImage(person, 650-counter, 550, this);
             g.setColor(Color.white);
             g.fillRect(842-counter, 550, 1, 400);
@@ -208,7 +214,7 @@ public class Level1 extends JComponent {
             g.fillRect(0, 0, 810, 1080);
             g.drawImage(level1text, 100, 150, this);
             g.drawImage(desk, 30, 350, this);
-            g.drawImage(stool, 135, 700, this);
+            g.drawImage(stool, 135, 680, this);
             g.drawImage(person, 550, 550, this);
             g.setColor(new Color(0, 0, 0, counter-100));
             g.fillRect(0, 0, 810, 1080);
@@ -230,7 +236,7 @@ public class Level1 extends JComponent {
             try {Thread.sleep(100);} catch (InterruptedException ie) {}
             currScene++;
             counter = 0;
-            ch = '\\';
+            ch = '\u0000';
             this.repaint();
          }
       }
@@ -269,7 +275,7 @@ public class Level1 extends JComponent {
             g.fillRect(20, 240, 750, 420);
             try {Thread.sleep(10);} catch (InterruptedException ie) {}
             counter++;
-            ch = '\\';
+            ch = '\u0000';
             this.repaint();
          }
          else if (counter < 227) { // messages appear here
@@ -297,7 +303,7 @@ public class Level1 extends JComponent {
             
             try {Thread.sleep(50);} catch (InterruptedException ie) {}
             if (ch == '\n') { // next message displays
-               ch = '\\';
+               ch = '\u0000';
                counter++;
                if (counter == 227) {
                   this.repaint();
@@ -311,7 +317,7 @@ public class Level1 extends JComponent {
             
             int nextMessage = counter-200; // index of next message in array
             if (messageUser[nextMessage] == -1) {
-               g.drawImage(transition, 55, 240, this);
+               g.drawImage(transition, 55, 180, this);
                // press enter to continue message
                g.setColor(new Color(254, 189, 225));
                g.fillRect(50, 880, 700, 90);
@@ -349,12 +355,12 @@ public class Level1 extends JComponent {
    public void displayWarning(String message, Graphics g) {
       g.setFont(new Font("Calibri", Font.BOLD, 40));
       g.setColor(new Color(162, 210, 255));
-      g.fillRect(50, 180, 710, 120);
+      g.fillRect(50, 80, 710, 120);
       g.setColor(Color.black);
-      g.drawString(message, 85, 250);
+      g.drawString(message, 85, 150);
       g.setColor(Color.black);
       g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 48));             
-      g.drawString(username, 110, 700);
+      g.drawString(username, 110, 600);
    }
    
    /**

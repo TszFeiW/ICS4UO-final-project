@@ -14,11 +14,17 @@
  * Class was modified such that it is animated in the beginning
  * </p>
  * 
+ * <p>
+ * Version 1.2
+ * Time Spent: < 1 hour
+ * Coordinates of some drawings adjusted so that it fits on school monitor
+ * </p>
+ *
  * @author Eric Ning, Tsz Fei Wang
- * @version 1.1
+ * @version 1.2
  * 
  * Chat-Mod AI Inc.
- * May 31st, 2024
+ * June 3rd, 2024
  */
 
 import java.awt.*;
@@ -178,4 +184,3 @@ public class SplashScreen extends JComponent {
       return choice;
    }
 }
-

@@ -16,14 +16,15 @@
  * <p>
  * Version 1.2
  * Time Spent: < 1 hour
- * Class was modified so username from level 1could be accessed
+ * Class was modified so username from level 1 could be accessed
+ * Window size modified so that it fits on the school monitors.
  * </p>
  *
  * @author Eric Ning, Tsz Fei Wang
- * @version 1.1
+ * @version 1.2
  * 
  * Chat-Mod AI Inc.
- * May 26th, 2024
+ * June 3rd, 2024
  */
 import java.awt.*;
 import java.awt.event.*;
@@ -114,13 +115,21 @@ public class Main {
                }
                m.username = l1.getUsername();
                m.window.getContentPane().remove(l1);
-               
                m.level2 = true;
                m.scene = 1;
                break;
             case 4:
-            
-               //break;
+               Level2 l2 = new Level2(m.username);
+               m.window.getContentPane().add(l2);
+               l2.setFocusable(true);
+               l2.requestFocusInWindow();
+               m.window.setVisible(true);
+               while (true) {
+                  if (l2.getFinished()) break;
+               }
+               m.window.getContentPane().remove(l2);
+               m.scene = 1;
+               break;
             case 5:
                Credits c = new Credits();
                m.window.getContentPane().add(c);
