@@ -94,15 +94,15 @@ public class Credits extends JComponent {
       g.drawString("Credits", 220, 150);
       
       g.setFont(new Font("Calibri", Font.BOLD, 54));
-      g.drawString("Game made by:", 220, 280);
-      g.drawString("Eric Ning and Tsz Fei Wang", 100, 360);
+      g.drawString("Game made by:", 220, 240);
+      g.drawString("Eric Ning and Tsz Fei Wang", 100, 300);
       
       g.setFont(new Font("Calibri", Font.BOLD, 36));
       g.drawString("Thanks for playing CMOD Socializer!", 135, 560);
       g.drawString("Chat-Mod AI Inc.", 280, 930);
       
       g.setFont(new Font("Calibri", Font.BOLD, 64));
-      g.drawString("Press ‘Enter’ to Exit.", 135, 1020);
+      g.drawString("Press ‘Enter’ to Exit.", 135, 380);
    }
    
    /**
