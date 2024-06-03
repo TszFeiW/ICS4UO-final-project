@@ -12,12 +12,18 @@
  * Time Spent: < 1 hour
  * Class was modified to provide functionality for the credits and level 1 screen
  * </p>
- * 
+ *
+ * <p>
+ * Version 1.2
+ * Time Spent: < 1 hour
+ * Class was modified so username from level 1could be accessed
+ * </p>
+ *
  * @author Eric Ning, Tsz Fei Wang
  * @version 1.1
  * 
  * Chat-Mod AI Inc.
- * May 31st, 2024
+ * May 26th, 2024
  */
 import java.awt.*;
 import java.awt.event.*;
@@ -28,6 +34,7 @@ public class Main {
    int scene = 0; // starts on splash screen
    JFrame window;
    boolean level2 = false;
+   String username = "";
    
    /**
     * This method allows the actual game to run (main method)   
@@ -105,6 +112,7 @@ public class Main {
                while (true) {
                   if (l1.getFinished()) break;
                }
+               m.username = l1.getUsername();
                m.window.getContentPane().remove(l1);
                m.level2 = true;
                m.scene = 1;
