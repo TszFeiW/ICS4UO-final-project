@@ -29,10 +29,10 @@ public class Level2 extends JComponent {
    /**
     * private BufferedImage instructionsL2  - image containing the instructions for the level
     * private BufferedImage user            - image of the enter username scene
-    * private BufferedImage level1text      - image of the "Level 1" text header
+    * private BufferedImage level2text      - image of the "Level 2" text header
     * private BufferedImage computer        - image of the computer zoomed in
     * private BufferedImage computerPeople  - image of people inside the computer screen
-    * private BufferedImage transition      - image of the transition screen between two blocks of messages
+    * private BufferedImage transition2     - image of the transition screen between two blocks of messages
     * private String username               - the user's username
     * private Color bg                      - the color of the background
     * private boolean finished              - whether or not the level is complete
@@ -47,10 +47,10 @@ public class Level2 extends JComponent {
     */
    private BufferedImage instructionsL2;
    private BufferedImage user; 
-   private BufferedImage level1text;
+   private BufferedImage level2text;
    private BufferedImage computer;
    private BufferedImage computerPeople;
-   private BufferedImage transition;
+   private BufferedImage transition2;
    private String username = ""; 
    private Color bg; 
    private boolean finished = false;
@@ -70,21 +70,20 @@ public class Level2 extends JComponent {
       this.addKeyListener(new KeyHandler());
       try {
          instructionsL2 = ImageIO.read(new File("instructionsL2.png"));
-         level1text = ImageIO.read(new File("level1text.png"));
+         level2text = ImageIO.read(new File("level2text.png"));
          computer = ImageIO.read(new File("computer.png"));
-         computerPeople = ImageIO.read(new File("computerPeople.png"));
-         transition = ImageIO.read(new File("transition.png"));
+         computerPeople = ImageIO.read(new File("computerPeople2.png"));
+         transition2 = ImageIO.read(new File("transition2.png"));
          bg = new Color(245,228,255);
          messageTextDisplayed = new String[4];
          messageUserDisplayed = new int[4];
-         messageText = new String[47];
-         messageUser = new int[47];
-         currScene = 1;
+         messageText = new String[52];
+         messageUser = new int[52];
          this.username = username;
          
          // reading the information into the arrays inside the pre-created level2.txt file
          BufferedReader br = new BufferedReader(new FileReader("level2.txt"));
-         for (int i = 0; i < 47; i++) { // assumes that file is functional
+         for (int i = 0; i < 52; i++) { // assumes that file is functional
             String line = br.readLine();
             if (line == null) break;
             else if (line.equals("/")) {
@@ -125,10 +124,34 @@ public class Level2 extends JComponent {
     * @param Graphics g An object which is a painting tool
     */
    public void paintComponent(Graphics g) {
-      if (currScene == 1) { // instructions
+      if (currScene == 0) { // starting screen
+         g.setColor(new Color(224, 240, 244));
+         g.fillRect(0, 0, 810, 1080);
+         g.drawImage(computer, 0, 220, this);
+         g.setColor(new Color(150, 75, 0));
+         g.fillRect(0, 860, 810, 220);
+         g.setColor(Color.black);
+         g.setColor(new Color(162, 210, 255, 200));
+         g.fillRect(20, 240, 750, 420);
+         g.drawImage(level2text, 95, 380, this);
+         
+         // press enter to continue message
+         g.setColor(new Color(254, 189, 225));
+         g.fillRect(50, 880, 700, 90);
+         g.setColor(Color.black);
+         g.setFont(new Font("Calibri", Font.BOLD, 64));     
+         g.drawString("Press Enter to Continue", 95, 945);
+         
+         if (ch == '\n') {
+            ch = '\\';
+            currScene++;
+            this.repaint();
+         } 
+      }
+      else if (currScene == 1) { // instructions
          g.setColor(bg);
          g.fillRect(0, 0, 810, 1080);
-         g.drawImage(instructionsL2, -10, -50, this);
+         g.drawImage(instructionsL2, -10, -70, this);
          if (ch == '\n') {
             ch = '\\';
             currScene++;
@@ -139,7 +162,7 @@ public class Level2 extends JComponent {
          if (counter < 255) { // screen fades to black
             g.setColor(bg);
             g.fillRect(0, 0, 810, 1080);
-            g.drawImage(instructionsL2, -10, -50, this);
+            g.drawImage(instructionsL2, -10, -70, this);
             g.setColor(new Color(0, 0, 0, counter));
             g.fillRect(0, 0, 810, 1080);
             try {Thread.sleep(10);} catch (InterruptedException ie) {}
@@ -177,7 +200,7 @@ public class Level2 extends JComponent {
          }
       }
       else { // actual messages being displayed in this scene of the level
-         if (counter < 47) { // messages appear here
+         if (counter < 52) { // messages appear here
             g.setColor(new Color(224, 240, 244));
             g.fillRect(0, 0, 810, 1080);
             g.drawImage(computer, 0, 220, this);
@@ -204,7 +227,7 @@ public class Level2 extends JComponent {
             if (ch == '\n') { // next message displays
                ch = '\\';
                counter++;
-               if (counter == 47) {
+               if (counter == 52) {
                   this.repaint();
                   return;
                }
@@ -216,7 +239,7 @@ public class Level2 extends JComponent {
             
             int nextMessage = counter; // index of next message in array
             if (messageUser[nextMessage] == -1) {
-               g.drawImage(transition, -10, -20, this);
+               g.drawImage(transition2, 95, 380, this);
                // press enter to continue message
                g.setColor(new Color(254, 189, 225));
                g.fillRect(50, 880, 700, 90);
