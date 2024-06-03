@@ -14,11 +14,17 @@
  * Comments modified
  * </p>
  * 
+ * <p>
+ * Version 1.2
+ * Time Spent: < 1 hour
+ * Coordinates of some drawings adjusted so that it fits on school monitor
+ * </p>
+ *
  * @author Tsz Fei Wang
- * @version 1.1
+ * @version 1.2
  * 
  * Chat-Mod AI Inc.
- * May 31st, 2024
+ * June 3rd, 2024
  */
 
 import java.awt.*;
@@ -62,7 +68,7 @@ public class Credits extends JComponent {
     */
    private class KeyHandler extends KeyAdapter {
       /**
-       * This method allows the actual game to run (main method)   
+       * This method allows for user key input to be detected 
        * @param KeyEvent e An event that shows that a keyboard input as been made
        */
       public void keyPressed(KeyEvent e) {
@@ -94,15 +100,15 @@ public class Credits extends JComponent {
       g.drawString("Credits", 220, 150);
       
       g.setFont(new Font("Calibri", Font.BOLD, 54));
-      g.drawString("Game made by:", 220, 240);
-      g.drawString("Eric Ning and Tsz Fei Wang", 100, 300);
+      g.drawString("Game made by:", 220, 260);
+      g.drawString("Eric Ning and Tsz Fei Wang", 100, 320);
       
       g.setFont(new Font("Calibri", Font.BOLD, 36));
       g.drawString("Thanks for playing CMOD Socializer!", 135, 560);
       g.drawString("Chat-Mod AI Inc.", 280, 930);
       
       g.setFont(new Font("Calibri", Font.BOLD, 64));
-      g.drawString("Press ‘Enter’ to Exit.", 135, 380);
+      g.drawString("Press ‘Enter’ to Exit.", 135, 400);
    }
    
    /**
