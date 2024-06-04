@@ -37,29 +37,31 @@ import javax.swing.JOptionPane;
 public class Level1 extends JComponent {
 
    /**
-    * private BufferedImage instructionsL1  - image containing the instructions for the level
-    * private BufferedImage user            - image of the enter username scene
-    * private BufferedImage stool           - image of the person's stool in front of the desk
-    * private BufferedImage level1text      - image of the "Level 1" text header
-    * private BufferedImage desk            - image of the person's computer desk
-    * private BufferedImage person          - image of the person 
-    * private BufferedImage personComputer  - image of person sitting at computer desk
-    * private BufferedImage computer        - image of the computer zoomed in
-    * private BufferedImage computerPeople  - image of people inside the computer screen
-    * private BufferedImage transition      - image of the transition screen between two blocks of messages
-    * private String username               - the user's username
-    * private Color bg                      - the color of the background
-    * private boolean finished              - whether or not the level is complete
-    * private int currScene                 - the current scene in the level being displayed
-    * private int counter                   - counter variable to deal with animation
-    * private int numDisplayed              - keeps track of number of messages being displayed
-    * private char ch                       - stores the user's input
-    * private String[] messageTextDisplayed - text in the currently displayed messages
-    * private int[] messageUserDisplayed    - the user that sent each message in currently displayed messages
-    * private String[] messageText          - contains the text of all the messages
-    * private int[] messageUser             - contains the corresponding user of all the messages
+    * private BufferedImage instructionsL1      - image containing the instructions for the level
+    * private BufferedImage communityGuidelines - image of the community guidelines for online conduct
+    * private BufferedImage user                - image of the enter username scene
+    * private BufferedImage stool               - image of the person's stool in front of the desk
+    * private BufferedImage level1text          - image of the "Level 1" text header
+    * private BufferedImage desk                - image of the person's computer desk
+    * private BufferedImage person              - image of the person 
+    * private BufferedImage personComputer      - image of person sitting at computer desk
+    * private BufferedImage computer            - image of the computer zoomed in
+    * private BufferedImage computerPeople      - image of people inside the computer screen
+    * private BufferedImage transition          - image of the transition screen between two blocks of messages
+    * private String username                   - the user's username
+    * private Color bg                          - the color of the background
+    * private boolean finished                  - whether or not the level is complete
+    * private int currScene                     - the current scene in the level being displayed
+    * private int counter                       - counter variable to deal with animation
+    * private int numDisplayed                  - keeps track of number of messages being displayed
+    * private char ch                           - stores the user's input
+    * private String[] messageTextDisplayed     - text in the currently displayed messages
+    * private int[] messageUserDisplayed        - the user that sent each message in currently displayed messages
+    * private String[] messageText              - contains the text of all the messages
+    * private int[] messageUser                 - contains the corresponding user of all the messages
     */
    private BufferedImage instructionsL1;
+   private BufferedImage communityGuidelines;
    private BufferedImage user; 
    private BufferedImage stool;
    private BufferedImage level1text;
@@ -88,6 +90,7 @@ public class Level1 extends JComponent {
       this.addKeyListener(new KeyHandler());
       try {
          instructionsL1 = ImageIO.read(new File("instructionsL1.png"));
+         communityGuidelines = ImageIO.read(new File("community guidelines.png"));
          user = ImageIO.read(new File("enter username.jpg"));
          stool = ImageIO.read(new File("stool.png"));
          level1text = ImageIO.read(new File("level1text.png"));
@@ -195,7 +198,17 @@ public class Level1 extends JComponent {
             this.repaint();
          }
       }
-      else if (currScene == 2) { // no user input required, basic animation
+      else if (currScene == 2) { // community guidelines
+         g.setColor(bg);
+         g.fillRect(0, 0, 810, 1080);
+         g.drawImage(communityGuidelines, -10, -40, this);
+         if (ch == '\n') {
+            ch = '\u0000';
+            currScene++;
+            this.repaint();
+         }
+      }
+      else if (currScene == 3) { // no user input required, basic animation
          if (counter < 100) { // person moving left
             g.setColor(Color.white);
             g.fillRect(0, 0, 810, 1080);
@@ -225,7 +238,7 @@ public class Level1 extends JComponent {
          else if (counter < 610) { // screen fades back in, person sitting at computer
             g.setColor(Color.white);
             g.fillRect(0, 0, 810, 1080);
-            g.drawImage(personComputer, 30, 350, this);
+            g.drawImage(personComputer, 10, 320, this);
             g.setColor(new Color(0, 0, 0, 610-counter));
             g.fillRect(0, 0, 810, 1080);
             try {Thread.sleep(10);} catch (InterruptedException ie) {}
