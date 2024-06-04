@@ -39,6 +39,7 @@ public class Level2 extends JComponent {
     * private int currScene                 - the current scene in the level being displayed
     * private int counter                   - counter variable to deal with animation
     * private int numDisplayed              - keeps track of number of messages being displayed
+    * private int selected                  - the selected option out of the 4 choices in the game
     * private char ch                       - stores the user's input
     * private String[] messageTextDisplayed - text in the currently displayed messages
     * private int[] messageUserDisplayed    - the user that sent each message in currently displayed messages
@@ -53,11 +54,14 @@ public class Level2 extends JComponent {
    private BufferedImage transition2;
    private String username = ""; 
    private Color bg; 
-   private boolean finished = false;
+   private boolean game;
+   private boolean finished;
    private int currScene;
    private int counter;
    private int numDisplayed;
-   private char ch = '\\';
+   private int selected;
+   private int nextCounter;
+   private int ch = '\\';
    private String[] messageTextDisplayed;
    private int[] messageUserDisplayed;
    private String[] messageText;
@@ -77,18 +81,22 @@ public class Level2 extends JComponent {
          bg = new Color(245,228,255);
          messageTextDisplayed = new String[4];
          messageUserDisplayed = new int[4];
-         messageText = new String[52];
-         messageUser = new int[52];
+         messageText = new String[71];
+         messageUser = new int[71];
          this.username = username;
          
          // reading the information into the arrays inside the pre-created level2.txt file
          BufferedReader br = new BufferedReader(new FileReader("level2.txt"));
-         for (int i = 0; i < 52; i++) { // assumes that file is functional
+         for (int i = 0; i < 71; i++) { // assumes that file is functional
             String line = br.readLine();
             if (line == null) break;
-            else if (line.equals("/")) {
-               messageText[i] = "";
+            else if (line.charAt(0) == '/') {
+               messageText[i] = line.substring(1);
                messageUser[i] = -10;
+            }
+            else if (line.equals("-")) {
+               messageText[i] = "";
+               messageUser[i] = -5;
             }
             else if (line.equals(".")) {
                messageText[i] = "";
@@ -114,7 +122,23 @@ public class Level2 extends JComponent {
        * @param KeyEvent e An event that shows that a keyboard input as been made
        */
       public void keyPressed(KeyEvent e) {
-         ch = e.getKeyChar();
+         ch = e.getKeyCode();
+         if (ch == KeyEvent.VK_DOWN && selected != 2 && selected != 3) {
+            selected += 2;
+            System.out.println("yes");
+         }
+         else if (ch == KeyEvent.VK_UP && selected != 0 && selected != 1) {
+            selected -= 2;
+            System.out.println("yess");
+         }
+         else if (ch == KeyEvent.VK_LEFT && selected != 0 && selected != 2) {
+            selected--;
+            System.out.println("yesss");
+         }
+         else if (ch == KeyEvent.VK_RIGHT && selected != 1 && selected != 3) {
+            selected++;
+            System.out.println("yessss");
+         }
          Level2.this.repaint();
       }
    }
@@ -142,7 +166,7 @@ public class Level2 extends JComponent {
          g.setFont(new Font("Calibri", Font.BOLD, 64));     
          g.drawString("Press Enter to Continue", 95, 945);
          
-         if (ch == '\n') {
+         if (ch == KeyEvent.VK_ENTER) {
             ch = '\\';
             currScene++;
             this.repaint();
@@ -152,7 +176,7 @@ public class Level2 extends JComponent {
          g.setColor(bg);
          g.fillRect(0, 0, 810, 1080);
          g.drawImage(instructionsL2, -10, -70, this);
-         if (ch == '\n') {
+         if (ch == KeyEvent.VK_ENTER) {
             ch = '\\';
             currScene++;
             this.repaint();
@@ -200,7 +224,7 @@ public class Level2 extends JComponent {
          }
       }
       else { // actual messages being displayed in this scene of the level
-         if (counter < 52) { // messages appear here
+         if (counter < 71) { // messages appear here
             g.setColor(new Color(224, 240, 244));
             g.fillRect(0, 0, 810, 1080);
             g.drawImage(computer, 0, 220, this);
@@ -224,32 +248,58 @@ public class Level2 extends JComponent {
             g.drawString("Press Enter to Continue", 95, 945); 
             
             try {Thread.sleep(50);} catch (InterruptedException ie) {}
-            if (ch == '\n') { // next message displays
+            if (ch == KeyEvent.VK_ENTER) { // next message displays
                ch = '\\';
                counter++;
-               if (counter == 52) {
+               if (counter == 71) {
                   this.repaint();
                   return;
                }
-            } 
-            else { // display same messages
+            }
+            else if (!game) { // display same messages
                displayMessages(g);
                return;
             }
             
             int nextMessage = counter; // index of next message in array
             if (messageUser[nextMessage] == -1) {
-               g.drawImage(transition2, 95, 380, this);
-               // press enter to continue message
-               g.setColor(new Color(254, 189, 225));
-               g.fillRect(50, 880, 700, 90);
-               g.setColor(Color.black);
-               g.setFont(new Font("Calibri", Font.BOLD, 64));     
-               g.drawString("Press Enter to Continue", 95, 945); 
-               numDisplayed = 0;
+               displayTransition(g);
+            }
+            else if (messageUser[nextMessage] == -5) {
+               displayTransition(g);
+               counter = nextCounter;
             }
             else if (messageUser[nextMessage] == -10) {
-            
+               game = true;
+               nextCounter = Integer.parseInt(messageText[nextMessage]);
+               g.setFont(new Font("Calibri", Font.BOLD, 28));
+               g.setColor(new Color(254, 189, 225));
+               g.fillRect(170, 260, 450, 60);
+               g.setColor(Color.black); 
+               g.drawString("What action should CMod AI take?", 200, 300);
+               
+               if (selected == 0) g.setColor(new Color(253, 71, 71));
+               else g.setColor(new Color(255, 128, 128));
+               g.fillRect(70, 400, 300, 60);
+               
+               if (selected == 1) g.setColor(new Color(253, 71, 71));
+               else g.setColor(new Color(255, 128, 128));
+               g.fillRect(430, 400, 300, 60);
+               
+               if (selected == 2) g.setColor(new Color(253, 71, 71));
+               else g.setColor(new Color(255, 128, 128));
+               g.fillRect(70, 550, 300, 60);
+               
+               if (selected == 3) g.setColor(new Color(253, 71, 71));
+               else g.setColor(new Color(255, 128, 128));
+               g.fillRect(430, 550, 300, 60);
+               
+               g.setColor(Color.black);
+               g.drawString("No Offence Made", 115, 440);
+               g.drawString("Temporary Mute", 480, 440);
+               g.drawString("Permanent Ban", 125, 590);
+               g.drawString("(Skip) View Scenarios", 455, 590);
+               numDisplayed = 0;
             }
             else if (numDisplayed == 4) { // displays all 4 messages
                for (int i = 0; i < 3; i++) {
@@ -258,13 +308,19 @@ public class Level2 extends JComponent {
                }
                messageTextDisplayed[3] = messageText[nextMessage];
                messageUserDisplayed[3] = messageUser[nextMessage];
+               selected = 0;
+               game = false;
             }
             else {
                messageTextDisplayed[numDisplayed] = messageText[nextMessage];
                messageUserDisplayed[numDisplayed] = messageUser[nextMessage];
                numDisplayed++;
+               selected = 0;
+               game = false;
             }
-            displayMessages(g);
+            
+            if (messageUser[nextMessage] != -10)
+               displayMessages(g);
          }
          else { // level 2 is complete
             finished = true;
@@ -311,6 +367,21 @@ public class Level2 extends JComponent {
             g.drawString(messageTextDisplayed[i], 290, 290+i*100);
          }
       }
+      selected = 0;
+      game = false;
+   }
+   
+   public void displayTransition(Graphics g) {
+      g.drawImage(transition2, 95, 380, this);
+      // press enter to continue message
+      g.setColor(new Color(254, 189, 225));
+      g.fillRect(50, 880, 700, 90);
+      g.setColor(Color.black);
+      g.setFont(new Font("Calibri", Font.BOLD, 64));     
+      g.drawString("Press Enter to Continue", 95, 945); 
+      numDisplayed = 0;
+      selected = 0;
+      game = false;
    }
    
    /**
