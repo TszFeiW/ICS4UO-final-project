@@ -62,17 +62,20 @@ public class Level2 extends JComponent {
    private String username = ""; 
    private Color bg; 
    private boolean game;
+   private boolean seeAllOptions;
    private boolean finished;
    private int currScene;
    private int counter;
    private int numDisplayed;
    private int selected;
    private int nextCounter;
+   private int scenario;
    private int ch = '\\';
    private String[] messageTextDisplayed;
    private int[] messageUserDisplayed;
    private String[] messageText;
    private int[] messageUser;
+   private String[][] nextMessage;
    
    /**
     * Constructor of the class so that an instance of the class can be created in Main
@@ -90,6 +93,7 @@ public class Level2 extends JComponent {
          messageUserDisplayed = new int[4];
          messageText = new String[71];
          messageUser = new int[71];
+         nextMessage = new String[4][4];
          this.username = username;
          
          // reading the information into the arrays inside the pre-created level2.txt file
@@ -113,6 +117,11 @@ public class Level2 extends JComponent {
                messageText[i] = line.substring(0, line.indexOf('|'));
                messageUser[i] = line.charAt(line.length()-1) - '0';
             }
+         }
+         br = new BufferedReader(new FileReader("level2dat.txt"));
+         for (int i = 0; i < 4; i++) {
+            String line = br.readLine();
+            nextMessage[i] = line.split(" ");
          }
       }
       catch (IOException ioe) {  
@@ -258,6 +267,15 @@ public class Level2 extends JComponent {
                   this.repaint();
                   return;
                }
+               if (game) {
+                  if (selected == 3)
+                     seeAllOptions = true;
+                  else 
+                     counter = Integer.parseInt(nextMessage[scenario][selected]) - 1;
+                  scenario++;
+                  this.repaint();
+                  return;
+               }
             }
             else if (!game) { // display same messages
                displayMessages(g);
@@ -267,6 +285,12 @@ public class Level2 extends JComponent {
             int nextMessage = counter; // index of next message in array
             if (messageUser[nextMessage] == -1) {
                displayTransition(g);
+               seeAllOptions = false;
+            }
+            else if (messageUser[nextMessage] == -5 && seeAllOptions) {
+               counter++;
+               numDisplayed = 1;
+               displayMessages(g);
             }
             else if (messageUser[nextMessage] == -5) {
                displayTransition(g);
@@ -385,6 +409,7 @@ public class Level2 extends JComponent {
       numDisplayed = 0;
       selected = 0;
       game = false;
+      seeAllOptions = false;
    }
    
    /**
