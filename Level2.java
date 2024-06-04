@@ -9,11 +9,18 @@
  * no user input in the actual game portion yet
  * </p>
  *
+ * <p>
+ * Version 1.1
+ * Time Spent: 4 hours
+ * Class modified so that the formatting looks better and transition screens added
+ * User input also added. However, need one more scenario + working functionality
+ * + calculations of score + diversity of transition screens
+ *
  * @author Eric Ning, Tsz Fei Wang
- * @version 1.0
+ * @version 1.1
  * 
  * Chat-Mod AI Inc.
- * June 2nd, 2024
+ * June 3rd, 2024
  */
 
 import java.awt.*;
@@ -125,19 +132,15 @@ public class Level2 extends JComponent {
          ch = e.getKeyCode();
          if (ch == KeyEvent.VK_DOWN && selected != 2 && selected != 3) {
             selected += 2;
-            System.out.println("yes");
          }
          else if (ch == KeyEvent.VK_UP && selected != 0 && selected != 1) {
             selected -= 2;
-            System.out.println("yess");
          }
          else if (ch == KeyEvent.VK_LEFT && selected != 0 && selected != 2) {
             selected--;
-            System.out.println("yesss");
          }
          else if (ch == KeyEvent.VK_RIGHT && selected != 1 && selected != 3) {
             selected++;
-            System.out.println("yessss");
          }
          Level2.this.repaint();
       }
