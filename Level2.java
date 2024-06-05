@@ -23,11 +23,18 @@
  * scoring system and now works properly. Still need the end screen with the total
  * score along with a little better formatting of text
  *
+ * <p>
+ * Version 1.3
+ * Time Spent: 1 hour
+ * The end screen is mostly functional, along with scoring system working and text
+ * format working. Still need to add a leaderboard option however. Currently
+ * working on having an abstract class Level which is the superclass of Level2
+ *
  * @author Eric Ning, Tsz Fei Wang
- * @version 1.2
+ * @version 1.3
  * 
  * Chat-Mod AI Inc.
- * June 4th, 2024
+ * June 5th, 2024
  */
 
 import java.awt.*;
@@ -36,9 +43,8 @@ import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import javax.imageio.ImageIO;
-import javax.swing.JOptionPane;
 
-public class Level2 extends JComponent {
+public class Level2 extends Level {
 
    /**
     * private BufferedImage instructionsL2  - image containing the instructions for the level
@@ -79,6 +85,8 @@ public class Level2 extends JComponent {
    private int nextCounter;
    private int scenario;
    private int score;
+   private int timer;
+   private int totalTime;
    private int ch = '\\';
    private String[] messageTextDisplayed;
    private int[] messageUserDisplayed;
@@ -98,7 +106,7 @@ public class Level2 extends JComponent {
          computer = ImageIO.read(new File("computer.png"));
          computerPeople = ImageIO.read(new File("computerPeople2.png"));
          transition2 = ImageIO.read(new File("transition2.png"));
-         results = ImageIO>read(new File("level2Results.png")); 
+         results = ImageIO.read(new File("level2Results.png")); 
          
          bg = new Color(245,228,255);
          messageTextDisplayed = new String[4];
@@ -278,7 +286,13 @@ public class Level2 extends JComponent {
             g.drawString("Press Enter to Continue", 95, 945); 
             
             try {Thread.sleep(50);} catch (InterruptedException ie) {}
-            
+            if (game) {
+               timer++;
+            }
+            else {
+               totalTime += timer; // amount time selecting answer
+               timer = 0;
+            }
             if (ch == KeyEvent.VK_ENTER) { // next message displays
                ch = '\\';
                counter++;
@@ -286,13 +300,15 @@ public class Level2 extends JComponent {
                   this.repaint();
                   return;
                }
+               
                if (game && scenario < 5) {
                   if (selected == 3) {
                      seeAllOptions = true;
+                     // score does not change
                   }
                   else {
                      counter = Integer.parseInt(nextMessage[scenario][selected]) - 1;
-                     score += scoreEarned;
+                     score += Math.max(Integer.parseInt(scores[scenario][selected]) - timer, -1000);
                   }
                   scenario++;
                   this.repaint();
@@ -351,6 +367,7 @@ public class Level2 extends JComponent {
                g.drawString("Permanent Ban", 125, 590);
                g.drawString("(Skip) View Scenarios", 455, 590);
                numDisplayed = 0;
+               this.repaint();
             }
             else if (numDisplayed == 4) { // displays all 4 messages
                for (int i = 0; i < 3; i++) {
@@ -374,12 +391,15 @@ public class Level2 extends JComponent {
                displayMessages(g);
          }
          else { // level 2 is complete
-            System.out.println(score);
-            finished = true;
-            
+            g.setFont(new Font("Calibri", Font.BOLD, 28));
             g.drawImage(results, 0, 0, this);
-            g.drawString(username, 425, 500); 
-            g.drawString(score, 475, 500);
+            g.drawString(username, 375, 500); 
+            g.drawString(""+score, 425, 550);
+            g.drawString(""+totalTime, 425, 600);
+            
+            if (ch == KeyEvent.VK_ENTER) {
+               finished = true;
+            }
          }
       }
    }
