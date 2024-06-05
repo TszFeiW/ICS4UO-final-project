@@ -19,11 +19,17 @@
  * Coordinates of some drawings adjusted so that it fits on school monitor
  * </p>
  *
+ * <p>
+ * Version 1.3
+ * Time Spent: 1 hour
+ * Changing Level1 to extend an abstract class Level as well as removing
+ * JOptionPane import since it is not being used anymore
+ *
  * @author Tsz Fei Wang, Eric Ning
- * @version 1.2
+ * @version 1.3
  * 
  * Chat-Mod AI Inc.
- * June 3rd, 2024
+ * June 5th, 2024
  */
 
 import java.awt.*;
@@ -32,9 +38,8 @@ import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import javax.imageio.ImageIO;
-import javax.swing.JOptionPane;
 
-public class Level1 extends JComponent {
+public class Level1 extends Level {
 
    /**
     * private BufferedImage instructionsL1      - image containing the instructions for the level
