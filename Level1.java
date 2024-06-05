@@ -76,9 +76,7 @@ public class Level1 extends Level {
    private BufferedImage computer;
    private BufferedImage computerPeople;
    private BufferedImage transition;
-   private String username = ""; 
-   private Color bg; 
-   private boolean finished = false;
+   private boolean finished;
    private int currScene;
    private int counter;
    private int numDisplayed;
@@ -92,6 +90,7 @@ public class Level1 extends Level {
     * Constructor of the class so that an instance of the class can be created in Main
     */
    public Level1() {
+      super("", new Color(245,228,255));
       this.addKeyListener(new KeyHandler());
       try {
          instructionsL1 = ImageIO.read(new File("instructionsL1.png"));
@@ -105,7 +104,7 @@ public class Level1 extends Level {
          computer = ImageIO.read(new File("computer.png"));
          computerPeople = ImageIO.read(new File("computerPeople.png"));
          transition = ImageIO.read(new File("transition.png"));
-         bg = new Color(245,228,255);
+         
          messageTextDisplayed = new String[4];
          messageUserDisplayed = new int[4];
          messageText = new String[27];
@@ -157,7 +156,7 @@ public class Level1 extends Level {
          
          try {Thread.sleep(50);} catch (InterruptedException ie) {}
          char c = ch;
-         System.out.println(c);
+         
          if (c == '\u0000') return; // nothing happens
          else if (c == '\n' && username.length() > 1) { // username entered
             currScene = 1;
@@ -296,28 +295,8 @@ public class Level1 extends Level {
             ch = '\u0000';
             this.repaint();
          }
-         else if (counter < 227) { // messages appear here
-            g.setColor(new Color(224, 240, 244));
-            g.fillRect(0, 0, 810, 1080);
-            g.drawImage(computer, 0, 220, this);
-            g.setColor(new Color(150, 75, 0));
-            g.fillRect(0, 860, 810, 220);
-            g.drawImage(computerPeople, 23, 243, this);
-            g.setColor(new Color(254, 189, 225));
-            g.fillRect(225, 375, 300, 100);
-            g.setColor(Color.black);
-            g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 24));     
-            g.drawString("Hello! My name is", 240, 415);        
-            g.drawString(username, 240, 450);
-            g.setColor(new Color(162, 210, 255, 200));
-            g.fillRect(20, 240, 750, 420);
-            
-            // press enter to continue message
-            g.setColor(new Color(254, 189, 225));
-            g.fillRect(50, 880, 700, 90);
-            g.setColor(Color.black);
-            g.setFont(new Font("Calibri", Font.BOLD, 64));     
-            g.drawString("Press Enter to Continue", 95, 945); 
+         else if (counter < 227) { // messages appear here 
+            displayBackground(g);
             
             try {Thread.sleep(50);} catch (InterruptedException ie) {}
             if (ch == '\n') { // next message displays
@@ -335,14 +314,7 @@ public class Level1 extends Level {
             
             int nextMessage = counter-200; // index of next message in array
             if (messageUser[nextMessage] == -1) {
-               g.drawImage(transition, 55, 180, this);
-               // press enter to continue message
-               g.setColor(new Color(254, 189, 225));
-               g.fillRect(50, 880, 700, 90);
-               g.setColor(Color.black);
-               g.setFont(new Font("Calibri", Font.BOLD, 64));     
-               g.drawString("Press Enter to Continue", 95, 945); 
-               numDisplayed = 0;
+               displayTransition(g);
             }
             else if (numDisplayed == 4) { // displays all 4 messages
                for (int i = 0; i < 3; i++) {
@@ -381,6 +353,30 @@ public class Level1 extends Level {
       g.drawString(username, 110, 600);
    }
    
+   public void displayBackground(Graphics g) {
+      g.setColor(new Color(224, 240, 244));
+      g.fillRect(0, 0, 810, 1080);
+      g.drawImage(computer, 0, 220, this);
+      g.setColor(new Color(150, 75, 0));
+      g.fillRect(0, 860, 810, 220);
+      g.drawImage(computerPeople, 23, 243, this);
+      g.setColor(new Color(254, 189, 225));
+      g.fillRect(225, 375, 300, 100);
+      g.setColor(Color.black);
+      g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 24));     
+      g.drawString("Hello! My name is", 240, 415);        
+      g.drawString(username, 240, 450);
+      g.setColor(new Color(162, 210, 255, 200));
+      g.fillRect(20, 240, 750, 420);
+      
+      // press enter to continue message
+      g.setColor(new Color(254, 189, 225));
+      g.fillRect(50, 880, 700, 90);
+      g.setColor(Color.black);
+      g.setFont(new Font("Calibri", Font.BOLD, 64));     
+      g.drawString("Press Enter to Continue", 95, 945);
+   }
+   
    /**
     * Utility method to display the messages in the level
     * @param Graphics g An object which is a painting tool
@@ -414,6 +410,18 @@ public class Level1 extends Level {
             g.drawString(messageTextDisplayed[i], 40, 290+i*100);
          }
       }
+   }
+   
+   public void displayTransition(Graphics g) {
+      g.drawImage(transition, 55, 180, this);
+      // press enter to continue message
+      g.setColor(new Color(254, 189, 225));
+      g.fillRect(50, 880, 700, 90);
+      g.setColor(Color.black);
+      g.setFont(new Font("Calibri", Font.BOLD, 64));     
+      g.drawString("Press Enter to Continue", 95, 945); 
+      numDisplayed = 0;
+
    }
    
    /**
