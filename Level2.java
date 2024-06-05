@@ -348,10 +348,10 @@ public class Level2 extends Level {
          }
          else { // level 2 is complete
             g.setFont(new Font("Calibri", Font.BOLD, 28));
-            g.drawImage(results, 0, 0, this);
-            g.drawString(username, 425, 515); 
-            g.drawString(""+score, 425, 550);
-            g.drawString(""+(totalTime/16), 425, 595);
+            g.drawImage(results, -5, 0, this);
+            g.drawString(username, 415, 505); 
+            g.drawString(""+score, 415, 550);
+            g.drawString(""+(totalTime/16), 415, 590);
             
             if (ch == KeyEvent.VK_ENTER) {
                finished = true;
