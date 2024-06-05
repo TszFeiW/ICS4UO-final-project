@@ -66,6 +66,7 @@ public class Level2 extends JComponent {
    private BufferedImage computer;
    private BufferedImage computerPeople;
    private BufferedImage transition2;
+   private BufferedImage results; 
    private String username = ""; 
    private Color bg; 
    private boolean game;
@@ -97,6 +98,8 @@ public class Level2 extends JComponent {
          computer = ImageIO.read(new File("computer.png"));
          computerPeople = ImageIO.read(new File("computerPeople2.png"));
          transition2 = ImageIO.read(new File("transition2.png"));
+         results = ImageIO>read(new File("level2Results.png")); 
+         
          bg = new Color(245,228,255);
          messageTextDisplayed = new String[4];
          messageUserDisplayed = new int[4];
@@ -373,6 +376,10 @@ public class Level2 extends JComponent {
          else { // level 2 is complete
             System.out.println(score);
             finished = true;
+            
+            g.drawImage(results, 0, 0, this);
+            g.drawString(username, 425, 500); 
+            g.drawString(score, 475, 500);
          }
       }
    }
