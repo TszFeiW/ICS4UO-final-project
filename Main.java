@@ -10,7 +10,7 @@
  * <p>
  * Version 1.1
  * Time Spent: < 1 hour
- * Class was modified to provide functionality for the credits and level 1 screen
+ * Class was modified to provide functionality for the credits and level 1 screen.
  * </p>
  *
  * <p>
@@ -20,11 +20,17 @@
  * Window size modified so that it fits on the school monitors.
  * </p>
  *
+ * <p>
+ * Version 1.3
+ * Time Spent: < 1 hour
+ * Class was modified to add the leaderboard to the game.
+ * </p>
+ *
  * @author Eric Ning, Tsz Fei Wang
- * @version 1.2
+ * @version 1.3
  * 
  * Chat-Mod AI Inc.
- * June 3rd, 2024
+ * June 6th, 2024
  */
 import java.awt.*;
 import java.awt.event.*;
@@ -66,6 +72,7 @@ public class Main {
                   m.scene = 1;
                }
                m.window.getContentPane().remove(ss);
+               m.level2 = true; // temporaroryoryryry
                break;
             case 1:
                MainMenu mm = new MainMenu(m.level2);
@@ -89,6 +96,8 @@ public class Main {
                   case 3:
                      m.scene = 5;
                      break;
+                  case 4:
+                     m.scene = 6;
                }
                m.window.getContentPane().remove(mm);
                break;
@@ -131,13 +140,25 @@ public class Main {
                m.scene = 1;
                break;
             case 5:
+               Leaderboard l = new Leaderboard();
+               m.window.getContentPane().add(l);
+               l.setFocusable(true);
+               l.requestFocusInWindow();
+               m.window.setVisible(true);
+               while (true) {
+                  if (l.getFinished()) break;
+               }
+               m.window.getContentPane().remove(l);
+               m.scene = 1;
+               break;
+            case 6:
                Credits c = new Credits();
                m.window.getContentPane().add(c);
                c.setFocusable(true);
                c.requestFocusInWindow();
                m.window.setVisible(true);
                while (true) { // until the user makes a choice
-                  if (c.getSelected()) break;
+                  if (c.getFinished()) break;
                }
                m.window.getContentPane().remove(c);
                m.scene = -1;
