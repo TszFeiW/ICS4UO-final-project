@@ -44,6 +44,7 @@
  * Version 1.5
  * Time Spent: 1 hour
  * Adding a method to store the score onto a text file for the leaderboard.
+ * Also changed some arrays to ArrayLists to avoid some issues.
  * </p>
  *
  * @author Eric Ning, Tsz Fei Wang
@@ -58,6 +59,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 public class Level2 extends Level {
@@ -84,8 +86,8 @@ public class Level2 extends Level {
     * private int ch                        - stores the user's input
     * private String[] messageTextDisplayed - text in the currently displayed messages
     * private int[] messageUserDisplayed    - the user that sent each message in currently displayed messages
-    * private String[] messageText          - contains the text of all the messages
-    * private int[] messageUser             - contains the corresponding user of all the messages
+    * private ArrayList<String> messageText     - contains the text of all the messages
+    * private ArrayList<Integer> messageUser    - contains the corresponding user of all the message
     * private String[][] nextMessage        - 2D array that stores the next message to display for each response in each scenario
     * private String[][] scores             - 2D array that stores the base score value of the responses for each scenario
     */
@@ -110,8 +112,8 @@ public class Level2 extends Level {
    private int ch;
    private String[] messageTextDisplayed;
    private int[] messageUserDisplayed;
-   private String[] messageText;
-   private int[] messageUser;
+   private ArrayList<String> messageText;
+   private ArrayList<Integer> messageUser;
    private String[][] nextMessage;
    private String[][] scores;
    
@@ -133,32 +135,32 @@ public class Level2 extends Level {
 
          messageTextDisplayed = new String[4];
          messageUserDisplayed = new int[4];
-         messageText = new String[96];
-         messageUser = new int[96];
+         messageText = new ArrayList<String>();
+         messageUser = new ArrayList<Integer>();
          nextMessage = new String[5][4];
          scores = new String[5][4];
          ch = '\\';
          
          // reading the information into the arrays inside the pre-created level2.txt file
          BufferedReader br = new BufferedReader(new FileReader("level2.txt"));
-         for (int i = 0; i < 96; i++) { // assumes that file is functional
+         while (true) { // assumes that file is functional
             String line = br.readLine();
             if (line == null) break;
             else if (line.charAt(0) == '/') {
-               messageText[i] = line.substring(1);
-               messageUser[i] = -10;
+               messageText.add(line.substring(1));
+               messageUser.add(-10);
             }
             else if (line.equals("-")) {
-               messageText[i] = "";
-               messageUser[i] = -5;
+               messageText.add("");
+               messageUser.add(-5);
             }
             else if (line.equals(".")) {
-               messageText[i] = "";
-               messageUser[i] = -1;
+               messageText.add("");
+               messageUser.add(-1);
             }
             else {
-               messageText[i] = line.substring(0, line.indexOf('|'));
-               messageUser[i] = line.charAt(line.length()-1) - '0';
+               messageText.add(line.substring(0, line.indexOf('|')));
+               messageUser.add(line.charAt(line.length()-1) - '0');
             }
          }
          
@@ -319,8 +321,8 @@ public class Level2 extends Level {
                      score += Math.max(Integer.parseInt(scores[scenario][selected]) - timer, -1000); // adds to score
                   }
                   // adds the next message to display
-                  messageTextDisplayed[0] = messageText[counter];
-                  messageUserDisplayed[0] = messageUser[counter];
+                  messageTextDisplayed[0] = messageText.get(counter);
+                  messageUserDisplayed[0] = messageUser.get(counter);
                   numDisplayed++;
                   selected = 0;
                   scenario++;
@@ -335,22 +337,22 @@ public class Level2 extends Level {
             }
             
             int nextMessage = counter; // index of next message in array
-            if (messageUser[nextMessage] == -1) { // between scenarios show transition
+            if (messageUser.get(nextMessage) == -1) { // between scenarios show transition
                displayTransition(g);
                seeAllOptions = false;
             }
-            else if (messageUser[nextMessage] == -5 && seeAllOptions) { // user wants to see all options
+            else if (messageUser.get(nextMessage) == -5 && seeAllOptions) { // user wants to see all options
                numDisplayed = 0; // begins to show next option (resets current screen)
                this.repaint();
             }
-            else if (messageUser[nextMessage] == -5) { // user does not want to see all options, current option done
+            else if (messageUser.get(nextMessage) == -5) { // user does not want to see all options, current option done
                counter = nextCounter; // goes to next message
                if (counter != 96) // if there are still more messages/scenarios
                   displayTransition(g);
                else
                   this.repaint();
             }
-            else if (messageUser[nextMessage] == -10) { // end of messages, asks user to select from options
+            else if (messageUser.get(nextMessage) == -10) { // end of messages, asks user to select from options
                displayOptions(g);
             }
             else if (numDisplayed == 4) { // displays all 4 messages
@@ -359,18 +361,18 @@ public class Level2 extends Level {
                   messageTextDisplayed[i] = messageTextDisplayed[i+1];
                   messageUserDisplayed[i] = messageUserDisplayed[i+1];
                }
-               messageTextDisplayed[3] = messageText[nextMessage];
-               messageUserDisplayed[3] = messageUser[nextMessage];
+               messageTextDisplayed[3] = messageText.get(nextMessage);
+               messageUserDisplayed[3] = messageUser.get(nextMessage);
                selected = 0;
             }
             else { // adds the next message
-               messageTextDisplayed[numDisplayed] = messageText[nextMessage];
-               messageUserDisplayed[numDisplayed] = messageUser[nextMessage];
+               messageTextDisplayed[numDisplayed] = messageText.get(nextMessage);
+               messageUserDisplayed[numDisplayed] = messageUser.get(nextMessage);
                numDisplayed++;
                selected = 0;
             }
             
-            if (messageUser[nextMessage] != -10) // if not a transition screen then display messages
+            if (messageUser.get(nextMessage) != -10) // if not a transition screen then display messages
                displayMessages(g);
          }
          else { // level 2 is complete
@@ -483,7 +485,7 @@ public class Level2 extends Level {
     */
    public void displayOptions(Graphics g) {
       game = true;
-      nextCounter = Integer.parseInt(messageText[counter]);
+      nextCounter = Integer.parseInt(messageText.get(counter));
       g.setFont(new Font("Calibri", Font.BOLD, 28));
       g.setColor(new Color(254, 189, 225));
       g.fillRect(170, 260, 450, 60);

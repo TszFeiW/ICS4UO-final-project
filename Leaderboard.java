@@ -32,17 +32,6 @@ public class Leaderboard extends JComponent {
       this.addKeyListener(new KeyHandler()); // adds the Key Listener
       bg = new Color(245,228,255);
       data = new String[10];
-      try {
-         br = new BufferedReader(new FileReader("highscores.txt"));
-         for (int i = 0; i < 10; i++) {
-      		String line = br.readLine();
-            data[i] = line;
-         }
-         br.close();
-      }
-      catch (IOException ioe) {  
-         System.out.println("IOException Occurred. File(s) may be missing.");
-      }
    }
    
    /**
@@ -80,6 +69,20 @@ public class Leaderboard extends JComponent {
    	g.fillRect(25,140,747,720);
    	g.setColor(Color.black);
    	
+      // reading from the highscores.txt file
+      try {
+         br = new BufferedReader(new FileReader("highscores.txt"));
+         for (int i = 0; i < 10; i++) {
+      		String line = br.readLine();
+            data[i] = line;
+         }
+         br.close();
+      }
+      catch (IOException ioe) {  
+         System.out.println("IOException Occurred. File(s) may be missing.");
+      }
+      
+      // drawing the highscores menu
    	g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 30));
 	   for (int i = 1; i <= 10; i++) {
    		String savedData = data[i-1];
@@ -121,6 +124,7 @@ public class Leaderboard extends JComponent {
    	   catch (IOException ioe) {
    		   System.out.println("IOException Occurred.");
    	   }
+         this.repaint();
    	}
       else if (ch == '\n') {
          finished = true;
