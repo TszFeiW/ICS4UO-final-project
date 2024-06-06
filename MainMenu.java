@@ -27,11 +27,17 @@
  * Coordinates of some drawings adjusted again so it doesn't go out of the screen
  * </p>
  *
+ * <p>
+ * Version 1.4
+ * Time Spent: < 1 hour
+ * Adding a leaderboard button as well
+ * </p>
+ *
  * @author Eric Ning, Tsz Fei Wang
- * @version 1.3
+ * @version 1.4
  * 
  * Chat-Mod AI Inc.
- * June 5th, 2024
+ * June 6th, 2024
  */
 
 import java.awt.*;
@@ -51,6 +57,8 @@ public class MainMenu extends JComponent {
     * private BufferedImage secondLevel2         - image of the selected non-unlocked level 2 button
     * private BufferedImage secondLevelUnlocked  - image of the non-selected unlocked level 2 button
     * private BufferedImage secondLevelUnlocked2 - image of the selected unlocked level 2 button
+    * private BufferedImage leaderboard          - image of the non-selected quit game button
+    * private BufferedImage leaderboard2         - image of the selected quit game button
     * private BufferedImage quit                 - image of the non-selected quit game button
     * private BufferedImage quit2                - image of the selected quit game button
     * private int selected                       - the current button that is selected (numbered 0 to 3)
@@ -67,6 +75,8 @@ public class MainMenu extends JComponent {
    private BufferedImage secondLevel2;
    private BufferedImage secondLevelUnlocked;
    private BufferedImage secondLevelUnlocked2;
+   private BufferedImage leaderboard;
+   private BufferedImage leaderboard2;
    private BufferedImage quit;
    private BufferedImage quit2;
    private int selected;
@@ -91,6 +101,8 @@ public class MainMenu extends JComponent {
          secondLevel2 = ImageIO.read(new File("level2Button2.png"));
          secondLevelUnlocked = ImageIO.read(new File("level2unlocked.png"));
          secondLevelUnlocked2 = ImageIO.read(new File("level2unlocked2.png"));
+         leaderboard = ImageIO.read(new File("leaderboardButton.png"));
+         leaderboard2 = ImageIO.read(new File("leaderboardButton2.png"));
          quit = ImageIO.read(new File("quitGameButton.png"));
          quit2 = ImageIO.read(new File("quitGameButton2.png"));
       }
@@ -116,7 +128,7 @@ public class MainMenu extends JComponent {
          int key = e.getKeyCode();
          
          if (key == KeyEvent.VK_DOWN)
-            selected = Math.min(selected+1, 3);
+            selected = Math.min(selected+1, 4);
          else if (key == KeyEvent.VK_UP)
             selected = Math.max(selected-1, 0);
          else if (key == KeyEvent.VK_ENTER && selected == 2 && !allowed)
@@ -140,17 +152,20 @@ public class MainMenu extends JComponent {
       g.setFont(new Font("Calibri", Font.BOLD, 100));
       g.drawString("CMOD Socializer", 65, 150);
       
-      g.drawImage(instructions, 205, 250, this);
-      g.drawImage(firstLevel, 205, 400, this);
-      g.drawImage(allowed ? secondLevelUnlocked : secondLevel, 205, 550, this);
+      g.drawImage(instructions, 205, 220, this);
+      g.drawImage(firstLevel, 205, 340, this);
+      g.drawImage(allowed ? secondLevelUnlocked : secondLevel, 205, 460, this);
+      g.drawImage(leaderboard, 205, 580, this);
       g.drawImage(quit, 205, 700, this);
       
       if (selected == 0)
-         g.drawImage(instructions2, 205, 250, this);
+         g.drawImage(instructions2, 205, 220, this);
       else if (selected == 1)
-         g.drawImage(firstLevel2, 205, 400, this);
+         g.drawImage(firstLevel2, 205, 340, this);
       else if (selected == 2)
-         g.drawImage(allowed ? secondLevelUnlocked2 : secondLevel2, 205, 550, this);
+         g.drawImage(allowed ? secondLevelUnlocked2 : secondLevel2, 205, 460, this);
+      else if (selected == 3)
+         g.drawImage(leaderboard2, 205, 580, this);
       else 
          g.drawImage(quit2, 205, 700, this);
       
