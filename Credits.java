@@ -20,11 +20,17 @@
  * Coordinates of some drawings adjusted so that it fits on school monitor
  * </p>
  *
+ * <p>
+ * Version 1.3
+ * Time Spent: 1 hour
+ * Added an animation to end the credits screen
+ * </p>
+ *
  * @author Tsz Fei Wang
- * @version 1.2
+ * @version 1.3
  * 
  * Chat-Mod AI Inc.
- * June 3rd, 2024
+ * June 5th, 2024
  */
 
 import java.awt.*;
@@ -39,13 +45,17 @@ public class Credits extends JComponent {
    /**
     * private BufferedImage logo  - image of the logo
     * private boolean selected    - whether the user has chosen to exit yet
+    * private boolean finished    - whether the animation has finished
     * private Color bg            - the color of the background
     * private Color bg2           - the color of the background of the boxes that hold text
+    * private int counter         - counter variable for animation
     */
    private BufferedImage logo;
    private boolean selected;
+   private boolean finished;
    private Color bg;
    private Color bg2;
+   private int counter;
 
    /**
     * Constructor of the class so that an instance of the class can be created in Main
@@ -86,8 +96,9 @@ public class Credits extends JComponent {
     * @param Graphics g An object which is a painting tool
     */
    public void paintComponent(Graphics g) {
+      // draws credits screen
       g.setColor(bg);
-      g.fillRect(0, 0, 810, 1080);
+      g.fillRect(0, 0, 810, 1020);
       
       g.setColor(bg2);
       g.fillRect(30, 30, 735, 455);
@@ -109,14 +120,28 @@ public class Credits extends JComponent {
       
       g.setFont(new Font("Calibri", Font.BOLD, 64));
       g.drawString("Press ‘Enter’ to Exit.", 135, 400);
+      
+      if (selected && counter <= 398) { // if the user has chosen to exit and animation is ongoing
+         g.setColor(Color.black);
+         g.fillRect(0, 0, counter, 980);
+         g.fillRect(0, 0, 795, counter);
+         g.fillRect(795-counter, 0, counter, 980);
+         g.fillRect(0, 980-counter, 795, counter);
+         counter++;
+         try {Thread.sleep(20);} catch (InterruptedException ie) {}
+         this.repaint();
+      }
+      else if (selected) { // animation finished 
+         finished = true;
+      }
    }
    
    /**
-    * This method allows the Main class to see if the user has chosen to exit
-    * @return Whether is user chose to exit    
+    * This method allows the Main class to see if the animation has finished
+    * @return Whether is program is finished
     */
-   public boolean getSelected() {
-      return selected;
+   public boolean getFinished() {
+      return finished;
    }
 }
 
