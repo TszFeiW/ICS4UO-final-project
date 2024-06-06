@@ -34,11 +34,17 @@
  * drawings adjusted again so it doesn't go out of the screen
  * </p>
  *
+ * <p>
+ * Version 1.5
+ * Time Spent: < 1 hour
+ * Modifying class to use an ArrayList to avoid certain issues.
+ * </p>
+ *
  * @author Tsz Fei Wang, Eric Ning
- * @version 1.4
+ * @version 1.5
  * 
  * Chat-Mod AI Inc.
- * June 5th, 2024
+ * June 6th, 2024
  */
 
 import java.awt.*;
