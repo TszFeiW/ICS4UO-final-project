@@ -14,7 +14,7 @@
  * Time Spent: 4 hours
  * Class modified so that the formatting looks better and transition screens added
  * User input also added. However, need one more scenario + working functionality
- * + calculations of score + diversity of transition screens
+ * + calculations of score + diversity of transition screens.
  * </p>
  *
  * <p>
@@ -22,7 +22,7 @@
  * Time Spent: 2 hours
  * Class modified so that there are more scenarios included, along with a tentative
  * scoring system and now works properly. Still need the end screen with the total
- * score along with a little better formatting of text
+ * score along with a little better formatting of text.
  * </p>
  *
  * <p>
@@ -30,21 +30,27 @@
  * Time Spent: 1 hour
  * The end screen is mostly functional, along with scoring system working and text
  * format working. Still need to add a leaderboard option however. Currently
- * working on having an abstract class Level which is the superclass of Level2
+ * working on having an abstract class Level which is the superclass of Level2.
  * </p>
  *
  * <p>
  * Version 1.4
  * Time Spent: 1 hour
  * Fully commenting this class and changing coordinates of some 
- * drawings adjusted again so it doesn't go out of the screen
+ * drawings adjusted again so it doesn't go out of the screen.
+ * </p>
+ *
+ * <p>
+ * Version 1.5
+ * Time Spent: 1 hour
+ * Adding a method to store the score onto a text file for the leaderboard.
  * </p>
  *
  * @author Eric Ning, Tsz Fei Wang
- * @version 1.4
+ * @version 1.5
  * 
  * Chat-Mod AI Inc.
- * June 5th, 2024
+ * June 6th, 2024
  */
 
 import java.awt.*;
@@ -371,10 +377,11 @@ public class Level2 extends Level {
             g.setFont(new Font("Calibri", Font.BOLD, 28));
             g.drawImage(results, -5, 0, this);
             g.drawString(username, 415, 505); 
-            g.drawString(""+score, 415, 550);
+            g.drawString(""+score, 415, 545);
             g.drawString(""+(totalTime/16), 415, 590);
             
             if (ch == KeyEvent.VK_ENTER) { // user chooses to exit
+               addHighscore();
                finished = true;
             }
          }
@@ -506,7 +513,56 @@ public class Level2 extends Level {
       g.drawString("(Skip) View Scenarios", 455, 590);
       numDisplayed = 0;
       this.repaint();
-
+   }
+   
+   /**
+    * Utility method to add the user's score to the highscores
+    * If the score is lower than the top 10, then it will not be saved
+    */
+   public void addHighscore() {
+   	int idx = -1; // the user's position on the leaderboard
+   	String[][] arr = new String[10][2]; // leaderboard data
+   	
+   	try {
+   	   BufferedReader br = new BufferedReader(new FileReader("highscores.txt"));
+   	   for (int i = 0; i < 10; i++) {
+      		String line = br.readLine();
+      		
+      		// splits the data based on the slash (username and score split)
+      		arr[i] = line.split("/", -1);
+      		
+      		// finding the correct index of the score
+      		if (Integer.parseInt(arr[i][1]) < score && idx == -1) {
+      		    idx = i;
+      		}
+   	   }
+   	   br.close();
+   	}
+      catch (IOException ioe) {  
+         System.out.println("IOException Occurred. File may be missing.");
+      }
+   	
+   	// do not add the highscore if it is not in the top 10
+   	if (idx == -1) {
+   	    return;
+   	}
+      
+   	String temp = "" + score;
+   	while (temp.length() < 5) { // pads the score so that it is 5 digits long
+   	    temp = "0" + temp;
+   	}
+   	try {
+   	   PrintWriter pw = new PrintWriter(new FileWriter("highscores.txt")); // writes to the highscores.txt file
+   	   for (int i = 0; i < 10; i++) {
+   		   if (i < idx) pw.println(arr[i][0] + "/" + arr[i][1]); // scores higher than the new score
+   		   else if (i == idx) pw.println(username + "/" + temp); // new position for score
+   		   else pw.println(arr[i-1][0] + "/" + arr[i-1][1]); // new position for score already placed, so everything shifted by 1
+   	   }
+   	   pw.close();
+      }
+      catch (IOException ioe) {  
+         System.out.println("IOException Occurred.");
+      }
    }
    
    /**
@@ -515,5 +571,13 @@ public class Level2 extends Level {
     */
    public boolean getFinished() {
       return finished;
+   }
+   
+   /**
+    * This method allows the Main class to access the user's score
+    * @return THe user's score
+    */
+   public int getScore() {
+      return score;
    }
 }
