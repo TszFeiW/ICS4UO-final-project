@@ -15,6 +15,7 @@
  * Class modified so that the formatting looks better and transition screens added
  * User input also added. However, need one more scenario + working functionality
  * + calculations of score + diversity of transition screens
+ * </p>
  *
  * <p>
  * Version 1.2
@@ -22,6 +23,7 @@
  * Class modified so that there are more scenarios included, along with a tentative
  * scoring system and now works properly. Still need the end screen with the total
  * score along with a little better formatting of text
+ * </p>
  *
  * <p>
  * Version 1.3
@@ -29,9 +31,17 @@
  * The end screen is mostly functional, along with scoring system working and text
  * format working. Still need to add a leaderboard option however. Currently
  * working on having an abstract class Level which is the superclass of Level2
+ * </p>
+ *
+ * <p>
+ * Version 1.4
+ * Time Spent: 1 hour
+ * Fully commenting this class and changing coordinates of some 
+ * drawings adjusted again so it doesn't go out of the screen
+ * </p>
  *
  * @author Eric Ning, Tsz Fei Wang
- * @version 1.3
+ * @version 1.4
  * 
  * Chat-Mod AI Inc.
  * June 5th, 2024
@@ -48,23 +58,30 @@ public class Level2 extends Level {
 
    /**
     * private BufferedImage instructionsL2  - image containing the instructions for the level
-    * private BufferedImage user            - image of the enter username scene
     * private BufferedImage level2text      - image of the "Level 2" text header
     * private BufferedImage computer        - image of the computer zoomed in
     * private BufferedImage computerPeople  - image of people inside the computer screen
     * private BufferedImage transition2     - image of the transition screen between two blocks of messages
-    * private String username               - the user's username
-    * private Color bg                      - the color of the background
+    * private BufferedImage results         - image of the results screen at the end of the level
+    * private boolean game                  - whether or not the user is selecting a response in the game
+    * private boolean seeAllOptions         - whether or not the user chose to skip the question to see all answers
     * private boolean finished              - whether or not the level is complete
     * private int currScene                 - the current scene in the level being displayed
     * private int counter                   - counter variable to deal with animation
     * private int numDisplayed              - keeps track of number of messages being displayed
     * private int selected                  - the selected option out of the 4 choices in the game
-    * private char ch                       - stores the user's input
+    * private int nextCounter               - the next message after the user made a choice
+    * private int scenario                  - the scenario number (0 to 4) in the game
+    * private int score                     - the user's score for the level
+    * private int timer                     - timer to keep track of how long the user has been selecting a response
+    * private int totalTime                 - total timer for the results screen at the end of the level
+    * private int ch                        - stores the user's input
     * private String[] messageTextDisplayed - text in the currently displayed messages
     * private int[] messageUserDisplayed    - the user that sent each message in currently displayed messages
     * private String[] messageText          - contains the text of all the messages
     * private int[] messageUser             - contains the corresponding user of all the messages
+    * private String[][] nextMessage        - 2D array that stores the next message to display for each response in each scenario
+    * private String[][] scores             - 2D array that stores the base score value of the responses for each scenario
     */
    private BufferedImage instructionsL2;
    private BufferedImage level2text;
@@ -84,7 +101,7 @@ public class Level2 extends Level {
    private int score;
    private int timer;
    private int totalTime;
-   private int ch = '\\';
+   private int ch;
    private String[] messageTextDisplayed;
    private int[] messageUserDisplayed;
    private String[] messageText;
@@ -94,10 +111,12 @@ public class Level2 extends Level {
    
    /**
     * Constructor of the class so that an instance of the class can be created in Main
+    * @param String username The user's username from level 1
     */
    public Level2(String username) {
-      super(username, new Color(245,228,255));
-      this.addKeyListener(new KeyHandler());
+      super(username, new Color(245,228,255)); // calls the constructor of the Level class
+      this.addKeyListener(new KeyHandler()); // adds the Key Listener
+      
       try {
          instructionsL2 = ImageIO.read(new File("instructionsL2.png"));
          level2text = ImageIO.read(new File("level2text.png"));
@@ -112,7 +131,7 @@ public class Level2 extends Level {
          messageUser = new int[96];
          nextMessage = new String[5][4];
          scores = new String[5][4];
-         this.username = username;
+         ch = '\\';
          
          // reading the information into the arrays inside the pre-created level2.txt file
          BufferedReader br = new BufferedReader(new FileReader("level2.txt"));
@@ -136,11 +155,13 @@ public class Level2 extends Level {
                messageUser[i] = line.charAt(line.length()-1) - '0';
             }
          }
+         
          br = new BufferedReader(new FileReader("level2dat.txt"));
          for (int i = 0; i < 5; i++) {
             String line = br.readLine();
             nextMessage[i] = line.split(" ");
          }
+         
          br = new BufferedReader(new FileReader("level2scores.txt"));
          for (int i = 0; i < 5; i++) {
             String line = br.readLine();
@@ -185,7 +206,7 @@ public class Level2 extends Level {
    public void paintComponent(Graphics g) {
       if (currScene == 0) { // starting screen
          g.setColor(new Color(224, 240, 244));
-         g.fillRect(0, 0, 810, 1080);
+         g.fillRect(0, 0, 810, 1020);
          g.drawImage(computer, 0, 220, this);
          g.setColor(new Color(150, 75, 0));
          g.fillRect(0, 860, 810, 220);
@@ -201,7 +222,7 @@ public class Level2 extends Level {
          g.setFont(new Font("Calibri", Font.BOLD, 64));     
          g.drawString("Press Enter to Continue", 95, 945);
          
-         if (ch == KeyEvent.VK_ENTER) {
+         if (ch == KeyEvent.VK_ENTER) { // user chooses to continue
             ch = '\\';
             currScene++;
             this.repaint();
@@ -209,9 +230,9 @@ public class Level2 extends Level {
       }
       else if (currScene == 1) { // instructions
          g.setColor(bg);
-         g.fillRect(0, 0, 810, 1080);
+         g.fillRect(0, 0, 810, 1020);
          g.drawImage(instructionsL2, -10, -70, this);
-         if (ch == KeyEvent.VK_ENTER) {
+         if (ch == KeyEvent.VK_ENTER) { // user chooses to continue
             ch = '\\';
             currScene++;
             this.repaint();
@@ -220,17 +241,17 @@ public class Level2 extends Level {
       else if (currScene == 2) { // no user input required, basic animation
          if (counter < 127) { // screen fades to black
             g.setColor(bg);
-            g.fillRect(0, 0, 810, 1080);
+            g.fillRect(0, 0, 810, 1020);
             g.drawImage(instructionsL2, -10, -70, this);
             g.setColor(new Color(0, 0, 0, counter*2));
-            g.fillRect(0, 0, 810, 1080);
+            g.fillRect(0, 0, 810, 1020);
             try {Thread.sleep(10);} catch (InterruptedException ie) {}
             counter++;
             this.repaint();
          }
          else if (counter < 254) { // screen fades back in, game appears
             g.setColor(new Color(224, 240, 244));
-            g.fillRect(0, 0, 810, 1080);
+            g.fillRect(0, 0, 810, 1020);
             g.drawImage(computer, 0, 220, this);
             g.setColor(new Color(150, 75, 0));
             g.fillRect(0, 860, 810, 220);
@@ -245,7 +266,7 @@ public class Level2 extends Level {
             g.fillRect(20, 240, 750, 420);
             
             g.setColor(new Color(0, 0, 0, 506-counter*2));
-            g.fillRect(0, 0, 810, 1080);
+            g.fillRect(0, 0, 810, 1020);
             try {Thread.sleep(10);} catch (InterruptedException ie) {}
             counter++;
             this.repaint();
@@ -263,11 +284,11 @@ public class Level2 extends Level {
             displayBackground(g);
             
             try {Thread.sleep(50);} catch (InterruptedException ie) {}
-            if (game) {
+            if (game) { // if the user is currently trying to make a response
                timer++;
                g.setFont(new Font("Calibri", Font.BOLD, 80));
                g.setColor(Color.black);
-               g.drawString(""+(timer/16), 50, 100);
+               g.drawString(""+(timer/16), 50, 100); // displays timer
             }
             else {
                totalTime += timer; // amount time selecting answer
@@ -277,26 +298,27 @@ public class Level2 extends Level {
             if (ch == KeyEvent.VK_ENTER) { // next message displays
                ch = '\\';
                counter++;
-               if (counter == 96) {
+               if (counter == 96) { // end of messages
                   this.repaint();
                   return;
                }
                
-               if (game && scenario < 5) {
-                  if (selected == 3) {
+               if (game && scenario < 5) { // if the user is currently trying to make a response
+                  if (selected == 3) { // chose to skip
                      seeAllOptions = true;
                      // score does not change
                   }
                   else {
-                     counter = Integer.parseInt(nextMessage[scenario][selected]) - 1;
-                     score += Math.max(Integer.parseInt(scores[scenario][selected]) - timer, -1000);
+                     counter = Integer.parseInt(nextMessage[scenario][selected]) - 1; // next message
+                     score += Math.max(Integer.parseInt(scores[scenario][selected]) - timer, -1000); // adds to score
                   }
+                  // adds the next message to display
                   messageTextDisplayed[0] = messageText[counter];
                   messageUserDisplayed[0] = messageUser[counter];
                   numDisplayed++;
                   selected = 0;
                   scenario++;
-                  game = false;
+                  game = false; // no longer making a response
                   this.repaint();
                   return;
                }
@@ -307,25 +329,26 @@ public class Level2 extends Level {
             }
             
             int nextMessage = counter; // index of next message in array
-            if (messageUser[nextMessage] == -1) {
+            if (messageUser[nextMessage] == -1) { // between scenarios show transition
                displayTransition(g);
                seeAllOptions = false;
             }
-            else if (messageUser[nextMessage] == -5 && seeAllOptions) {
-               numDisplayed = 0;
+            else if (messageUser[nextMessage] == -5 && seeAllOptions) { // user wants to see all options
+               numDisplayed = 0; // begins to show next option (resets current screen)
                this.repaint();
             }
-            else if (messageUser[nextMessage] == -5) {
-               counter = nextCounter;
-               if (counter != 96)
+            else if (messageUser[nextMessage] == -5) { // user does not want to see all options, current option done
+               counter = nextCounter; // goes to next message
+               if (counter != 96) // if there are still more messages/scenarios
                   displayTransition(g);
                else
                   this.repaint();
             }
-            else if (messageUser[nextMessage] == -10) {
+            else if (messageUser[nextMessage] == -10) { // end of messages, asks user to select from options
                displayOptions(g);
             }
             else if (numDisplayed == 4) { // displays all 4 messages
+               // gets rid of oldest message and shifts everything down and replaces it
                for (int i = 0; i < 3; i++) {
                   messageTextDisplayed[i] = messageTextDisplayed[i+1];
                   messageUserDisplayed[i] = messageUserDisplayed[i+1];
@@ -333,17 +356,15 @@ public class Level2 extends Level {
                messageTextDisplayed[3] = messageText[nextMessage];
                messageUserDisplayed[3] = messageUser[nextMessage];
                selected = 0;
-               game = false;
             }
-            else {
+            else { // adds the next message
                messageTextDisplayed[numDisplayed] = messageText[nextMessage];
                messageUserDisplayed[numDisplayed] = messageUser[nextMessage];
                numDisplayed++;
                selected = 0;
-               game = false;
             }
             
-            if (messageUser[nextMessage] != -10)
+            if (messageUser[nextMessage] != -10) // if not a transition screen then display messages
                displayMessages(g);
          }
          else { // level 2 is complete
@@ -353,20 +374,20 @@ public class Level2 extends Level {
             g.drawString(""+score, 415, 550);
             g.drawString(""+(totalTime/16), 415, 590);
             
-            if (ch == KeyEvent.VK_ENTER) {
+            if (ch == KeyEvent.VK_ENTER) { // user chooses to exit
                finished = true;
             }
          }
       }
    }
    
-   /* 
-    * Displays intruductory message in level1
+   /**
+    * Utility method to display the background of the level
     * @param Graphics g An object which is a painting tool
     */
    public void displayBackground(Graphics g) {
       g.setColor(new Color(224, 240, 244));
-      g.fillRect(0, 0, 810, 1080);
+      g.fillRect(0, 0, 810, 1020);
       g.drawImage(computer, 0, 220, this);
       g.setColor(new Color(150, 75, 0));
       g.fillRect(0, 860, 810, 220);
@@ -432,7 +453,8 @@ public class Level2 extends Level {
    }
    
    /**
-    * display transition image between scenarios in the level 2 
+    * Utility method to display the transition between scenarios in the level
+    * @param Graphics g An object which is a painting tool
     */
    public void displayTransition(Graphics g) {
       g.drawImage(transition2, 95, 380, this);
@@ -448,9 +470,10 @@ public class Level2 extends Level {
       seeAllOptions = false;
    }
    
-   /** 
-     * Display the potential actions CMod AI can take in response to a scenario that the user will choose
-     */ 
+   /**
+    * Utility method to display the options the user has to select from
+    * @param Graphics g An object which is a painting tool
+    */
    public void displayOptions(Graphics g) {
       game = true;
       nextCounter = Integer.parseInt(messageText[counter]);
@@ -487,8 +510,8 @@ public class Level2 extends Level {
    }
    
    /**
-    * This method allows the Main class to access whether the user is done reading or not
-    * @return Whether the user has finished reading all instructions
+    * This method allows the Main class to access whether the user is done the level
+    * @return Whether the user has finished Level 2
     */
    public boolean getFinished() {
       return finished;

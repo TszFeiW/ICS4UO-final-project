@@ -20,11 +20,17 @@
  * Coordinates of some drawings adjusted so that it fits on school monitor
  * </p>
  *
+ * <p>
+ * Version 1.3
+ * Time Spent: < 1 hour
+ * Coordinates of some drawings adjusted again so it doesn't go out of the screen
+ * </p>
+ *
  * @author Eric Ning, Tsz Fei Wang
- * @version 1.2
+ * @version 1.3
  * 
  * Chat-Mod AI Inc.
- * June 3rd, 2024
+ * June 5th, 2024
  */
 
 import java.awt.*;
@@ -57,7 +63,7 @@ public class SplashScreen extends JComponent {
    private BufferedImage exit;
    private BufferedImage exit2;
    private int selected;
-   private int choice = -1;
+   private int choice;
    private int time;
    private Color bg;
 
@@ -66,6 +72,7 @@ public class SplashScreen extends JComponent {
     */
    public SplashScreen() {
       this.addKeyListener(new KeyHandler());
+      
       try {
          logo = ImageIO.read(new File("logo.png"));
          logo2 = ImageIO.read(new File("logo2.png"));
@@ -78,6 +85,8 @@ public class SplashScreen extends JComponent {
       catch (IOException ioe) {
          System.out.println("Missing image file.");
       }
+      
+      choice = -1; // the user's choice
       selected = 0; // on the first button
       bg = new Color(245, 228, 255);
    }
@@ -114,7 +123,7 @@ public class SplashScreen extends JComponent {
       if (time <= 360) {
          Graphics2D g2 = (Graphics2D) g; // need setStroke method only in Graphics2D
          g2.setColor(bg);
-         g2.fillRect(0, 0, 810, 1080);
+         g2.fillRect(0, 0, 810, 1020);
          g2.drawImage(logo2, 85, 50, this);
          
          g2.setStroke(new BasicStroke(25));
@@ -127,7 +136,7 @@ public class SplashScreen extends JComponent {
       }
       else if (time <= 615) {
          g.setColor(bg);
-         g.fillRect(0, 0, 810, 1080);
+         g.fillRect(0, 0, 810, 1020);
          g.drawImage(logoLarge, 85, 50, this);
          g.setColor(new Color(0, 0, 0, time-360));
          
@@ -140,7 +149,7 @@ public class SplashScreen extends JComponent {
       }
       else if (time <= 718) {
          g.setColor(bg);
-         g.fillRect(0, 0, 810, 1080);
+         g.fillRect(0, 0, 810, 1020);
          g.drawImage(logoLarge, 85, 50+10*(time-615), this);
          g.setColor(Color.black);
          
@@ -153,7 +162,7 @@ public class SplashScreen extends JComponent {
       }
       else {
          g.setColor(bg);
-         g.fillRect(0, 0, 810, 1080);
+         g.fillRect(0, 0, 810, 1020);
    
          g.drawImage(logo, 245, 100, this);
          

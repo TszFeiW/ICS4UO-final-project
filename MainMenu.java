@@ -21,11 +21,17 @@
  * Coordinates of some drawings adjusted so that it fits on school monitor
  * </p>
  *
+ * <p>
+ * Version 1.3
+ * Time Spent: < 1 hour
+ * Coordinates of some drawings adjusted again so it doesn't go out of the screen
+ * </p>
+ *
  * @author Eric Ning, Tsz Fei Wang
- * @version 1.2
+ * @version 1.3
  * 
  * Chat-Mod AI Inc.
- * June 3rd, 2024
+ * June 5th, 2024
  */
 
 import java.awt.*;
@@ -63,8 +69,8 @@ public class MainMenu extends JComponent {
    private BufferedImage secondLevelUnlocked2;
    private BufferedImage quit;
    private BufferedImage quit2;
-   private int selected = 0;
-   private int choice = -1;
+   private int selected;
+   private int choice;
    private Color bg;
    private boolean allowed;
    private boolean warning;
@@ -75,6 +81,7 @@ public class MainMenu extends JComponent {
     */
    public MainMenu(boolean level2) {
       this.addKeyListener(new KeyHandler());
+      
       try {
          instructions = ImageIO.read(new File("instructionsButton.png"));
          instructions2 = ImageIO.read(new File("instructionsButton2.png"));
@@ -90,6 +97,8 @@ public class MainMenu extends JComponent {
       catch (IOException ioe) {
          System.out.println("Missing image file.");
       }
+      
+      choice = -1; // the user's choice
       selected = 0; // on the first button
       allowed = level2; // whether level 2 can be selected
       bg = new Color(245, 228, 255);
@@ -125,7 +134,7 @@ public class MainMenu extends JComponent {
     */
    public void paintComponent(Graphics g) {
       g.setColor(bg);
-      g.fillRect(0, 0, 810, 1080);
+      g.fillRect(0, 0, 810, 1020);
       
       g.setColor(Color.black);
       g.setFont(new Font("Calibri", Font.BOLD, 100));

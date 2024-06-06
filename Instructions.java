@@ -20,11 +20,17 @@
  * Coordinates of some drawings adjusted so that it fits on school monitor
  * </p>
  *
+ * <p>
+ * Version 1.3
+ * Time Spent: < 1 hour
+ * Coordinates of some drawings adjusted again so it doesn't go out of the screen
+ * </p>
+ *
  * @author Tsz Fei Wang, Eric Ning
- * @version 1.2
+ * @version 1.3
  * 
  * Chat-Mod AI Inc.
- * June 3rd, 2024
+ * June 5th, 2024
  */
 
 import java.awt.*;
@@ -56,6 +62,7 @@ public class Instructions extends JComponent {
     */
    public Instructions() {
       this.addKeyListener(new KeyHandler());
+      
       try {
          generalInstructions = ImageIO.read(new File("generalInstructions.png"));
          instructionsL1 = ImageIO.read(new File("instructionsL1.png"));
@@ -64,6 +71,7 @@ public class Instructions extends JComponent {
       catch (IOException ioe) {
          System.out.println("Missing image file.");
       }
+      
       bg = new Color(245, 228, 255);
    }
    
@@ -91,7 +99,7 @@ public class Instructions extends JComponent {
     */
    public void paintComponent(Graphics g) {
       g.setColor(bg);
-      g.fillRect(0, 0, 810, 1080);
+      g.fillRect(0, 0, 810, 1020);
       
       if(currScreen == 0) g.drawImage(generalInstructions, -10, -20, this);
       else if(currScreen == 1) g.drawImage(instructionsL1, -10, -70, this);
