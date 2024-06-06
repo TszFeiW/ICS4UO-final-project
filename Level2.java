@@ -360,6 +360,10 @@ public class Level2 extends Level {
       }
    }
    
+   /* 
+    * Displays intruductory message in level1
+    * @param Graphics g An object which is a painting tool
+    */
    public void displayBackground(Graphics g) {
       g.setColor(new Color(224, 240, 244));
       g.fillRect(0, 0, 810, 1080);
@@ -427,6 +431,9 @@ public class Level2 extends Level {
       game = false;
    }
    
+   /**
+    * display transition image between scenarios in the level 2 
+    */
    public void displayTransition(Graphics g) {
       g.drawImage(transition2, 95, 380, this);
       // press enter to continue message
@@ -441,6 +448,9 @@ public class Level2 extends Level {
       seeAllOptions = false;
    }
    
+   /** 
+     * Display the potential actions CMod AI can take in response to a scenario that the user will choose
+     */ 
    public void displayOptions(Graphics g) {
       game = true;
       nextCounter = Integer.parseInt(messageText[counter]);
