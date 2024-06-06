@@ -46,6 +46,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 public class Level1 extends Level {
@@ -90,8 +91,8 @@ public class Level1 extends Level {
    private char ch;
    private String[] messageTextDisplayed;
    private int[] messageUserDisplayed;
-   private String[] messageText;
-   private int[] messageUser;
+   private ArrayList<String> messageText;
+   private ArrayList<Integer> messageUser;
    
    /**
     * Constructor of the class so that an instance of the class can be created in Main
@@ -116,21 +117,21 @@ public class Level1 extends Level {
          ch = '\u0000';
          messageTextDisplayed = new String[4];
          messageUserDisplayed = new int[4];
-         messageText = new String[27];
-         messageUser = new int[27];
+         messageText = new ArrayList<String>();
+         messageUser = new ArrayList<Integer>();
          
          // reading the information into the arrays inside the pre-created level1.txt file
          BufferedReader br = new BufferedReader(new FileReader("level1.txt"));
-         for (int i = 0; i < 27; i++) { // assumes that file is functional
+         while (true) {
             String line = br.readLine();
             if (line == null) break;
             else if (line.equals(".")) {
-               messageText[i] = "";
-               messageUser[i] = -1;
+               messageText.add("");
+               messageUser.add(-1);
             }
             else {
-               messageText[i] = line.substring(0, line.indexOf('|'));
-               messageUser[i] = line.charAt(line.length()-1) - '0';
+               messageText.add(line.substring(0, line.indexOf('|')));
+               messageUser.add(line.charAt(line.length()-1) - '0');
             }
          }
       }
@@ -324,7 +325,7 @@ public class Level1 extends Level {
             }
             
             int nextMessage = counter-200; // index of next message in array
-            if (messageUser[nextMessage] == -1) { // between scenarios show transition
+            if (messageUser.get(nextMessage) == -1) { // between scenarios show transition
                displayTransition(g);
             }
             else if (numDisplayed == 4) { // displays all 4 messages
@@ -333,12 +334,12 @@ public class Level1 extends Level {
                   messageTextDisplayed[i] = messageTextDisplayed[i+1];
                   messageUserDisplayed[i] = messageUserDisplayed[i+1];
                }
-               messageTextDisplayed[3] = messageText[nextMessage];
-               messageUserDisplayed[3] = messageUser[nextMessage];
+               messageTextDisplayed[3] = messageText.get(nextMessage);
+               messageUserDisplayed[3] = messageUser.get(nextMessage);
             }
             else {
-               messageTextDisplayed[numDisplayed] = messageText[nextMessage];
-               messageUserDisplayed[numDisplayed] = messageUser[nextMessage];
+               messageTextDisplayed[numDisplayed] = messageText.get(nextMessage);
+               messageUserDisplayed[numDisplayed] = messageUser.get(nextMessage);
                numDisplayed++;
             }
             displayMessages(g);
