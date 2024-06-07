@@ -5,19 +5,9 @@
  * Version 1.0 
  * Time Spent: 2 hour
  * Class was created to display the leaderboard of the game.
- * Still needs comments and better formatting.
+ * Still needs comments and better formatting
  * </p>
  * 
- * <p>
- * Version 1.1
- * Time Spent: 1 hour 
- * Program was modified so that it implements Runnable (fixes a few bugs in the program).
- * Better formatting has also been added to this class. Comments modified.
- * </p>
- *
- * @author Eric Ning, Tsz Fei Wang
- * @version 1.1
- *
  * Chat-Mod AI Inc.
  * June 6th, 2024
  */
@@ -29,7 +19,14 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import javax.imageio.ImageIO;
 
-public class Leaderboard extends JComponent implements Runnable {
+/**
+ * private BufferedReader br  - reads user information
+ * private String[] data - stores user data for top 10 scores
+ * priavte char ch - stores character pressed by user for input 
+ * private boolean doneDrawing - stores whether or not the program is done drawing
+ * provate boolean finished - stores whether or not the user is done with the leaderboard
+ */
+public class Leaderboard extends JComponent {
 
    private Color bg;
    private BufferedReader br;
@@ -44,9 +41,6 @@ public class Leaderboard extends JComponent implements Runnable {
       data = new String[10];
    }
    
-   /**
-    * This private class extends KeyAdapter so the drawing can detect key inputs
-    */
    private class KeyHandler extends KeyAdapter {
       /**
        * This method allows for user key input to be detected 
@@ -57,7 +51,12 @@ public class Leaderboard extends JComponent implements Runnable {
          Leaderboard.this.repaint();
       }
    }
-
+   
+   /** 
+     * This method draws the leaderboard, reads the information on the top 10 scorers, 
+     * and draws the information onto the leaderboard.
+     * @param Graphics g An object which is a painting tool 
+     */ 
    public void paintComponent(Graphics g) {
    	// clears the screen
    	g.setColor(bg);
@@ -103,12 +102,12 @@ public class Leaderboard extends JComponent implements Runnable {
    		// depending on which highscore #, draws it onto the console at the correct location
    		g.setColor(Color.black);
    		if (i <= 5) {
-   		    g.drawString(i + ". " + name, 50, 200 + (i-1) % 5 * 120);
-   		    g.drawString(score, 260, 200 + (i-1) % 5 * 120);
+   		    g.drawString(i + ". " + name, 50, 200 + (i-1) % 5 * 130);
+   		    g.drawString(score, 260, 200 + (i-1) % 5 * 130);
    		}
    		else {
-   		    g.drawString(i + ". " + name, 420, 200 + (i-1) % 5 * 120);
-   		    g.drawString(score, 630, 200 + (i-1) % 5 * 120);
+   		    g.drawString(i + ". " + name, 420, 200 + (i-1) % 5 * 130);
+   		    g.drawString(score, 630, 200 + (i-1) % 5 * 130);
    		}
 	   }
    	g.fillRect(384,140,5,720);
@@ -141,14 +140,11 @@ public class Leaderboard extends JComponent implements Runnable {
       }
    }
    
-   public void run() {
-      try {
-         while (true) {
-            Thread.sleep(500);
-            if (finished) break;
-         }
-      } catch(Exception ex) {
-    
-      }
+   /**
+    * This method allows the Main class to access whether the user is done with the leaderboard
+    * @return Whether the user has finished looking at the leaderboard
+    */
+   public boolean getFinished() {
+      return finished;
    }
 }
