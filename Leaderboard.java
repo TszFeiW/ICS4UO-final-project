@@ -93,12 +93,12 @@ public class Leaderboard extends JComponent {
    		// depending on which highscore #, draws it onto the console at the correct location
    		g.setColor(Color.black);
    		if (i <= 5) {
-   		    g.drawString(i + ". " + name, 50, 200 + (i-1) % 5 * 120);
-   		    g.drawString(score, 260, 200 + (i-1) % 5 * 120);
+   		    g.drawString(i + ". " + name, 50, 200 + (i-1) % 5 * 130);
+   		    g.drawString(score, 260, 200 + (i-1) % 5 * 130);
    		}
    		else {
-   		    g.drawString(i + ". " + name, 420, 200 + (i-1) % 5 * 120);
-   		    g.drawString(score, 630, 200 + (i-1) % 5 * 120);
+   		    g.drawString(i + ". " + name, 420, 200 + (i-1) % 5 * 130);
+   		    g.drawString(score, 630, 200 + (i-1) % 5 * 130);
    		}
 	   }
    	g.fillRect(384,140,5,720);
