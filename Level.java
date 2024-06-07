@@ -1,3 +1,8 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import java.awt.image.BufferedImage;
+
 /**
  * This abstract class is used as a template for our Level1 and Level2 classes.
  * 
@@ -20,34 +25,36 @@
  * Comments modified.
  * </p>
  *
+ * <p>
+ * Version 1.3
+ * Time Spent: 20 minutes
+ * Modifying comments to generate java docs properly
+ * </p>
+ *
  * @author Eric Ning, Tsz Fei Wang
- * @version 1.2
+ * @version 1.3
  * 
  * Chat-Mod AI Inc.
- * June 6th, 2024
+ * June 7th, 2024
  */
-
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import java.awt.image.BufferedImage;
-
 abstract class Level extends JComponent implements Runnable {
    
-   /*
-    * protected String username  - the user's username
-    * protected Color bg         - the color of the background
-    * protected boolean finished - whether the level has been completed or not
-    */
+    /** allows for 200 ms delay between key presses */
+   protected static final long THRESHOLD = 200_000_000L;
+   /** keeps track of last time a key has been pressed */
+   protected long lastPress;
+   /** the user's username */
    protected String username = ""; 
+   /** the color of the background */
    protected Color bg;
+   /** whether the level has been completed or not */
    protected boolean finished;
    
    /**
     * Constructor of the class so that Level1 and Level2 can use super()
     * and extend this superclass and inherit the variables and methods
-    * @param String username The user's username from level 1
-    * @param Color bg The color of the background
+    * @param username The user's username from level 1
+    * @param bg The color of the background
     */
    public Level(String username, Color bg) {
       // initializing instance variables
@@ -58,19 +65,19 @@ abstract class Level extends JComponent implements Runnable {
    
    /**
     * Utility method to display the background of the level
-    * @param Graphics g An object which is a painting tool
+    * @param g An object which is a painting tool
     */
    abstract void displayBackground(Graphics g);
    
    /**
     * Utility method to display the messages in the level
-    * @param Graphics g An object which is a painting tool
+    * @param g An object which is a painting tool
     */
    abstract void displayMessages(Graphics g);
    
    /**
     * Utility method to display the transition between scenarios in the level
-    * @param Graphics g An object which is a painting tool
+    * @param g An object which is a painting tool
     */
    abstract void displayTransition(Graphics g);
    
@@ -80,7 +87,7 @@ abstract class Level extends JComponent implements Runnable {
    public void run() {
       try {
          while (true) {
-            Thread.sleep(500);
+            Thread.sleep(200);
             if (finished) break; // until the level is complete
          }
       } catch (InterruptedException ie) {

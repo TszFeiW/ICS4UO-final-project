@@ -1,3 +1,10 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import javax.imageio.ImageIO;
+
 /**
  * This class is used to display the Main Menu for our game.
  * 
@@ -11,25 +18,25 @@
  *
  * <p>
  * Version 1.1
- * Time Spent: < 1 hour
+ * Time Spent: 10 minutes
  * Comments modified.
  * </p>
  * 
  * <p>
  * Version 1.2
- * Time Spent: < 1 hour
+ * Time Spent: 5 minutes
  * Coordinates of some drawings adjusted so that it fits on school monitor.
  * </p>
  *
  * <p>
  * Version 1.3
- * Time Spent: < 1 hour
+ * Time Spent: 5 minutes
  * Coordinates of some drawings adjusted again so it doesn't go out of the screen.
  * </p>
  *
  * <p>
  * Version 1.4
- * Time Spent: < 1 hour
+ * Time Spent: 15 minutes
  * Adding a leaderboard button as well.
  * </p>
  *
@@ -40,61 +47,62 @@
  * Comments modified.
  * </p>
  *
+ * <p>
+ * Version 1.6
+ * Time Spent: 20 minutes
+ * Modifying comments to generate java docs properly
+ * </p>
+ *
  * @author Eric Ning, Tsz Fei Wang
- * @version 1.5
+ * @version 1.6
  * 
  * Chat-Mod AI Inc.
- * June 6th, 2024
+ * June 7th, 2024
  */
-
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import java.awt.image.BufferedImage;
-import java.io.*;
-import javax.imageio.ImageIO;
-
 public class MainMenu extends JComponent implements Runnable {
-   /**
-    * private BufferedImage instructions         - image of the non-selected instructions button
-    * private BufferedImage instructions2        - image of the selected instructions button
-    * private BufferedImage firstLevel           - image of the non-selected level 1 button
-    * private BufferedImage firstLevel2          - image of the selected level 1 button
-    * private BufferedImage secondLevel          - image of the non-selected non-unlocked level 2 button
-    * private BufferedImage secondLevel2         - image of the selected non-unlocked level 2 button
-    * private BufferedImage secondLevelUnlocked  - image of the non-selected unlocked level 2 button
-    * private BufferedImage secondLevelUnlocked2 - image of the selected unlocked level 2 button
-    * private BufferedImage leaderboard          - image of the non-selected quit game button
-    * private BufferedImage leaderboard2         - image of the selected quit game button
-    * private BufferedImage quit                 - image of the non-selected quit game button
-    * private BufferedImage quit2                - image of the selected quit game button
-    * private int selected                       - the current button that is selected (numbered 0 to 3)
-    * private int choice                         - the selected button
-    * private Color bg                           - the color of the background
-    * private boolean allowed                    - whether the user can choose level 2 or not
-    * private boolean warning                    - whether the user chose a non-unlocked level 2
-    */
+
+   /** allows for 200 ms delay between key presses */
+   private static final long THRESHOLD = 200_000_000L;
+   /** keeps track of last time a key has been pressed */
+   private long lastPress;
+   /** image of the non-selected instructions button */
    private BufferedImage instructions;
+   /** image of the selected instructions button */
    private BufferedImage instructions2;
+   /** image of the non-selected level 1 button */
    private BufferedImage firstLevel;
+   /** image of the selected level 1 button */
    private BufferedImage firstLevel2;
+   /** image of the non-selected non-unlocked level 2 button */
    private BufferedImage secondLevel;
+   /** image of the selected non-unlocked level 2 button */
    private BufferedImage secondLevel2;
+   /** image of the non-selected unlocked level 2 button */
    private BufferedImage secondLevelUnlocked;
+   /** image of the selected unlocked level 2 button */
    private BufferedImage secondLevelUnlocked2;
+   /** image of the non-selected leaderboard button */
    private BufferedImage leaderboard;
+   /** image of the selected leaderboard button */
    private BufferedImage leaderboard2;
+   /** image of the non-selected quit game button */
    private BufferedImage quit;
+   /** image of the selected quit game button */
    private BufferedImage quit2;
+   /** the current button that is selected (numbered 0 to 3) */
    private int selected;
+   /** the selected button */
    private int choice;
+   /** the color of the background */
    private Color bg;
+   /** whether the user can choose level 2 or not */
    private boolean allowed;
+   /** whether the user chose a non-unlocked level 2 */
    private boolean warning;
    
    /**
     * Constructor of the class so that an instance of the class can be created in Main
-    * @param boolean level2 Whether the second level can currently be chosen or not
+    * @param level2 Whether the second level can currently be chosen or not
     */
    public MainMenu(boolean level2) {
       this.addKeyListener(new KeyHandler()); // adding KeyListener
@@ -131,27 +139,32 @@ public class MainMenu extends JComponent implements Runnable {
    private class KeyHandler extends KeyAdapter {
       /**
        * This method allows the actual game to run (main method)   
-       * @param KeyEvent e An event that shows that a keyboard input as been made
+       * @param e An event that shows that a keyboard input as been made
        */
       public void keyPressed(KeyEvent e) {
-         int key = e.getKeyCode();
+         long current = System.nanoTime();
          
-         if (key == KeyEvent.VK_DOWN) // down arrow key
-            selected = Math.min(selected+1, 4);
-         else if (key == KeyEvent.VK_UP) // up arrow key
-            selected = Math.max(selected-1, 0);
-         else if (key == KeyEvent.VK_ENTER && selected == 2 && !allowed) // choosing level 2 but not unlocked
-            warning = true;
-         else if (key == KeyEvent.VK_ENTER && (selected != 2 || allowed)) // choosing an unlocked option
-            choice = selected;
-         
-         MainMenu.this.repaint();
+         if (lastPress <= 0L || current - lastPress >= THRESHOLD) {
+            int key = e.getKeyCode();
+            
+            if (key == KeyEvent.VK_DOWN) // down arrow key
+               selected = Math.min(selected+1, 4);
+            else if (key == KeyEvent.VK_UP) // up arrow key
+               selected = Math.max(selected-1, 0);
+            else if (key == KeyEvent.VK_ENTER && selected == 2 && !allowed) // choosing level 2 but not unlocked
+               warning = true;
+            else if (key == KeyEvent.VK_ENTER && (selected != 2 || allowed)) // choosing an unlocked option
+               choice = selected;
+            
+            lastPress = current;
+            MainMenu.this.repaint();
+         }
       }
    }
    
    /**
     * This method is capable of actually drawing onto the JFrame window.
-    * @param Graphics g An object which is a painting tool
+    * @param g An object which is a painting tool
     */
    public void paintComponent(Graphics g) {
       // background
@@ -212,7 +225,7 @@ public class MainMenu extends JComponent implements Runnable {
    public void run() {
       try {
          while (true) {
-            Thread.sleep(500);
+            Thread.sleep(200);
             if (choice != -1) break; // until the user has made a choice in the menu
          }
       } catch (InterruptedException ie) {

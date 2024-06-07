@@ -1,3 +1,11 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.util.ArrayList;
+import javax.imageio.ImageIO;
+
 /**
  * This class is used to display Level 2 (Levelling Up Level) for our game.
  * 
@@ -54,79 +62,74 @@
  * Comments modified.
  * </p>
  *
+ * <p>
+ * Version 1.7
+ * Time Spent: 20 minutes
+ * Modifying comments to generate java docs properly
+ * </p>
+ *
  * @author Eric Ning, Tsz Fei Wang
- * @version 1.6
+ * @version 1.7
  * 
  * Chat-Mod AI Inc.
- * June 6th, 2024
+ * June 7th, 2024
  */
-
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import java.awt.image.BufferedImage;
-import java.io.*;
-import java.util.ArrayList;
-import javax.imageio.ImageIO;
-
 public class Level2 extends Level {
 
-   /**
-    * private BufferedImage instructionsL2   - image containing the instructions for the level
-    * private BufferedImage level2text       - image of the "Level 2" text header
-    * private BufferedImage computer         - image of the computer zoomed in
-    * private BufferedImage computerPeople   - image of people inside the computer screen
-    * private BufferedImage transition2      - image of the transition screen between two blocks of messages
-    * private BufferedImage results          - image of the results screen at the end of the level
-    * private boolean game                   - whether or not the user is selecting a response in the game
-    * private boolean seeAllOptions          - whether or not the user chose to skip the question to see all answers
-    * private boolean finished               - whether or not the level is complete
-    * private int currScene                  - the current scene in the level being displayed
-    * private int counter                    - counter variable to deal with animation
-    * private int numDisplayed               - keeps track of number of messages being displayed
-    * private int selected                   - the selected option out of the 4 choices in the game
-    * private int nextCounter                - the next message after the user made a choice
-    * private int scenario                   - the scenario number (0 to 4) in the game
-    * private int score                      - the user's score for the level
-    * private int timer                      - timer to keep track of how long the user has been selecting a response
-    * private int totalTime                  - total timer for the results screen at the end of the level
-    * private int ch                         - stores the user's input
-    * private String[] messageTextDisplayed  - text in the currently displayed messages
-    * private int[] messageUserDisplayed     - the user that sent each message in currently displayed messages
-    * private ArrayList<String> messageText  - contains the text of all the messages
-    * private ArrayList<Integer> messageUser - contains the corresponding user of all the message
-    * private String[][] nextMessage         - 2D array that stores the next message to display for each response in each scenario
-    * private String[][] scores              - 2D array that stores the base score value of the responses for each scenario
-    */
+   /** image containing the instructions for the level */
    private BufferedImage instructionsL2;
+   /** image of the "Level 2" text header */
    private BufferedImage level2text;
+   /** image of the computer zoomed in */
    private BufferedImage computer;
+   /** image of people inside the computer screen */
    private BufferedImage computerPeople;
+   /** image of the transition screen between two blocks of messages */
    private BufferedImage transition2;
+   /** image of the results screen at the end of the level */
    private BufferedImage results; 
+   /** whether or not the user is selecting a response in the game */
    private boolean game;
+   /** whether or not the user chose to skip the question to see all answers */
    private boolean seeAllOptions;
+   /** whether or not the level is complete */
    private boolean finished;
+   /** the current scene in the level being displayed */
    private int currScene;
+   /** counter variable to deal with animation */
    private int counter;
+   /** keeps track of number of messages being displayed */
    private int numDisplayed;
+   /** the selected option out of the 4 choices in the game */
    private int selected;
+   /** the next message after the user made a choice */ 
    private int nextCounter;
+   /** the scenario number (0 to 4) in the game */
    private int scenario;
+   /** the user's score for the level */
    private int score;
+   /** timer to keep track of how long the user has been selecting a response */
    private int timer;
+   /** total timer for the results screen at the end of the level */
    private int totalTime;
+   /** stores the user's input */
    private int ch;
+   /** text in the currently displayed messages */
    private String[] messageTextDisplayed;
+   /** the user that sent each message in currently displayed messages */
    private int[] messageUserDisplayed;
+   /** contains the text of all the messages */
    private ArrayList<String> messageText;
+   /** contains the corresponding user of all the message */
    private ArrayList<Integer> messageUser;
+   /** 2D array that stores the next message to display for each response in each scenario */
    private String[][] nextMessage;
+   /** 2D array that stores the base score value of the responses for each scenario */
    private String[][] scores;
    
    /**
     * Constructor of the class so that an instance of the class can be created in Main
-    * @param String username The user's username from level 1
+    * @param username The user's username from level 1
     */
    public Level2(String username) {
       super(username, new Color(245,228,255)); // calls the constructor of the Level class
@@ -198,29 +201,34 @@ public class Level2 extends Level {
    private class KeyHandler extends KeyAdapter {
       /**
        * This method allows for user key input to be detected 
-       * @param KeyEvent e An event that shows that a keyboard input as been made
+       * @param e An event that shows that a keyboard input as been made
        */
       public void keyPressed(KeyEvent e) {
-         ch = e.getKeyCode();
-         if (ch == KeyEvent.VK_DOWN && selected != 2 && selected != 3) { // down arrow key
-            selected += 2;
+         long current = System.nanoTime();
+         
+         if (lastPress <= 0L || current - lastPress >= THRESHOLD) {
+            ch = e.getKeyCode();
+            if (ch == KeyEvent.VK_DOWN && selected != 2 && selected != 3) { // down arrow key
+               selected += 2;
+            }
+            else if (ch == KeyEvent.VK_UP && selected != 0 && selected != 1) { // up arrow key
+               selected -= 2;
+            }
+            else if (ch == KeyEvent.VK_LEFT && selected != 0 && selected != 2) { // left arrow key
+               selected--;
+            }
+            else if (ch == KeyEvent.VK_RIGHT && selected != 1 && selected != 3) { // right arrow key
+               selected++;
+            }
+            lastPress = current;
+            Level2.this.repaint();
          }
-         else if (ch == KeyEvent.VK_UP && selected != 0 && selected != 1) { // up arrow key
-            selected -= 2;
-         }
-         else if (ch == KeyEvent.VK_LEFT && selected != 0 && selected != 2) { // left arrow key
-            selected--;
-         }
-         else if (ch == KeyEvent.VK_RIGHT && selected != 1 && selected != 3) { // right arrow key
-            selected++;
-         }
-         Level2.this.repaint();
       }
    }
    
    /**
     * This method is capable of actually drawing onto the JFrame window.
-    * @param Graphics g An object which is a painting tool
+    * @param g An object which is a painting tool
     */
    public void paintComponent(Graphics g) {
       if (currScene == 0) { // starting screen
@@ -403,7 +411,7 @@ public class Level2 extends Level {
    
    /**
     * Utility method to display the background of the level
-    * @param Graphics g An object which is a painting tool
+    * @param g An object which is a painting tool
     */
    public void displayBackground(Graphics g) {
       g.setColor(new Color(224, 240, 244));
@@ -441,7 +449,7 @@ public class Level2 extends Level {
    
    /**
     * Utility method to display the messages in the level
-    * @param Graphics g An object which is a painting tool
+    * @param g An object which is a painting tool
     */
    public void displayMessages(Graphics g) {
       g.setFont(new Font("Calibri", Font.BOLD, 20));
@@ -484,7 +492,7 @@ public class Level2 extends Level {
    
    /**
     * Utility method to display the transition between scenarios in the level
-    * @param Graphics g An object which is a painting tool
+    * @param g An object which is a painting tool
     */
    public void displayTransition(Graphics g) {
       g.drawImage(transition2, 95, 380, this);
@@ -502,7 +510,7 @@ public class Level2 extends Level {
    
    /**
     * Utility method to display the options the user has to select from
-    * @param Graphics g An object which is a painting tool
+    * @param g An object which is a painting tool
     */
    public void displayOptions(Graphics g) {
       game = true;
@@ -590,7 +598,7 @@ public class Level2 extends Level {
    
    /**
     * This method allows the Main class to access the user's score
-    * @return THe user's score
+    * @return The user's score
     */
    public int getScore() {
       return score;

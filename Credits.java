@@ -1,3 +1,10 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import javax.imageio.ImageIO;
+
 /**
  * This class is used as the credits screen for our game. 
  * 
@@ -10,13 +17,13 @@
  *
  * <p>
  * Version 1.1
- * Time Spent: < 1 hour
+ * Time Spent: 10 minutes
  * Comments modified.
  * </p>
  * 
  * <p>
  * Version 1.2
- * Time Spent: < 1 hour
+ * Time Spent: 5 minutes
  * Coordinates of some drawings adjusted so that it fits on school monitor.
  * </p>
  *
@@ -33,35 +40,35 @@
  * Comments modified.
  * </p>
  *
+ * <p>
+ * Version 1.5
+ * Time Spent: 20 minutes
+ * Modifying comments to generate java docs properly
+ * </p>
+ *
  * @author Tsz Fei Wang
- * @version 1.4
+ * @version 1.5
  * 
  * Chat-Mod AI Inc.
- * June 6th, 2024
+ * June 7th, 2024
  */
-
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import java.awt.image.BufferedImage;
-import java.io.*;
-import javax.imageio.ImageIO;
-
 public class Credits extends JComponent implements Runnable {
 
-   /**
-    * private BufferedImage logo  - image of the logo
-    * private boolean selected    - whether the user has chosen to exit yet
-    * private boolean finished    - whether the animation has finished
-    * private Color bg            - the color of the background
-    * private Color bg2           - the color of the background of the boxes that hold text
-    * private int counter         - counter variable for animation
-    */
+   /** allows for 200 ms delay between key presses */
+   private static final long THRESHOLD = 200_000_000L;
+   /** keeps track of last time a key has been pressed */
+   private long lastPress;
+   /** image of the logo */
    private BufferedImage logo;
+   /** whether the user has chosen to exit yet */
    private boolean selected;
+   /** whether the animation has finished */
    private boolean finished;
+   /** the color of the background */
    private Color bg;
+   /** the color of the background of the boxes that hold text */
    private Color bg2;
+   /** counter variable for animation */
    private int counter;
 
    /**
@@ -90,21 +97,26 @@ public class Credits extends JComponent implements Runnable {
    private class KeyHandler extends KeyAdapter {
       /**
        * This method allows for user key input to be detected 
-       * @param KeyEvent e An event that shows that a keyboard input as been made
+       * @param e An event that shows that a keyboard input as been made
        */
       public void keyPressed(KeyEvent e) {
-         int key = e.getKeyCode();
+         long current = System.nanoTime();
          
-         if (key == KeyEvent.VK_ENTER) // pressed enter: user has chosen to exit the game entirely
-            selected = true;
-         
-         Credits.this.repaint();
+         if (lastPress <= 0L || current - lastPress >= THRESHOLD) {
+            int key = e.getKeyCode();
+            
+            if (key == KeyEvent.VK_ENTER) // pressed enter: user has chosen to exit the game entirely
+               selected = true;
+            
+            lastPress = current;
+            Credits.this.repaint();
+         }
       }
    }
    
    /**
     * This method is capable of actually drawing onto the JFrame window.
-    * @param Graphics g An object which is a painting tool
+    * @param g An object which is a painting tool
     */
    public void paintComponent(Graphics g) {
       // draws credits screen
@@ -156,7 +168,7 @@ public class Credits extends JComponent implements Runnable {
    public void run() {
       try {
          while (true) {
-            Thread.sleep(500);
+            Thread.sleep(200);
             if (finished) break; // until the credits screen is complete 
          }
       } catch (InterruptedException ie) {

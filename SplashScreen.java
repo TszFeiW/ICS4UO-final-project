@@ -1,3 +1,10 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import javax.imageio.ImageIO;
+
 /**
  * This class is used as the Splash Screen class for our game.
  * 
@@ -16,13 +23,13 @@
  * 
  * <p>
  * Version 1.2
- * Time Spent: < 1 hour
+ * Time Spent: 5 minutes
  * Coordinates of some drawings adjusted so that it fits on school monitor.
  * </p>
  *
  * <p>
  * Version 1.3
- * Time Spent: < 1 hour
+ * Time Spent: 5 minutes
  * Coordinates of some drawings adjusted again so it doesn't go out of the screen.
  * </p>
  *
@@ -33,45 +40,41 @@
  * Comments modified.
  * </p>
  *
+ * <p>
+ * Version 1.5
+ * Time Spent: 20 minutes
+ * Modifying comments to generate java docs properly
+ * </p>
+ *
  * @author Eric Ning, Tsz Fei Wang
- * @version 1.4
+ * @version 1.5
  * 
  * Chat-Mod AI Inc.
- * June 6th, 2024
+ * June 7th, 2024
  */
-
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import java.awt.image.BufferedImage;
-import java.io.*;
-import javax.imageio.ImageIO;
-
 public class SplashScreen extends JComponent implements Runnable {
 
-   /**
-    * private BufferedImage logo       - image of the logo
-    * private BufferedImage logo2      - image of the logo without blue border
-    * private BufferedImage logoLarge  - image of the logo but larger
-    * private BufferedImage play       - image of the non-selected play button
-    * private BufferedImage play2      - image of the selected play button
-    * private BufferedImage exit       - image of the non-selected exit button
-    * private BufferedImage exit2      - image of the selected exit button
-    * private int selected             - the current button that is selected (numbered 0 to 3)
-    * private int choice               - the selected button
-    * private int time                 - timer variable to deal with animation
-    * private Color bg                 - the color of the background
-    */
+   /** image of the logo */
    private BufferedImage logo;
+   /** image of the logo without blue border */
    private BufferedImage logo2;
+   /** image of the logo but larger */
    private BufferedImage logoLarge;
+   /** image of the non-selected play button */
    private BufferedImage play;
+   /** image of the selected play button */
    private BufferedImage play2;
+   /** image of the non-selected exit button */
    private BufferedImage exit;
+   /** image of the selected exit button */
    private BufferedImage exit2;
+   /** the current button that is selected (numbered 0 to 3) */
    private int selected;
+   /** the selected button */
    private int choice;
+   /** timer variable to deal with animation */
    private int time;
+   /** the color of the background */
    private Color bg;
 
    /**
@@ -105,7 +108,7 @@ public class SplashScreen extends JComponent implements Runnable {
    private class KeyHandler extends KeyAdapter {
       /**
        * This method allows the actual game to run (main method)   
-       * @param KeyEvent e An event that shows that a keyboard input as been made
+       * @param e An event that shows that a keyboard input as been made
        */
       public void keyPressed(KeyEvent e) {
          if (time <= 718) return; // no input when animated part is not done
@@ -125,7 +128,7 @@ public class SplashScreen extends JComponent implements Runnable {
    
    /**
     * This method is capable of actually drawing onto the JFrame window.
-    * @param Graphics g An object which is a painting tool
+    * @param g An object which is a painting tool
     */
    public void paintComponent(Graphics g) {
       if (time <= 360) { // starting animation with loading logo
@@ -208,7 +211,7 @@ public class SplashScreen extends JComponent implements Runnable {
    public void run() {
       try {
          while (true) {
-            Thread.sleep(500);
+            Thread.sleep(200);
             if (choice != -1) break; // until the user has made a choice
          }
       } catch (InterruptedException ie) {

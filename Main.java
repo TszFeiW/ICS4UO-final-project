@@ -1,3 +1,8 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import java.lang.Thread;
+
 /**
  * This class is used as the Driver class for our game.
  * 
@@ -9,20 +14,20 @@
  *
  * <p>
  * Version 1.1
- * Time Spent: < 1 hour
+ * Time Spent: 15 minutes
  * Class was modified to provide functionality for the credits and level 1 screen.
  * </p>
  *
  * <p>
  * Version 1.2
- * Time Spent: < 1 hour
+ * Time Spent: 5 minutes
  * Class was modified so username from level 1 could be accessed
  * Window size modified so that it fits on the school monitors.
  * </p>
  *
  * <p>
  * Version 1.3
- * Time Spent: < 1 hour
+ * Time Spent: 5 minutes
  * Class was modified to add the leaderboard to the game.
  * </p>
  *
@@ -33,28 +38,27 @@
  * Comments modified.
  * </p>
  *
+ * <p>
+ * Version 1.5
+ * Time Spent: 20 minutes
+ * Modifying comments to generate java docs properly
+ * </p>
+ *
  * @author Eric Ning, Tsz Fei Wang
- * @version 1.4
+ * @version 1.5
  * 
  * Chat-Mod AI Inc.
- * June 6th, 2024
+ * June 7th, 2024
  */
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import java.lang.Thread;
-
 public class Main extends Thread {
    
-   /**
-    * private JFrame window   - JFrame window which has all the graphics drawn onto it
-    * private String username - the user's username
-    * private int scene       - the current scene number
-    * private boolean level2  - whether the user can access level 2 or not
-    */
+   /** JFrame window which has all the graphics drawn onto it */
    private JFrame window;
+   /** the user's username */
    private String username;
+   /** the current scene number */
    private int scene;
+   /** whether the user can access level 2 or not */
    private boolean level2;
    
    /**
@@ -267,7 +271,7 @@ public class Main extends Thread {
 
    /**
     * This method allows the actual game to run (main method)   
-    * @param String[] args The command-line arguments for Java
+    * @param args The command-line arguments for Java
     */
    public static void main(String[] args) {
       Main m = new Main();

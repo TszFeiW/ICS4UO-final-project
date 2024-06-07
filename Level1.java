@@ -1,3 +1,11 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.util.ArrayList;
+import javax.imageio.ImageIO;
+
 /**
  * This class is used to display Level 1 (Deficiencies level) for our game.
  * 
@@ -16,7 +24,7 @@
  *
  * <p>
  * Version 1.2
- * Time Spent: < 1 hour
+ * Time Spent: 5 minutes
  * Coordinates of some drawings adjusted so that it fits on school monitor.
  * </p>
  *
@@ -36,7 +44,7 @@
  *
  * <p>
  * Version 1.5
- * Time Spent: < 1 hour
+ * Time Spent: 10 minutes
  * Modifying class to use an ArrayList to avoid certain issues.
  * </p>
  *
@@ -47,64 +55,59 @@
  * Comments modified.
  * </p>
  *
+ * <p>
+ * Version 1.7
+ * Time Spent: 20 minutes
+ * Modifying comments to generate java docs properly
+ * </p>
+ *
  * @author Tsz Fei Wang, Eric Ning
- * @version 1.6
+ * @version 1.7
  * 
  * Chat-Mod AI Inc.
- * June 6th, 2024
+ * June 7th, 2024
  */
-
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import java.awt.image.BufferedImage;
-import java.io.*;
-import java.util.ArrayList;
-import javax.imageio.ImageIO;
-
 public class Level1 extends Level {
 
-   /**
-    * private BufferedImage instructionsL1      - image containing the instructions for the level
-    * private BufferedImage communityGuidelines - image of the community guidelines for online conduct
-    * private BufferedImage user                - image of the enter username scene
-    * private BufferedImage stool               - image of the person's stool in front of the desk
-    * private BufferedImage level1text          - image of the "Level 1" text header
-    * private BufferedImage desk                - image of the person's computer desk
-    * private BufferedImage person              - image of the person 
-    * private BufferedImage personComputer      - image of person sitting at computer desk
-    * private BufferedImage computer            - image of the computer zoomed in
-    * private BufferedImage computerPeople      - image of people inside the computer screen
-    * private BufferedImage transition          - image of the transition screen between two blocks of messages
-    * private boolean finished                  - whether or not the level is complete
-    * private int currScene                     - the current scene in the level being displayed
-    * private int counter                       - counter variable to deal with animation
-    * private int numDisplayed                  - keeps track of number of messages being displayed
-    * private char ch                           - stores the user's input
-    * private String[] messageTextDisplayed     - text in the currently displayed messages
-    * private int[] messageUserDisplayed        - the user that sent each message in currently displayed messages
-    * private ArrayList<String> messageText     - contains the text of all the messages
-    * private ArrayList<Integer> messageUser    - contains the corresponding user of all the messages
-    */
+   /** image containing the instructions for the level */
    private BufferedImage instructionsL1;
+   /** image of the community guidelines for online conduct */
    private BufferedImage communityGuidelines;
+   /** image of the enter username scene */
    private BufferedImage user; 
+   /** image of the person's stool in front of the desk */
    private BufferedImage stool;
+   /** image of the "Level 1" text header */
    private BufferedImage level1text;
+   /** image of the person's computer desk */
    private BufferedImage desk;
+   /** image of the person */
    private BufferedImage person;
+   /** image of person sitting at computer desk */
    private BufferedImage personComputer;
+   /** image of the computer zoomed in */
    private BufferedImage computer;
+   /** image of people inside the computer screen */
    private BufferedImage computerPeople;
+   /** image of the transition screen between two blocks of messages */
    private BufferedImage transition;
+   /** whether or not the level is complete */
    private boolean finished;
+   /** the current scene in the level being displayed */
    private int currScene;
+   /** counter variable to deal with animation */
    private int counter;
+   /** keeps track of number of messages being displayed */
    private int numDisplayed;
+   /** stores the user's input */
    private char ch;
+   /** text in the currently displayed messages */
    private String[] messageTextDisplayed;
+   /** the user that sent each message in currently displayed messages */
    private int[] messageUserDisplayed;
+   /** contains the text of all the messages */
    private ArrayList<String> messageText;
+   /** contains the corresponding user of all the messages */
    private ArrayList<Integer> messageUser;
    
    /**
@@ -161,17 +164,22 @@ public class Level1 extends Level {
    private class KeyHandler extends KeyAdapter {
       /**
        * This method allows for user key input to be detected 
-       * @param KeyEvent e An event that shows that a keyboard input as been made
+       * @param e An event that shows that a keyboard input as been made
        */
       public void keyPressed(KeyEvent e) {
-         ch = e.getKeyChar();
-         Level1.this.repaint();
+         long current = System.nanoTime();
+         
+         if (lastPress <= 0L || current - lastPress >= THRESHOLD) {
+            ch = e.getKeyChar();
+            lastPress = current;
+            Level1.this.repaint();
+         }
       }
    }
    
    /**
     * This method is capable of actually drawing onto the JFrame window.
-    * @param Graphics g An object which is a painting tool
+    * @param g An object which is a painting tool
     */
    public void paintComponent(Graphics g) {
       if (currScene == 0) { // taking username
@@ -193,8 +201,8 @@ public class Level1 extends Level {
             if (username.length() != 0) { 
                username = username.substring(0, username.length() - 1); // deletes the rightmost character
                g.setColor(Color.black);
-               g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 48));
-               g.drawString(username, 110, 600); // draws the current username on screen
+               g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 56));
+               g.drawString(username, 150, 600); // draws the current username on screen
                // resets the character to avoid one key endlessly being added
                ch = '\u0000';
             }
@@ -205,15 +213,15 @@ public class Level1 extends Level {
          else if (c == '\n' && username.length() < 2) { // too short
             displayWarning("This username you chose is too short.", g);
          }
-         else if(username.length() >= 20) { // too long
-            displayWarning("You cannot exceed twenty characters.", g);
+         else if(username.length() >= 14) { // too long
+            displayWarning("You cannot exceed fourteen characters.", g);
          }
          else { // otherwise it is valid, so add to username
             username += c;
             
             g.setColor(Color.black);
-            g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 48));             
-            g.drawString(username, 110, 600); // draws the current username on screen
+            g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 56));             
+            g.drawString(username, 150, 600); // draws the current username on screen
             
             // resets the character to avoid one key endlessly being added
             ch = '\u0000';
@@ -368,23 +376,23 @@ public class Level1 extends Level {
    
    /**
     * Utility method to display warning messages (reuses code)
-    * @param String message The warning message
-    * @param Graphics g An object which is a painting tool
+    * @param message The warning message
+    * @param g An object which is a painting tool
     */
    public void displayWarning(String message, Graphics g) {
       g.setFont(new Font("Calibri", Font.BOLD, 40));
       g.setColor(new Color(162, 210, 255));
       g.fillRect(50, 80, 710, 120);
       g.setColor(Color.black);
-      g.drawString(message, 85, 150);
+      g.drawString(message, 80, 150);
       g.setColor(Color.black);
-      g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 48));             
-      g.drawString(username, 110, 600);
+      g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 56));             
+      g.drawString(username, 150, 600);
    }
    
    /**
     * Utility method to display the background of the level
-    * @param Graphics g An object which is a painting tool
+    * @param g An object which is a painting tool
     */
    public void displayBackground(Graphics g) {
       g.setColor(new Color(224, 240, 244));
@@ -412,7 +420,7 @@ public class Level1 extends Level {
    
    /**
     * Utility method to display the messages in the level
-    * @param Graphics g An object which is a painting tool
+    * @param g An object which is a painting tool
     */
    public void displayMessages(Graphics g) {
       g.setFont(new Font("Calibri", Font.BOLD, 20));
@@ -446,7 +454,7 @@ public class Level1 extends Level {
    
    /**
     * Utility method to display the transition between scenarios in the level
-    * @param Graphics g An object which is a painting tool
+    * @param g An object which is a painting tool
     */
    public void displayTransition(Graphics g) {
       g.drawImage(transition, 55, 180, this);

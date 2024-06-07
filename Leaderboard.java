@@ -1,17 +1,3 @@
-/**
- * This class is used as the leaderboard screen/menu for our game. 
- * 
- * <p>
- * Version 1.0 
- * Time Spent: 2 hour
- * Class was created to display the leaderboard of the game.
- * Still needs comments and better formatting
- * </p>
- * 
- * Chat-Mod AI Inc.
- * June 6th, 2024
- */
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -20,43 +6,82 @@ import java.io.*;
 import javax.imageio.ImageIO;
 
 /**
- * private BufferedReader br  - reads user information
- * private String[] data - stores user data for top 10 scores
- * priavte char ch - stores character pressed by user for input 
- * private boolean doneDrawing - stores whether or not the program is done drawing
- * provate boolean finished - stores whether or not the user is done with the leaderboard
+ * This class is used as the leaderboard screen/menu for our game. 
+ * 
+ * <p>
+ * Version 1.0 
+ * Time Spent: 2 hour
+ * Class was created to display the leaderboard of the game.
+ * Still needs comments and better formatting.
+ * </p>
+ * 
+ * <p>
+ * Version 1.1
+ * Time Spent: 1 hour 
+ * Program was modified so that it implements Runnable (fixes a few bugs in the program).
+ * Better formatting has also been added to this class. Comments modified.
+ * </p>
+ *
+ * <p>
+ * Version 1.2
+ * Time Spent: 20 minutes
+ * Modifying comments to generate java docs properly
+ * </p>
+ *
+ * @author Eric Ning, Tsz Fei Wang
+ * @version 1.2
+ *
+ * Chat-Mod AI Inc.
+ * June 7th, 2024
  */
-public class Leaderboard extends JComponent {
+public class Leaderboard extends JComponent implements Runnable {
 
+   /** allows for 200 ms delay between key presses */
+   private static final long THRESHOLD = 200_000_000L;
+   /** keeps track of last time a key has been pressed */
+   private long lastPress;
+   /** the colour of the background */
    private Color bg;
+   /** reads user information */
    private BufferedReader br;
+   /** stores user data for top 10 scores */
    private String[] data;
+   /** stores character pressed by user for input */
    private char ch;
+   /** stores whether or not the program is done drawing */
    private boolean doneDrawing;
+   /** stores whether or not the user is done with the leaderboard */
    private boolean finished;
    
+   /**
+    * Constructor of the class so that an instance of the class can be created in Main
+    */
    public Leaderboard() {
       this.addKeyListener(new KeyHandler()); // adds the Key Listener
+      // initializes instance variables
       bg = new Color(245,228,255);
       data = new String[10];
    }
    
+   /**
+    * This private class extends KeyAdapter so the drawing can detect key inputs
+    */
    private class KeyHandler extends KeyAdapter {
       /**
        * This method allows for user key input to be detected 
-       * @param KeyEvent e An event that shows that a keyboard input as been made
+       * @param e An event that shows that a keyboard input as been made
        */
       public void keyPressed(KeyEvent e) {
-         ch = e.getKeyChar();
-         Leaderboard.this.repaint();
+         long current = System.nanoTime();
+         
+         if (lastPress <= 0L || current - lastPress >= THRESHOLD) {
+            ch = e.getKeyChar();
+            lastPress = current;
+            Leaderboard.this.repaint();
+         }
       }
    }
-   
-   /** 
-     * This method draws the leaderboard, reads the information on the top 10 scorers, 
-     * and draws the information onto the leaderboard.
-     * @param Graphics g An object which is a painting tool 
-     */ 
+
    public void paintComponent(Graphics g) {
    	// clears the screen
    	g.setColor(bg);
@@ -92,7 +117,7 @@ public class Leaderboard extends JComponent {
       }
       
       // drawing the highscores menu
-   	g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 30));
+   	g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 24));
 	   for (int i = 1; i <= 10; i++) {
    		String savedData = data[i-1];
 
@@ -102,12 +127,12 @@ public class Leaderboard extends JComponent {
    		// depending on which highscore #, draws it onto the console at the correct location
    		g.setColor(Color.black);
    		if (i <= 5) {
-   		    g.drawString(i + ". " + name, 50, 200 + (i-1) % 5 * 130);
-   		    g.drawString(score, 260, 200 + (i-1) % 5 * 130);
+   		    g.drawString(i + ". " + name, 50, 200 + (i-1) % 5 * 150);
+   		    g.drawString(score, 300, 200 + (i-1) % 5 * 150);
    		}
    		else {
-   		    g.drawString(i + ". " + name, 420, 200 + (i-1) % 5 * 130);
-   		    g.drawString(score, 630, 200 + (i-1) % 5 * 130);
+   		    g.drawString(i + ". " + name, 410, 200 + (i-1) % 5 * 150);
+   		    g.drawString(score, 685, 200 + (i-1) % 5 * 150);
    		}
 	   }
    	g.fillRect(384,140,5,720);
@@ -141,10 +166,16 @@ public class Leaderboard extends JComponent {
    }
    
    /**
-    * This method allows the Main class to access whether the user is done with the leaderboard
-    * @return Whether the user has finished looking at the leaderboard
+    * Method that allows threads to be run (starts a new thread)
     */
-   public boolean getFinished() {
-      return finished;
+   public void run() {
+      try {
+         while (true) {
+            Thread.sleep(200);
+            if (finished) break; // until the user wishes to exit
+         }
+      } catch (InterruptedException ie) {
+         System.out.println("InterruptedException has occured.");
+      }
    }
 }

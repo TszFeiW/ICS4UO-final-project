@@ -1,3 +1,10 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import javax.imageio.ImageIO;
+
 /**
  * This class is used as the instructions screen for our game.
  * 
@@ -10,19 +17,19 @@
  *
  * <p>
  * Version 1.1
- * Time Spent: < 1 hour
+ * Time Spent: 10 minutes
  * Location of images changed slightly, Comments modified.
  * </p>
  * 
  * <p>
  * Version 1.2
- * Time Spent: < 1 hour
+ * Time Spent: 5 minutes
  * Coordinates of some drawings adjusted so that it fits on school monitor.
  * </p>
  *
  * <p>
  * Version 1.3
- * Time Spent: < 1 hour
+ * Time Spent: 5 minutes
  * Coordinates of some drawings adjusted again so it doesn't go out of the screen.
  * </p>
  *
@@ -33,35 +40,35 @@
  * Comments modified.
  * </p>
  *
+ * <p>
+ * Version 1.5
+ * Time Spent: 20 minutes
+ * Modifying comments to generate java docs properly
+ * </p>
+ *
  * @author Tsz Fei Wang, Eric Ning
- * @version 1.4
+ * @version 1.5
  * 
  * Chat-Mod AI Inc.
- * June 6th, 2024
+ * June 7th, 2024
  */
-
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import java.awt.image.BufferedImage;
-import java.io.*;
-import javax.imageio.ImageIO;
-
 public class Instructions extends JComponent implements Runnable {
 
-   /**
-    * private BufferedImage generalInstructions - image of the general instructions for the game
-    * private BufferedImage instructionsL1      - image of the instructions for level 1
-    * private BufferedImage instructionsL2      - image of the instructions for level 2
-    * private Color bg                          - the color of the background
-    * private boolean finished                  - whether this scene of the game is finished
-    * private int currScreen                    - which instructions panel it is on 
-    */
+   /** allows for 200 ms delay between key presses */
+   private static final long THRESHOLD = 200_000_000L;
+   /** keeps track of last time a key has been pressed */
+   private long lastPress;
+   /** image of the general instructions for the game */
    private BufferedImage generalInstructions;
+   /** image of the instructions for level 1 */
    private BufferedImage instructionsL1;
+   /** image of the instructions for level 2 */
    private BufferedImage instructionsL2;
+   /** the color of the background */
    private Color bg;
+   /** whether this scene of the game is finished */
    private boolean finished;
+   /** which instructions panel it is on */
    private int currScreen;
    
    /**
@@ -90,20 +97,26 @@ public class Instructions extends JComponent implements Runnable {
    private class KeyHandler extends KeyAdapter {
       /**
        * This method allows for user key input to be detected
-       * @param KeyEvent e An event that shows that a keyboard input as been made
+       * @param e An event that shows that a keyboard input as been made
        */
       public void keyPressed(KeyEvent e) {
-         int key = e.getKeyCode();
+         long current = System.nanoTime();
          
-         if (key == KeyEvent.VK_ENTER) currScreen++; // pressed enter to next screen
+         if (lastPress <= 0L || current - lastPress >= THRESHOLD) {
+         
+            int key = e.getKeyCode();
             
-         Instructions.this.repaint();
+            if (key == KeyEvent.VK_ENTER) currScreen++; // pressed enter to next screen
+            
+            lastPress = current;
+            Instructions.this.repaint();
+         }
       }
    }
    
    /**
     * This method is capable of actually drawing onto the JFrame window.
-    * @param Graphics g An object which is a painting tool
+    * @param g An object which is a painting tool
     */
    public void paintComponent(Graphics g) {
       g.setColor(bg);
@@ -120,7 +133,7 @@ public class Instructions extends JComponent implements Runnable {
    public void run() {
       try {
          while (true) {
-            Thread.sleep(500);
+            Thread.sleep(200);
             if (currScreen == 3) break; // until the game has passed the last instructions screen
          }
       } catch (InterruptedException ie) {
