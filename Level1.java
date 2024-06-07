@@ -11,27 +11,27 @@
  * <p>
  * Version 1.1
  * Time Spent: 2 hours
- * Class was modified so format of messages work
+ * Class was modified so format of messages work.
  * </p>
  *
  * <p>
  * Version 1.2
  * Time Spent: < 1 hour
- * Coordinates of some drawings adjusted so that it fits on school monitor
+ * Coordinates of some drawings adjusted so that it fits on school monitor.
  * </p>
  *
  * <p>
  * Version 1.3
  * Time Spent: 1 hour
- * Changing Level1 to extend an abstract class Level as well as removing
- * JOptionPane import since it is not being used anymore
+ * Changing Level1 to extend an abstract class Level as well as removing.
+ * JOptionPane import since it is not being used anymore.
  * </p>
  *
  * <p>
  * Version 1.4
  * Time Spent: 1 hour
- * Fully commenting this class and changing coordinates of some 
- * drawings adjusted again so it doesn't go out of the screen
+ * Fully commenting this class and changing coordinates of some
+ * drawings adjusted again so it doesn't go out of the screen.
  * </p>
  *
  * <p>
@@ -40,8 +40,15 @@
  * Modifying class to use an ArrayList to avoid certain issues.
  * </p>
  *
+ * <p>
+ * Version 1.6
+ * Time Spent: 1 hour 
+ * Program was modified so that it implements Runnable (fixes a few bugs in the program).
+ * Comments modified.
+ * </p>
+ *
  * @author Tsz Fei Wang, Eric Ning
- * @version 1.5
+ * @version 1.6
  * 
  * Chat-Mod AI Inc.
  * June 6th, 2024
@@ -76,8 +83,8 @@ public class Level1 extends Level {
     * private char ch                           - stores the user's input
     * private String[] messageTextDisplayed     - text in the currently displayed messages
     * private int[] messageUserDisplayed        - the user that sent each message in currently displayed messages
-    * private String[] messageText              - contains the text of all the messages
-    * private int[] messageUser                 - contains the corresponding user of all the messages
+    * private ArrayList<String> messageText     - contains the text of all the messages
+    * private ArrayList<Integer> messageUser    - contains the corresponding user of all the messages
     */
    private BufferedImage instructionsL1;
    private BufferedImage communityGuidelines;
@@ -108,6 +115,7 @@ public class Level1 extends Level {
       this.addKeyListener(new KeyHandler()); // adds the Key Listener
       
       try {
+         // importing images 
          instructionsL1 = ImageIO.read(new File("instructionsL1.png"));
          communityGuidelines = ImageIO.read(new File("community guidelines.png"));
          user = ImageIO.read(new File("enter username.jpg"));
@@ -120,6 +128,7 @@ public class Level1 extends Level {
          computerPeople = ImageIO.read(new File("computerPeople.png"));
          transition = ImageIO.read(new File("transition.png"));
          
+         // initializing other instance variables
          ch = '\u0000';
          messageTextDisplayed = new String[4];
          messageUserDisplayed = new int[4];
@@ -130,14 +139,14 @@ public class Level1 extends Level {
          BufferedReader br = new BufferedReader(new FileReader("level1.txt"));
          while (true) {
             String line = br.readLine();
-            if (line == null) break;
-            else if (line.equals(".")) {
+            if (line == null) break; // end of file
+            else if (line.equals(".")) { // transition between scenarios
                messageText.add("");
                messageUser.add(-1);
             }
-            else {
-               messageText.add(line.substring(0, line.indexOf('|')));
-               messageUser.add(line.charAt(line.length()-1) - '0');
+            else { // normal message
+               messageText.add(line.substring(0, line.indexOf('|'))); // text portion of the data
+               messageUser.add(line.charAt(line.length()-1) - '0'); // message user portion of the data
             }
          }
       }
@@ -344,11 +353,12 @@ public class Level1 extends Level {
                messageUserDisplayed[3] = messageUser.get(nextMessage);
             }
             else {
+               // adds a new message to the screen
                messageTextDisplayed[numDisplayed] = messageText.get(nextMessage);
                messageUserDisplayed[numDisplayed] = messageUser.get(nextMessage);
                numDisplayed++;
             }
-            displayMessages(g);
+            displayMessages(g); // displays the messages onto the screen
          }
          else { // level 1 is complete
             finished = true;
@@ -405,8 +415,7 @@ public class Level1 extends Level {
     * @param Graphics g An object which is a painting tool
     */
    public void displayMessages(Graphics g) {
-      Font calibri = new Font("Calibri", Font.BOLD, 20);
-      g.setFont(calibri);
+      g.setFont(new Font("Calibri", Font.BOLD, 20));
       for (int i = 0; i < numDisplayed; i++) {
          if (messageUserDisplayed[i] == 0) {
             g.setColor(Color.red);
@@ -457,13 +466,5 @@ public class Level1 extends Level {
     */
    public String getUsername() {
       return username;
-   }
-   
-   /**
-    * This method allows the Main class to access whether the user is done the level
-    * @return Whether the user has finished Level 1
-    */
-   public boolean getFinished() {
-      return finished;
    }
 }
