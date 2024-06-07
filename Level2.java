@@ -47,8 +47,15 @@
  * Also changed some arrays to ArrayLists to avoid some issues.
  * </p>
  *
+ * <p>
+ * Version 1.6
+ * Time Spent: 1 hour 
+ * Program was modified so that it implements Runnable (fixes a few bugs in the program).
+ * Comments modified.
+ * </p>
+ *
  * @author Eric Ning, Tsz Fei Wang
- * @version 1.5
+ * @version 1.6
  * 
  * Chat-Mod AI Inc.
  * June 6th, 2024
@@ -65,31 +72,31 @@ import javax.imageio.ImageIO;
 public class Level2 extends Level {
 
    /**
-    * private BufferedImage instructionsL2  - image containing the instructions for the level
-    * private BufferedImage level2text      - image of the "Level 2" text header
-    * private BufferedImage computer        - image of the computer zoomed in
-    * private BufferedImage computerPeople  - image of people inside the computer screen
-    * private BufferedImage transition2     - image of the transition screen between two blocks of messages
-    * private BufferedImage results         - image of the results screen at the end of the level
-    * private boolean game                  - whether or not the user is selecting a response in the game
-    * private boolean seeAllOptions         - whether or not the user chose to skip the question to see all answers
-    * private boolean finished              - whether or not the level is complete
-    * private int currScene                 - the current scene in the level being displayed
-    * private int counter                   - counter variable to deal with animation
-    * private int numDisplayed              - keeps track of number of messages being displayed
-    * private int selected                  - the selected option out of the 4 choices in the game
-    * private int nextCounter               - the next message after the user made a choice
-    * private int scenario                  - the scenario number (0 to 4) in the game
-    * private int score                     - the user's score for the level
-    * private int timer                     - timer to keep track of how long the user has been selecting a response
-    * private int totalTime                 - total timer for the results screen at the end of the level
-    * private int ch                        - stores the user's input
-    * private String[] messageTextDisplayed - text in the currently displayed messages
-    * private int[] messageUserDisplayed    - the user that sent each message in currently displayed messages
-    * private ArrayList<String> messageText     - contains the text of all the messages
-    * private ArrayList<Integer> messageUser    - contains the corresponding user of all the message
-    * private String[][] nextMessage        - 2D array that stores the next message to display for each response in each scenario
-    * private String[][] scores             - 2D array that stores the base score value of the responses for each scenario
+    * private BufferedImage instructionsL2   - image containing the instructions for the level
+    * private BufferedImage level2text       - image of the "Level 2" text header
+    * private BufferedImage computer         - image of the computer zoomed in
+    * private BufferedImage computerPeople   - image of people inside the computer screen
+    * private BufferedImage transition2      - image of the transition screen between two blocks of messages
+    * private BufferedImage results          - image of the results screen at the end of the level
+    * private boolean game                   - whether or not the user is selecting a response in the game
+    * private boolean seeAllOptions          - whether or not the user chose to skip the question to see all answers
+    * private boolean finished               - whether or not the level is complete
+    * private int currScene                  - the current scene in the level being displayed
+    * private int counter                    - counter variable to deal with animation
+    * private int numDisplayed               - keeps track of number of messages being displayed
+    * private int selected                   - the selected option out of the 4 choices in the game
+    * private int nextCounter                - the next message after the user made a choice
+    * private int scenario                   - the scenario number (0 to 4) in the game
+    * private int score                      - the user's score for the level
+    * private int timer                      - timer to keep track of how long the user has been selecting a response
+    * private int totalTime                  - total timer for the results screen at the end of the level
+    * private int ch                         - stores the user's input
+    * private String[] messageTextDisplayed  - text in the currently displayed messages
+    * private int[] messageUserDisplayed     - the user that sent each message in currently displayed messages
+    * private ArrayList<String> messageText  - contains the text of all the messages
+    * private ArrayList<Integer> messageUser - contains the corresponding user of all the message
+    * private String[][] nextMessage         - 2D array that stores the next message to display for each response in each scenario
+    * private String[][] scores              - 2D array that stores the base score value of the responses for each scenario
     */
    private BufferedImage instructionsL2;
    private BufferedImage level2text;
@@ -126,6 +133,7 @@ public class Level2 extends Level {
       this.addKeyListener(new KeyHandler()); // adds the Key Listener
       
       try {
+         // importing images
          instructionsL2 = ImageIO.read(new File("instructionsL2.png"));
          level2text = ImageIO.read(new File("level2text.png"));
          computer = ImageIO.read(new File("computer.png"));
@@ -133,6 +141,7 @@ public class Level2 extends Level {
          transition2 = ImageIO.read(new File("transition2.png"));
          results = ImageIO.read(new File("level2Results.png")); 
 
+         // initializing other instance variables
          messageTextDisplayed = new String[4];
          messageUserDisplayed = new int[4];
          messageText = new ArrayList<String>();
@@ -145,31 +154,33 @@ public class Level2 extends Level {
          BufferedReader br = new BufferedReader(new FileReader("level2.txt"));
          while (true) { // assumes that file is functional
             String line = br.readLine();
-            if (line == null) break;
-            else if (line.charAt(0) == '/') {
+            if (line == null) break; // end of file
+            else if (line.charAt(0) == '/') { // user must make a choice here
                messageText.add(line.substring(1));
                messageUser.add(-10);
             }
-            else if (line.equals("-")) {
+            else if (line.equals("-")) { // between different possible choices
                messageText.add("");
                messageUser.add(-5);
             }
-            else if (line.equals(".")) {
+            else if (line.equals(".")) { // transition between scenarios
                messageText.add("");
                messageUser.add(-1);
             }
-            else {
-               messageText.add(line.substring(0, line.indexOf('|')));
-               messageUser.add(line.charAt(line.length()-1) - '0');
+            else { // normal message
+               messageText.add(line.substring(0, line.indexOf('|'))); // text portion of the data
+               messageUser.add(line.charAt(line.length()-1) - '0'); // message user portion of the data
             }
          }
          
+         // reads data to determine next line after user makes a choice
          br = new BufferedReader(new FileReader("level2dat.txt"));
          for (int i = 0; i < 5; i++) {
             String line = br.readLine();
             nextMessage[i] = line.split(" ");
          }
          
+         // reads data to determine the score gained or lost for each possible choice
          br = new BufferedReader(new FileReader("level2scores.txt"));
          for (int i = 0; i < 5; i++) {
             String line = br.readLine();
@@ -191,16 +202,16 @@ public class Level2 extends Level {
        */
       public void keyPressed(KeyEvent e) {
          ch = e.getKeyCode();
-         if (ch == KeyEvent.VK_DOWN && selected != 2 && selected != 3) {
+         if (ch == KeyEvent.VK_DOWN && selected != 2 && selected != 3) { // down arrow key
             selected += 2;
          }
-         else if (ch == KeyEvent.VK_UP && selected != 0 && selected != 1) {
+         else if (ch == KeyEvent.VK_UP && selected != 0 && selected != 1) { // up arrow key
             selected -= 2;
          }
-         else if (ch == KeyEvent.VK_LEFT && selected != 0 && selected != 2) {
+         else if (ch == KeyEvent.VK_LEFT && selected != 0 && selected != 2) { // left arrow key
             selected--;
          }
-         else if (ch == KeyEvent.VK_RIGHT && selected != 1 && selected != 3) {
+         else if (ch == KeyEvent.VK_RIGHT && selected != 1 && selected != 3) { // right arrow key
             selected++;
          }
          Level2.this.repaint();
@@ -410,12 +421,22 @@ public class Level2 extends Level {
       g.setColor(new Color(162, 210, 255, 200));
       g.fillRect(20, 240, 750, 420);
       
-      // press enter to continue message
-      g.setColor(new Color(254, 189, 225));
-      g.fillRect(50, 880, 700, 90);
-      g.setColor(Color.black);
-      g.setFont(new Font("Calibri", Font.BOLD, 64));     
-      g.drawString("Press Enter to Continue", 95, 945); 
+      if (!game) {
+         // press enter to continue message
+         g.setColor(new Color(254, 189, 225));
+         g.fillRect(50, 880, 700, 90);
+         g.setColor(Color.black);
+         g.setFont(new Font("Calibri", Font.BOLD, 64));     
+         g.drawString("Press Enter to Continue", 95, 945);
+      }
+      else {
+         // instructions to continue
+         g.setColor(new Color(254, 189, 225));
+         g.fillRect(50, 800, 700, 160);
+         g.setFont(new Font("Calibri", Font.BOLD, 64));
+         g.drawString("Use Arrow Keys and press", 50, 860);
+         g.drawString("‘Enter’ to Continue.", 135, 930);
+      }
    }
    
    /**
@@ -423,9 +444,9 @@ public class Level2 extends Level {
     * @param Graphics g An object which is a painting tool
     */
    public void displayMessages(Graphics g) {
-      Font calibri = new Font("Calibri", Font.BOLD, 20);
-      g.setFont(calibri);
+      g.setFont(new Font("Calibri", Font.BOLD, 20));
       for (int i = 0; i < numDisplayed; i++) {
+         // depending on the user who sent the message and formats the message nicely
          if (messageUserDisplayed[i] == 0) {
             g.setColor(Color.red);
             g.fillRect(45, 260+i*100, 700, 60);
@@ -565,14 +586,6 @@ public class Level2 extends Level {
       catch (IOException ioe) {  
          System.out.println("IOException Occurred.");
       }
-   }
-   
-   /**
-    * This method allows the Main class to access whether the user is done the level
-    * @return Whether the user has finished Level 2
-    */
-   public boolean getFinished() {
-      return finished;
    }
    
    /**
