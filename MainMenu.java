@@ -12,29 +12,36 @@
  * <p>
  * Version 1.1
  * Time Spent: < 1 hour
- * Comments modified
+ * Comments modified.
  * </p>
  * 
  * <p>
  * Version 1.2
  * Time Spent: < 1 hour
- * Coordinates of some drawings adjusted so that it fits on school monitor
+ * Coordinates of some drawings adjusted so that it fits on school monitor.
  * </p>
  *
  * <p>
  * Version 1.3
  * Time Spent: < 1 hour
- * Coordinates of some drawings adjusted again so it doesn't go out of the screen
+ * Coordinates of some drawings adjusted again so it doesn't go out of the screen.
  * </p>
  *
  * <p>
  * Version 1.4
  * Time Spent: < 1 hour
- * Adding a leaderboard button as well
+ * Adding a leaderboard button as well.
+ * </p>
+ *
+ * <p>
+ * Version 1.5
+ * Time Spent: 1 hour 
+ * Program was modified so that it implements Runnable (fixes a few bugs in the program).
+ * Comments modified.
  * </p>
  *
  * @author Eric Ning, Tsz Fei Wang
- * @version 1.4
+ * @version 1.5
  * 
  * Chat-Mod AI Inc.
  * June 6th, 2024
@@ -47,7 +54,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import javax.imageio.ImageIO;
 
-public class MainMenu extends JComponent {
+public class MainMenu extends JComponent implements Runnable {
    /**
     * private BufferedImage instructions         - image of the non-selected instructions button
     * private BufferedImage instructions2        - image of the selected instructions button
@@ -90,9 +97,10 @@ public class MainMenu extends JComponent {
     * @param boolean level2 Whether the second level can currently be chosen or not
     */
    public MainMenu(boolean level2) {
-      this.addKeyListener(new KeyHandler());
+      this.addKeyListener(new KeyHandler()); // adding KeyListener
       
       try {
+         // importing images
          instructions = ImageIO.read(new File("instructionsButton.png"));
          instructions2 = ImageIO.read(new File("instructionsButton2.png"));
          firstLevel = ImageIO.read(new File("level1Button.png"));
@@ -110,6 +118,7 @@ public class MainMenu extends JComponent {
          System.out.println("Missing image file.");
       }
       
+      // initializing other instance variables
       choice = -1; // the user's choice
       selected = 0; // on the first button
       allowed = level2; // whether level 2 can be selected
@@ -127,13 +136,13 @@ public class MainMenu extends JComponent {
       public void keyPressed(KeyEvent e) {
          int key = e.getKeyCode();
          
-         if (key == KeyEvent.VK_DOWN)
+         if (key == KeyEvent.VK_DOWN) // down arrow key
             selected = Math.min(selected+1, 4);
-         else if (key == KeyEvent.VK_UP)
+         else if (key == KeyEvent.VK_UP) // up arrow key
             selected = Math.max(selected-1, 0);
-         else if (key == KeyEvent.VK_ENTER && selected == 2 && !allowed)
+         else if (key == KeyEvent.VK_ENTER && selected == 2 && !allowed) // choosing level 2 but not unlocked
             warning = true;
-         else if (key == KeyEvent.VK_ENTER && (selected != 2 || allowed))
+         else if (key == KeyEvent.VK_ENTER && (selected != 2 || allowed)) // choosing an unlocked option
             choice = selected;
          
          MainMenu.this.repaint();
@@ -145,19 +154,23 @@ public class MainMenu extends JComponent {
     * @param Graphics g An object which is a painting tool
     */
    public void paintComponent(Graphics g) {
+      // background
       g.setColor(bg);
       g.fillRect(0, 0, 810, 1020);
       
+      // title
       g.setColor(Color.black);
       g.setFont(new Font("Calibri", Font.BOLD, 100));
       g.drawString("CMOD Socializer", 65, 150);
       
+      // drawing default buttons
       g.drawImage(instructions, 205, 220, this);
       g.drawImage(firstLevel, 205, 340, this);
       g.drawImage(allowed ? secondLevelUnlocked : secondLevel, 205, 460, this);
       g.drawImage(leaderboard, 205, 580, this);
       g.drawImage(quit, 205, 700, this);
       
+      // drawing selected button differently
       if (selected == 0)
          g.drawImage(instructions2, 205, 220, this);
       else if (selected == 1)
@@ -169,20 +182,20 @@ public class MainMenu extends JComponent {
       else 
          g.drawImage(quit2, 205, 700, this);
       
+      // instructions to continue
       g.setColor(Color.black);
       g.setFont(new Font("Calibri", Font.BOLD, 64));
       g.drawString("Use Arrow Keys and press", 50, 860);
       g.drawString("‘Enter’ to Continue.", 135, 930);
       
-      if (warning) {
+      if (warning) { // displays warning message if you try to choose level 2 when level 1 is incomplete
          g.setFont(new Font("Calibri", Font.BOLD, 48));
          g.setColor(new Color(162, 210, 255));
          g.fillRect(50, 480, 710, 120);
          g.setColor(Color.black);
          g.drawString("Cannot Choose Level 2 Currently", 85, 550);
+         warning = false;
       }
-      
-      warning = false;
    }
    
    /**
@@ -191,5 +204,19 @@ public class MainMenu extends JComponent {
     */
    public int getChoice() {
       return choice;
+   }
+   
+   /**
+    * Method that allows threads to be run (starts a new thread)
+    */
+   public void run() {
+      try {
+         while (true) {
+            Thread.sleep(500);
+            if (choice != -1) break; // until the user has made a choice in the menu
+         }
+      } catch (InterruptedException ie) {
+         System.out.println("InterruptedException has occured.");
+      }
    }
 }
