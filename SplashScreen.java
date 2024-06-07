@@ -11,26 +11,33 @@
  * <p>
  * Version 1.1
  * Time Spent: 2 hours
- * Class was modified such that it is animated in the beginning
+ * Class was modified such that it is animated in the beginning.
  * </p>
  * 
  * <p>
  * Version 1.2
  * Time Spent: < 1 hour
- * Coordinates of some drawings adjusted so that it fits on school monitor
+ * Coordinates of some drawings adjusted so that it fits on school monitor.
  * </p>
  *
  * <p>
  * Version 1.3
  * Time Spent: < 1 hour
- * Coordinates of some drawings adjusted again so it doesn't go out of the screen
+ * Coordinates of some drawings adjusted again so it doesn't go out of the screen.
+ * </p>
+ *
+ * <p>
+ * Version 1.4
+ * Time Spent: 1 hour 
+ * Program was modified so that it implements Runnable (fixes a few bugs in the program).
+ * Comments modified.
  * </p>
  *
  * @author Eric Ning, Tsz Fei Wang
- * @version 1.3
+ * @version 1.4
  * 
  * Chat-Mod AI Inc.
- * June 5th, 2024
+ * June 6th, 2024
  */
 
 import java.awt.*;
@@ -40,7 +47,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import javax.imageio.ImageIO;
 
-public class SplashScreen extends JComponent {
+public class SplashScreen extends JComponent implements Runnable {
 
    /**
     * private BufferedImage logo       - image of the logo
@@ -71,9 +78,10 @@ public class SplashScreen extends JComponent {
     * Constructor of the class so that an instance of the class can be created in Main
     */
    public SplashScreen() {
-      this.addKeyListener(new KeyHandler());
+      this.addKeyListener(new KeyHandler()); // adding KeyListener
       
       try {
+         // importing images
          logo = ImageIO.read(new File("logo.png"));
          logo2 = ImageIO.read(new File("logo2.png"));
          logoLarge = ImageIO.read(new File("logoLarge.png"));
@@ -104,11 +112,11 @@ public class SplashScreen extends JComponent {
          
          int key = e.getKeyCode();
          
-         if (key == KeyEvent.VK_DOWN)
+         if (key == KeyEvent.VK_DOWN) // down arrow key
             selected = 1;
-         else if (key == KeyEvent.VK_UP)
+         else if (key == KeyEvent.VK_UP) // up arrow key
             selected = 0;
-         else if (key == KeyEvent.VK_ENTER)
+         else if (key == KeyEvent.VK_ENTER) // selected an option
             choice = selected;
          
          SplashScreen.this.repaint();
@@ -120,7 +128,7 @@ public class SplashScreen extends JComponent {
     * @param Graphics g An object which is a painting tool
     */
    public void paintComponent(Graphics g) {
-      if (time <= 360) {
+      if (time <= 360) { // starting animation with loading logo
          Graphics2D g2 = (Graphics2D) g; // need setStroke method only in Graphics2D
          g2.setColor(bg);
          g2.fillRect(0, 0, 810, 1020);
@@ -134,7 +142,7 @@ public class SplashScreen extends JComponent {
          time++;
          this.repaint();
       }
-      else if (time <= 615) {
+      else if (time <= 615) { // company name fading in
          g.setColor(bg);
          g.fillRect(0, 0, 810, 1020);
          g.drawImage(logoLarge, 85, 50, this);
@@ -147,7 +155,7 @@ public class SplashScreen extends JComponent {
          time++;
          this.repaint();
       }
-      else if (time <= 718) {
+      else if (time <= 718) { // logo and company name moving downwards animation
          g.setColor(bg);
          g.fillRect(0, 0, 810, 1020);
          g.drawImage(logoLarge, 85, 50+10*(time-615), this);
@@ -160,7 +168,7 @@ public class SplashScreen extends JComponent {
          time++;
          this.repaint();
       }
-      else {
+      else { // menu displayed
          g.setColor(bg);
          g.fillRect(0, 0, 810, 1020);
    
@@ -170,15 +178,16 @@ public class SplashScreen extends JComponent {
          g.setFont(new Font("Calibri", Font.BOLD, 50));
          g.drawString("Chat-Mod AI Inc.", 235, 520);
          
-         if (selected == 0) {
+         if (selected == 0) { // currently on the play button (changes colour)
             g.drawImage(play2, 255, 600, this);
             g.drawImage(exit, 255, 720, this);
          }
-         else {
+         else { // currently on the exit button (changes colour)
             g.drawImage(play, 255, 600, this);
             g.drawImage(exit2, 255, 720, this);
          }
          
+         // instructions to continue
          g.setFont(new Font("Calibri", Font.BOLD, 64));
          g.drawString("Use Arrow Keys and press", 50, 860);
          g.drawString("‘Enter’ to Continue.", 135, 930);
@@ -191,5 +200,19 @@ public class SplashScreen extends JComponent {
     */
    public int getChoice() {
       return choice;
+   }
+   
+   /**
+    * Method that allows threads to be run (starts a new thread)
+    */
+   public void run() {
+      try {
+         while (true) {
+            Thread.sleep(500);
+            if (choice != -1) break; // until the user has made a choice
+         }
+      } catch (InterruptedException ie) {
+         System.out.println("InterruptedException has occured.");
+      }
    }
 }
