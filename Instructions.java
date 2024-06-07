@@ -11,26 +11,33 @@
  * <p>
  * Version 1.1
  * Time Spent: < 1 hour
- * Location of images changed slightly, Comments modified
+ * Location of images changed slightly, Comments modified.
  * </p>
  * 
  * <p>
  * Version 1.2
  * Time Spent: < 1 hour
- * Coordinates of some drawings adjusted so that it fits on school monitor
+ * Coordinates of some drawings adjusted so that it fits on school monitor.
  * </p>
  *
  * <p>
  * Version 1.3
  * Time Spent: < 1 hour
- * Coordinates of some drawings adjusted again so it doesn't go out of the screen
+ * Coordinates of some drawings adjusted again so it doesn't go out of the screen.
+ * </p>
+ *
+ * <p>
+ * Version 1.4
+ * Time Spent: 1 hour 
+ * Program was modified so that it implements Runnable (fixes a few bugs in the program).
+ * Comments modified.
  * </p>
  *
  * @author Tsz Fei Wang, Eric Ning
- * @version 1.3
+ * @version 1.4
  * 
  * Chat-Mod AI Inc.
- * June 5th, 2024
+ * June 6th, 2024
  */
 
 import java.awt.*;
@@ -40,7 +47,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import javax.imageio.ImageIO;
 
-public class Instructions extends JComponent {
+public class Instructions extends JComponent implements Runnable {
 
    /**
     * private BufferedImage generalInstructions - image of the general instructions for the game
@@ -61,9 +68,10 @@ public class Instructions extends JComponent {
     * Constructor of the class so that an instance of the class can be created in Main
     */
    public Instructions() {
-      this.addKeyListener(new KeyHandler());
+      this.addKeyListener(new KeyHandler()); // adding KeyListener
       
       try {
+         // importing images
          generalInstructions = ImageIO.read(new File("generalInstructions.png"));
          instructionsL1 = ImageIO.read(new File("instructionsL1.png"));
          instructionsL2 = ImageIO.read(new File("instructionsL2.png"));
@@ -72,6 +80,7 @@ public class Instructions extends JComponent {
          System.out.println("Missing image file.");
       }
       
+      // initializing other instance variable
       bg = new Color(245, 228, 255);
    }
    
@@ -86,8 +95,7 @@ public class Instructions extends JComponent {
       public void keyPressed(KeyEvent e) {
          int key = e.getKeyCode();
          
-         if (key == KeyEvent.VK_ENTER) currScreen++;
-         if (currScreen == 3) finished = true;
+         if (key == KeyEvent.VK_ENTER) currScreen++; // pressed enter to next screen
             
          Instructions.this.repaint();
       }
@@ -105,21 +113,18 @@ public class Instructions extends JComponent {
       else if(currScreen == 1) g.drawImage(instructionsL1, -10, -70, this);
       else if(currScreen == 2) g.drawImage(instructionsL2, -10, -70, this);
    }
-   
-   /**
-    * This method allows the Main class to access whether the user is done reading or not
-    * @return Whether the user has finished reading all instructions
-    */
-   public boolean getFinished() {
-      return finished;
-   }
-   
-   /**
-    * This method allows the Main class to access the current page of the instructions 
-    * @return The choice that the user made in the menu
-    */
-   public int getCurrScreen() {
-      return currScreen;
-   }
 
+   /**
+    * Method that allows threads to be run (starts a new thread)
+    */
+   public void run() {
+      try {
+         while (true) {
+            Thread.sleep(500);
+            if (currScreen == 3) break; // until the game has passed the last instructions screen
+         }
+      } catch (InterruptedException ie) {
+         System.out.println("InterruptedException has occured.");
+      }
+   }
 }
