@@ -5,9 +5,19 @@
  * Version 1.0 
  * Time Spent: 2 hour
  * Class was created to display the leaderboard of the game.
- * Still needs comments and better formatting
+ * Still needs comments and better formatting.
  * </p>
  * 
+ * <p>
+ * Version 1.1
+ * Time Spent: 1 hour 
+ * Program was modified so that it implements Runnable (fixes a few bugs in the program).
+ * Better formatting has also been added to this class. Comments modified.
+ * </p>
+ *
+ * @author Eric Ning, Tsz Fei Wang
+ * @version 1.1
+ *
  * Chat-Mod AI Inc.
  * June 6th, 2024
  */
@@ -19,7 +29,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import javax.imageio.ImageIO;
 
-public class Leaderboard extends JComponent {
+public class Leaderboard extends JComponent implements Runnable {
 
    private Color bg;
    private BufferedReader br;
@@ -93,12 +103,12 @@ public class Leaderboard extends JComponent {
    		// depending on which highscore #, draws it onto the console at the correct location
    		g.setColor(Color.black);
    		if (i <= 5) {
-   		    g.drawString(i + ". " + name, 50, 200 + (i-1) % 5 * 130);
-   		    g.drawString(score, 260, 200 + (i-1) % 5 * 130);
+   		    g.drawString(i + ". " + name, 50, 200 + (i-1) % 5 * 120);
+   		    g.drawString(score, 260, 200 + (i-1) % 5 * 120);
    		}
    		else {
-   		    g.drawString(i + ". " + name, 420, 200 + (i-1) % 5 * 130);
-   		    g.drawString(score, 630, 200 + (i-1) % 5 * 130);
+   		    g.drawString(i + ". " + name, 420, 200 + (i-1) % 5 * 120);
+   		    g.drawString(score, 630, 200 + (i-1) % 5 * 120);
    		}
 	   }
    	g.fillRect(384,140,5,720);
@@ -131,11 +141,14 @@ public class Leaderboard extends JComponent {
       }
    }
    
-   /**
-    * This method allows the Main class to access whether the user is done with the leaderboard
-    * @return Whether the user has finished looking at the leaderboard
-    */
-   public boolean getFinished() {
-      return finished;
+   public void run() {
+      try {
+         while (true) {
+            Thread.sleep(500);
+            if (finished) break;
+         }
+      } catch(Exception ex) {
+    
+      }
    }
 }
