@@ -127,6 +127,10 @@ public class Level2 extends Level {
    /** 2D array that stores the base score value of the responses for each scenario */
    private String[][] scores;
    
+   private boolean correct;
+   private boolean incorrect;
+   private boolean okay;
+   
    /**
     * Constructor of the class so that an instance of the class can be created in Main
     * @param username The user's username from level 1
@@ -234,12 +238,12 @@ public class Level2 extends Level {
       if (currScene == 0) { // starting screen
          g.setColor(new Color(224, 240, 244));
          g.fillRect(0, 0, 810, 1020);
-         g.drawImage(computer, 0, 220, this);
+         g.drawImage(computer, 2, 220, this);
          g.setColor(new Color(150, 75, 0));
          g.fillRect(0, 860, 810, 220);
          g.setColor(Color.black);
          g.setColor(new Color(162, 210, 255, 200));
-         g.fillRect(20, 240, 750, 420);
+         g.fillRect(21, 240, 751, 422);
          g.drawImage(level2text, 95, 380, this);
          
          // press enter to continue message
@@ -279,7 +283,7 @@ public class Level2 extends Level {
          else if (counter < 254) { // screen fades back in, game appears
             g.setColor(new Color(224, 240, 244));
             g.fillRect(0, 0, 810, 1020);
-            g.drawImage(computer, 0, 220, this);
+            g.drawImage(computer, 2, 220, this);
             g.setColor(new Color(150, 75, 0));
             g.fillRect(0, 860, 810, 220);
             g.drawImage(computerPeople, 23, 243, this);
@@ -290,7 +294,7 @@ public class Level2 extends Level {
             g.drawString("Hello! My name is", 240, 415);        
             g.drawString(username, 240, 450);
             g.setColor(new Color(162, 210, 255, 200));
-            g.fillRect(20, 240, 750, 420);
+            g.fillRect(21, 240, 751, 422);
             
             g.setColor(new Color(0, 0, 0, 506-counter*2));
             g.fillRect(0, 0, 810, 1020);
@@ -338,6 +342,12 @@ public class Level2 extends Level {
                   else {
                      counter = Integer.parseInt(nextMessage[scenario][selected]) - 1; // next message
                      score += Math.max(Integer.parseInt(scores[scenario][selected]) - timer, -1000); // adds to score
+                     if (scores[scenario][selected].equals("2000"))
+                        correct = true;
+                     else if (scores[scenario][selected].equals("500"))
+                        okay = true;
+                     else
+                        incorrect = true;
                   }
                   // adds the next message to display
                   messageTextDisplayed[0] = messageText.get(counter);
@@ -358,6 +368,9 @@ public class Level2 extends Level {
             int nextMessage = counter; // index of next message in array
             if (messageUser.get(nextMessage) == -1) { // between scenarios show transition
                displayTransition(g);
+               correct = false;
+               okay = false;
+               incorrect = false;
                seeAllOptions = false;
             }
             else if (messageUser.get(nextMessage) == -5 && seeAllOptions) { // user wants to see all options
@@ -366,6 +379,9 @@ public class Level2 extends Level {
             }
             else if (messageUser.get(nextMessage) == -5) { // user does not want to see all options, current option done
                counter = nextCounter; // goes to next message
+               correct = false;
+               okay = false;
+               incorrect = false;
                if (counter != 96) // if there are still more messages/scenarios
                   displayTransition(g);
                else
@@ -396,10 +412,10 @@ public class Level2 extends Level {
          }
          else { // level 2 is complete
             g.setFont(new Font("Calibri", Font.BOLD, 28));
-            g.drawImage(results, -4, -5, this);
-            g.drawString(username, 415, 505); 
-            g.drawString(""+score, 415, 545);
-            g.drawString(""+(totalTime/16), 415, 590);
+            g.drawImage(results, -3, -10, this);
+            g.drawString(username, 415, 490); 
+            g.drawString(""+score, 415, 535);
+            g.drawString(""+(totalTime/16), 415, 580);
             
             if (ch == KeyEvent.VK_ENTER) { // user chooses to exit
                addHighscore();
@@ -416,7 +432,7 @@ public class Level2 extends Level {
    public void displayBackground(Graphics g) {
       g.setColor(new Color(224, 240, 244));
       g.fillRect(0, 0, 810, 1020);
-      g.drawImage(computer, 0, 220, this);
+      g.drawImage(computer, 2, 220, this);
       g.setColor(new Color(150, 75, 0));
       g.fillRect(0, 860, 810, 220);
       g.drawImage(computerPeople, 23, 243, this);
@@ -427,7 +443,7 @@ public class Level2 extends Level {
       g.drawString("Hello! My name is", 240, 415);        
       g.drawString(username, 240, 450);
       g.setColor(new Color(162, 210, 255, 200));
-      g.fillRect(20, 240, 750, 420);
+      g.fillRect(21, 240, 751, 422);
       
       if (!game) {
          // press enter to continue message
@@ -490,6 +506,28 @@ public class Level2 extends Level {
             g.setColor(Color.black); 
             g.drawString(messageTextDisplayed[i], 290, 290+i*100);
          }
+      }
+      if (correct) {
+         g.setColor(Color.green);
+         g.fillOval(595, 25, 175, 175);
+         g.setColor(Color.black);
+         int[] x = {645, 630, 665, 740, 725, 665};
+         int[] y = {115, 130, 165, 90, 75, 135};
+         g.fillPolygon(x, y, 6);
+      }
+      else if (okay) {
+         g.setColor(new Color(200, 150, 50));
+         g.fillOval(595, 25, 175, 175);
+         g.setColor(Color.black);
+         g.fillRect(610, 97, 145, 30); 
+      }
+      else if (incorrect) {
+         g.setColor(Color.red);
+         g.fillOval(595, 25, 175, 175);
+         g.setColor(Color.black);
+         int[] x = {700, 740, 725, 685, 645, 630, 670, 630, 645, 685, 725, 740};
+         int[] y = {117, 77, 62, 102, 62, 77, 117, 157, 172, 132, 172, 157};
+         g.fillPolygon(x, y, 12);
       }
       selected = 0;
       game = false;

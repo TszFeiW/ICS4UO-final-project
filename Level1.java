@@ -296,7 +296,7 @@ public class Level1 extends Level {
          if (counter < 125) { // text box fading in
             g.setColor(new Color(224, 240, 244));
             g.fillRect(0, 0, 810, 1020);
-            g.drawImage(computer, 0, 220, this);
+            g.drawImage(computer, 2, 220, this);
             g.setColor(new Color(150, 75, 0));
             g.fillRect(0, 860, 810, 220);
             g.setColor(new Color(224, 240, 244));
@@ -306,14 +306,14 @@ public class Level1 extends Level {
             g.fillRect(225, 375, 300, 100);
             g.setColor(Color.black);
             g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 24));     
-            try {Thread.sleep(50);} catch (InterruptedException ie) {}
+            try {Thread.sleep(10);} catch (InterruptedException ie) {}
             counter++;
             this.repaint();
          }
          else if (counter < 199) { // username being displayed
             g.setColor(new Color(224, 240, 244));
             g.fillRect(0, 0, 810, 1020);
-            g.drawImage(computer, 0, 220, this);
+            g.drawImage(computer, 2, 220, this);
             g.setColor(new Color(150, 75, 0));
             g.fillRect(0, 860, 810, 220);
             g.drawImage(computerPeople, 23, 243, this);
@@ -324,7 +324,7 @@ public class Level1 extends Level {
             g.drawString("Hello! My name is", 240, 415);        
             g.drawString(username, 240, 450);
             g.setColor(new Color(162, 210, 255, (counter-100)*2));
-            g.fillRect(20, 240, 750, 420);
+            g.fillRect(21, 240, 751, 422);
             try {Thread.sleep(10);} catch (InterruptedException ie) {}
             counter++;
             ch = '\u0000';
@@ -397,7 +397,7 @@ public class Level1 extends Level {
    public void displayBackground(Graphics g) {
       g.setColor(new Color(224, 240, 244));
       g.fillRect(0, 0, 810, 1020);
-      g.drawImage(computer, 0, 220, this);
+      g.drawImage(computer, 2, 220, this);
       g.setColor(new Color(150, 75, 0));
       g.fillRect(0, 860, 810, 220);
       g.drawImage(computerPeople, 23, 243, this);
@@ -408,7 +408,7 @@ public class Level1 extends Level {
       g.drawString("Hello! My name is", 240, 415);        
       g.drawString(username, 240, 450);
       g.setColor(new Color(162, 210, 255, 200));
-      g.fillRect(20, 240, 750, 420);
+      g.fillRect(21, 240, 751, 422);
       
       // press enter to continue message
       g.setColor(new Color(254, 189, 225));

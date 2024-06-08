@@ -113,6 +113,7 @@ public class Main extends Thread {
     * This method displays the main menu of the game
     */
    public void mainMenu() {
+   level2=true;
       MainMenu mm = new MainMenu(level2);
       Thread thread = new Thread(mm); // creates thread object
       window.getContentPane().add(mm); // adds main menu to JFrame window
