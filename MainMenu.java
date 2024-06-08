@@ -50,7 +50,13 @@ import javax.imageio.ImageIO;
  * <p>
  * Version 1.6
  * Time Spent: 20 minutes
- * Modifying comments to generate java docs properly
+ * Modifying comments to generate java docs properly.
+ * </p>
+ *
+ * <p>
+ * Version 1.7
+ * Time Spent: 5 minutes
+ * Adjusting the location of the buttons and text slightly.
  * </p>
  *
  * @author Eric Ning, Tsz Fei Wang
@@ -174,26 +180,26 @@ public class MainMenu extends JComponent implements Runnable {
       // title
       g.setColor(Color.black);
       g.setFont(new Font("Calibri", Font.BOLD, 100));
-      g.drawString("CMOD Socializer", 65, 150);
+      g.drawString("CMOD Socializer", 50, 150);
       
       // drawing default buttons
-      g.drawImage(instructions, 205, 220, this);
-      g.drawImage(firstLevel, 205, 340, this);
-      g.drawImage(allowed ? secondLevelUnlocked : secondLevel, 205, 460, this);
-      g.drawImage(leaderboard, 205, 580, this);
-      g.drawImage(quit, 205, 700, this);
+      g.drawImage(instructions, 205, 200, this);
+      g.drawImage(firstLevel, 205, 320, this);
+      g.drawImage(allowed ? secondLevelUnlocked : secondLevel, 205, 440, this);
+      g.drawImage(leaderboard, 205, 560, this);
+      g.drawImage(quit, 205, 680, this);
       
       // drawing selected button differently
       if (selected == 0)
-         g.drawImage(instructions2, 205, 220, this);
+         g.drawImage(instructions2, 205, 200, this);
       else if (selected == 1)
-         g.drawImage(firstLevel2, 205, 340, this);
+         g.drawImage(firstLevel2, 205, 320, this);
       else if (selected == 2)
-         g.drawImage(allowed ? secondLevelUnlocked2 : secondLevel2, 205, 460, this);
+         g.drawImage(allowed ? secondLevelUnlocked2 : secondLevel2, 205, 440, this);
       else if (selected == 3)
-         g.drawImage(leaderboard2, 205, 580, this);
+         g.drawImage(leaderboard2, 205, 560, this);
       else 
-         g.drawImage(quit2, 205, 700, this);
+         g.drawImage(quit2, 205, 680, this);
       
       // instructions to continue
       g.setColor(Color.black);
@@ -204,9 +210,9 @@ public class MainMenu extends JComponent implements Runnable {
       if (warning) { // displays warning message if you try to choose level 2 when level 1 is incomplete
          g.setFont(new Font("Calibri", Font.BOLD, 48));
          g.setColor(new Color(162, 210, 255));
-         g.fillRect(50, 480, 710, 120);
+         g.fillRect(50, 427, 710, 120);
          g.setColor(Color.black);
-         g.drawString("Cannot Choose Level 2 Currently", 85, 550);
+         g.drawString("Cannot Choose Level 2 Currently", 85, 497);
          warning = false;
       }
    }

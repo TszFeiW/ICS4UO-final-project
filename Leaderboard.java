@@ -28,11 +28,18 @@ import javax.imageio.ImageIO;
  * Modifying comments to generate java docs properly
  * </p>
  *
+ * <p>
+ * Version 1.3
+ * Time Spent: 5 minutes
+ * Adding a new instance variable for the secondary background colour
+ * and changed the colour of one of the boxes.
+ * </p>
+ *
  * @author Eric Ning, Tsz Fei Wang
- * @version 1.2
+ * @version 1.3
  *
  * Chat-Mod AI Inc.
- * June 7th, 2024
+ * June 8th, 2024
  */
 public class Leaderboard extends JComponent implements Runnable {
 
@@ -42,6 +49,8 @@ public class Leaderboard extends JComponent implements Runnable {
    private long lastPress;
    /** the colour of the background */
    private Color bg;
+   /** the colour of the background of the text */
+   private Color bg2;
    /** reads user information */
    private BufferedReader br;
    /** stores user data for top 10 scores */
@@ -60,6 +69,7 @@ public class Leaderboard extends JComponent implements Runnable {
       this.addKeyListener(new KeyHandler()); // adds the Key Listener
       // initializes instance variables
       bg = new Color(245,228,255);
+      bg2 = new Color(224, 240, 244);
       data = new String[10];
    }
    
@@ -90,7 +100,7 @@ public class Leaderboard extends JComponent implements Runnable {
    	// title
       g.setColor(Color.black);
    	g.fillRect(185,25,430,80);
-   	g.setColor(new Color(224, 240, 244));
+   	g.setColor(bg2);
    	g.fillRect(190,30,420,70);
    	g.setColor(Color.black);
    	g.setFont(new Font("Calibri", Font.BOLD, 70));
@@ -99,7 +109,7 @@ public class Leaderboard extends JComponent implements Runnable {
    	// shows highscores
    	g.setColor(Color.black);
    	g.fillRect(20,135,757,730);
-   	g.setColor(new Color(224, 240, 244));
+   	g.setColor(bg2);
    	g.fillRect(25,140,747,720);
    	g.setColor(Color.black);
    	
@@ -140,7 +150,7 @@ public class Leaderboard extends JComponent implements Runnable {
    	// waits until the user is ready to continue
    	g.setColor(Color.black);
    	g.fillRect(70,900,640,50);
-   	g.setColor(Color.white);
+   	g.setColor(bg2);
    	g.fillRect(75,905,630,40);
    	g.setColor(Color.black);
    	g.setFont(new Font("Calibri", 1, 20));

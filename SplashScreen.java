@@ -43,14 +43,20 @@ import javax.imageio.ImageIO;
  * <p>
  * Version 1.5
  * Time Spent: 20 minutes
- * Modifying comments to generate java docs properly
+ * Modifying comments to generate java docs properly.
+ * </p>
+ *
+ * <p>
+ * Version 1.6
+ * Time Spent: 5 minutes
+ * Modifying the position of the buttons.
  * </p>
  *
  * @author Eric Ning, Tsz Fei Wang
- * @version 1.5
+ * @version 1.6
  * 
  * Chat-Mod AI Inc.
- * June 7th, 2024
+ * June 8th, 2024
  */
 public class SplashScreen extends JComponent implements Runnable {
 
@@ -182,12 +188,12 @@ public class SplashScreen extends JComponent implements Runnable {
          g.drawString("Chat-Mod AI Inc.", 235, 520);
          
          if (selected == 0) { // currently on the play button (changes colour)
-            g.drawImage(play2, 255, 600, this);
-            g.drawImage(exit, 255, 720, this);
+            g.drawImage(play2, 255, 570, this);
+            g.drawImage(exit, 255, 690, this);
          }
          else { // currently on the exit button (changes colour)
-            g.drawImage(play, 255, 600, this);
-            g.drawImage(exit2, 255, 720, this);
+            g.drawImage(play, 255, 570, this);
+            g.drawImage(exit2, 255, 690, this);
          }
          
          // instructions to continue
