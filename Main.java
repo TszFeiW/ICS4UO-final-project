@@ -90,8 +90,8 @@ public class Main extends Thread {
     */
    public void splashScreen() {
       SplashScreen ss = new SplashScreen();
-      Thread thread = new Thread(ss);
-      window.getContentPane().add(ss);
+      Thread thread = new Thread(ss); // creates thread object
+      window.getContentPane().add(ss); // adds splash screen to JFrame window
       ss.setFocusable(true);
       ss.requestFocusInWindow();
       window.setVisible(true);
@@ -99,15 +99,13 @@ public class Main extends Thread {
          thread.start();
          thread.join();
       } 
-      catch (Exception e) { }
+      catch (Exception e) { System.out.println("Exception has occured."); }
       
       if (ss.getChoice() == 1) // chooses to exit
-         scene = -1;
-      else
+         scene = 7;
+      else // chooses to proceed to main menu
          scene = 1;
       
-      window.getContentPane().remove(ss);
-      level2 = true; // temporaroryoryryry
       cleanWindow();
    }
    
@@ -116,8 +114,8 @@ public class Main extends Thread {
     */
    public void mainMenu() {
       MainMenu mm = new MainMenu(level2);
-      Thread thread = new Thread(mm);
-      window.getContentPane().add(mm);
+      Thread thread = new Thread(mm); // creates thread object
+      window.getContentPane().add(mm); // adds main menu to JFrame window
       mm.setFocusable(true);
       mm.requestFocusInWindow();
       window.setVisible(true);
@@ -125,7 +123,7 @@ public class Main extends Thread {
          thread.start();
          thread.join();
       } 
-      catch (Exception e) { }
+      catch (Exception e) { System.out.println("Exception has occured."); }
       
       switch (mm.getChoice()) {
          case 0:
@@ -143,7 +141,7 @@ public class Main extends Thread {
          case 4:
             scene = 6; // credits
       }
-      window.getContentPane().remove(mm);
+      
       cleanWindow();
    }
    
@@ -152,8 +150,8 @@ public class Main extends Thread {
     */
    public void instructions() {
       Instructions i = new Instructions();
-      Thread thread = new Thread(i);
-      window.getContentPane().add(i);
+      Thread thread = new Thread(i); // creates thread object
+      window.getContentPane().add(i); // adds instructions to JFrame window
       i.setFocusable(true);
       i.requestFocusInWindow();
       window.setVisible(true);
@@ -161,7 +159,7 @@ public class Main extends Thread {
          thread.start();
          thread.join();
       } 
-      catch (Exception e) { }
+      catch (Exception e) { System.out.println("Exception has occured."); }
       
       cleanWindow();
       scene = 1;
@@ -172,8 +170,8 @@ public class Main extends Thread {
     */
    public void level1() {
       Level1 l1 = new Level1();
-      Thread thread = new Thread(l1);
-      window.getContentPane().add(l1);
+      Thread thread = new Thread(l1); // creates thread object
+      window.getContentPane().add(l1); // adds level 1 to JFrame window
       l1.setFocusable(true);
       l1.requestFocusInWindow();
       window.setVisible(true);
@@ -181,10 +179,9 @@ public class Main extends Thread {
          thread.start();
          thread.join();
       } 
-      catch (Exception e) { }
+      catch (Exception e) { System.out.println("Exception has occured."); }
       
       username = l1.getUsername();
-      window.getContentPane().remove(l1);
       level2 = true;
       scene = 1;
       cleanWindow();
@@ -195,8 +192,8 @@ public class Main extends Thread {
     */
    public void level2() {
       Level2 l2 = new Level2(username);
-      Thread thread = new Thread(l2);
-      window.getContentPane().add(l2);
+      Thread thread = new Thread(l2); // creates thread object
+      window.getContentPane().add(l2); // adds level 2 to JFrame window
       l2.setFocusable(true);
       l2.requestFocusInWindow();
       window.setVisible(true);
@@ -204,9 +201,8 @@ public class Main extends Thread {
          thread.start();
          thread.join();
       } 
-      catch (Exception e) { }
+      catch (Exception e) { System.out.println("Exception has occured."); }
       
-      window.getContentPane().remove(l2);
       scene = 1;
       cleanWindow();
    }
@@ -216,8 +212,8 @@ public class Main extends Thread {
     */
    public void leaderboard() {
       Leaderboard l = new Leaderboard();
-      Thread thread = new Thread(l);
-      window.getContentPane().add(l);
+      Thread thread = new Thread(l); // creates thread object
+      window.getContentPane().add(l); // adds leaderboard to JFrame window
       l.setFocusable(true);
       l.requestFocusInWindow();
       window.setVisible(true);
@@ -225,9 +221,8 @@ public class Main extends Thread {
          thread.start();
          thread.join();
       } 
-      catch (Exception e) { }
-      
-      window.getContentPane().remove(l);
+      catch (Exception e) { System.out.println("Exception has occured."); }
+            
       scene = 1;
       cleanWindow();
    }
@@ -237,8 +232,8 @@ public class Main extends Thread {
     */
    public void credits() {
       Credits c = new Credits();
-      Thread thread = new Thread(c);
-      window.getContentPane().add(c);
+      Thread thread = new Thread(c); // creates thread object
+      window.getContentPane().add(c); // adds credits screen to JFrame window
       c.setFocusable(true);
       c.requestFocusInWindow();
       window.setVisible(true);
@@ -246,10 +241,9 @@ public class Main extends Thread {
          thread.start();
          thread.join();
       } 
-      catch (Exception e) { }
+      catch (Exception e) { System.out.println("Exception has occured."); }
       
-      window.getContentPane().remove(c);
-      scene = -1;
+      scene = 7;
       cleanWindow();
    }
    
@@ -258,7 +252,8 @@ public class Main extends Thread {
     */
    public void exit() {
       window.setVisible(false);
-      window.dispose();
+      window.dispose(); // closes window
+      scene = -1;
    }
    
    /**
@@ -276,7 +271,7 @@ public class Main extends Thread {
    public static void main(String[] args) {
       Main m = new Main();
       
-      while (m.getScene() != -1) { // while the user has not chosen to quit
+      while (m.getScene() != -1) { // while the program is still running
          switch (m.getScene()) {
             case 0: 
                m.splashScreen();
@@ -299,7 +294,7 @@ public class Main extends Thread {
             case 6:
                m.credits();
                break;
-            case -1:
+            case 7:
                m.exit();
                break;
          }

@@ -169,6 +169,7 @@ public class Credits extends JComponent implements Runnable {
       try {
          while (true) {
             Thread.sleep(200);
+            System.out.println("wahhhh");
             if (finished) break; // until the credits screen is complete 
          }
       } catch (InterruptedException ie) {

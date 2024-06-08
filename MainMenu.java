@@ -61,8 +61,8 @@ import javax.imageio.ImageIO;
  */
 public class MainMenu extends JComponent implements Runnable {
 
-   /** allows for 200 ms delay between key presses */
-   private static final long THRESHOLD = 200_000_000L;
+   /** allows for 50 ms delay between key presses */
+   private static final long THRESHOLD = 50_000_000L;
    /** keeps track of last time a key has been pressed */
    private long lastPress;
    /** image of the non-selected instructions button */

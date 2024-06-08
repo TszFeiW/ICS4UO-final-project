@@ -39,8 +39,8 @@ import java.awt.image.BufferedImage;
  */
 abstract class Level extends JComponent implements Runnable {
    
-    /** allows for 200 ms delay between key presses */
-   protected static final long THRESHOLD = 200_000_000L;
+   /** allows for 50 ms delay between key presses */
+   protected static final long THRESHOLD = 50_000_000L;
    /** keeps track of last time a key has been pressed */
    protected long lastPress;
    /** the user's username */
@@ -81,17 +81,5 @@ abstract class Level extends JComponent implements Runnable {
     */
    abstract void displayTransition(Graphics g);
    
-   /**
-    * Method that allows threads to be run (starts a new thread)
-    */
-   public void run() {
-      try {
-         while (true) {
-            Thread.sleep(200);
-            if (finished) break; // until the level is complete
-         }
-      } catch (InterruptedException ie) {
-         System.out.println("InterruptedException has occured.");
-      }
-   }
+   
 }

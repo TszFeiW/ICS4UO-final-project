@@ -396,7 +396,7 @@ public class Level2 extends Level {
          }
          else { // level 2 is complete
             g.setFont(new Font("Calibri", Font.BOLD, 28));
-            g.drawImage(results, -5, 0, this);
+            g.drawImage(results, -4, -5, this);
             g.drawString(username, 415, 505); 
             g.drawString(""+score, 415, 545);
             g.drawString(""+(totalTime/16), 415, 590);
@@ -431,6 +431,8 @@ public class Level2 extends Level {
       
       if (!game) {
          // press enter to continue message
+         g.setColor(Color.black);
+         g.fillRect(45, 875, 710, 100);
          g.setColor(new Color(254, 189, 225));
          g.fillRect(50, 880, 700, 90);
          g.setColor(Color.black);
@@ -439,8 +441,11 @@ public class Level2 extends Level {
       }
       else {
          // instructions to continue
+         g.setColor(Color.black);
+         g.fillRect(35, 795, 730, 170);
          g.setColor(new Color(254, 189, 225));
-         g.fillRect(50, 800, 700, 160);
+         g.fillRect(40, 800, 720, 160);
+         g.setColor(Color.black);
          g.setFont(new Font("Calibri", Font.BOLD, 64));
          g.drawString("Use Arrow Keys and press", 50, 860);
          g.drawString("‘Enter’ to Continue.", 135, 930);
@@ -602,5 +607,19 @@ public class Level2 extends Level {
     */
    public int getScore() {
       return score;
+   }
+   
+   /**
+    * Method that allows threads to be run (starts a new thread)
+    */
+   public void run() {
+      try {
+         while (true) {
+            Thread.sleep(200);
+            if (finished) break; // until the level is complete
+         }
+      } catch (InterruptedException ie) {
+         System.out.println("InterruptedException has occured.");
+      }
    }
 }

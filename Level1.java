@@ -457,7 +457,7 @@ public class Level1 extends Level {
     * @param g An object which is a painting tool
     */
    public void displayTransition(Graphics g) {
-      g.drawImage(transition, 55, 180, this);
+      g.drawImage(transition, 55, 380, this);
       // press enter to continue message
       g.setColor(new Color(254, 189, 225));
       g.fillRect(50, 880, 700, 90);
@@ -474,5 +474,19 @@ public class Level1 extends Level {
     */
    public String getUsername() {
       return username;
+   }
+   
+   /**
+    * Method that allows threads to be run (starts a new thread)
+    */
+   public void run() {
+      try {
+         while (true) {
+            Thread.sleep(200);
+            if (finished) break; // until the level is complete
+         }
+      } catch (InterruptedException ie) {
+         System.out.println("InterruptedException has occured.");
+      }
    }
 }
