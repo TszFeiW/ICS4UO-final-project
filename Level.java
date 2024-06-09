@@ -2,6 +2,8 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
+import java.io.*;
+import javax.imageio.ImageIO;
 
 /**
  * This abstract class is used as a template for our Level1 and Level2 classes.
@@ -31,16 +33,24 @@ import java.awt.image.BufferedImage;
  * Modifying comments to generate java docs properly
  * </p>
  *
+ * <p>
+ * Version 1.4
+ * Time Spent: 20 minutes
+ * Changing the graphics of the instructions and community guidelines
+ * </p>
+ *
  * @author Eric Ning, Tsz Fei Wang
- * @version 1.3
+ * @version 1.4
  * 
  * Chat-Mod AI Inc.
- * June 7th, 2024
+ * June 9th, 2024
  */
 abstract class Level extends JComponent implements Runnable {
    
    /** allows for 50 ms delay between key presses */
    protected static final long THRESHOLD = 50_000_000L;
+   /** image of the community guidelines for online conduct */
+   protected BufferedImage communityGuidelines;
    /** keeps track of last time a key has been pressed */
    protected long lastPress;
    /** the user's username */
@@ -60,8 +70,21 @@ abstract class Level extends JComponent implements Runnable {
       // initializing instance variables
       this.username = username;
       this.bg = bg;
+      try {
+         // importing images 
+         communityGuidelines = ImageIO.read(new File("communityGuidelines.png"));
+      }
+      catch (IOException ioe) {  
+         System.out.println("IOException Occurred. File(s) may be missing.");
+      }
       finished = false; // level has not been finished at the time of initialization
    }
+   
+   /**
+    * Utility method to display the instructions of the level
+    * @param g An object which is a painting tool
+    */
+   abstract void displayInstructions(Graphics g);
    
    /**
     * Utility method to display the background of the level
@@ -80,6 +103,34 @@ abstract class Level extends JComponent implements Runnable {
     * @param g An object which is a painting tool
     */
    abstract void displayTransition(Graphics g);
+   
+   /**
+    * Utility method to display the community guidelines in the scenarios for the game
+    * @param g An object which is a painting tool
+    */
+   public void displayCommunityGuidelines(Graphics g) {
+      // background
+      g.setColor(bg);
+      g.fillRect(0, 0, 810, 1020);
+   
+      // title         
+      g.setColor(new Color(255, 209, 235));
+      g.fillRect(30, 30, 737, 160);
+      
+      g.setColor(Color.black);
+      g.setFont(new Font("Calibri", Font.BOLD, 70));
+      g.drawString("Community Guidelines", 55, 138);
+      
+      // text
+      g.drawImage(communityGuidelines, 17, 205, this);
+      
+      // instructions to continue
+      g.setColor(new Color(255, 209, 235));
+      g.fillRect(50, 855, 700, 90);
+      g.setColor(Color.black);
+      g.setFont(new Font("Calibri", Font.BOLD, 64));     
+      g.drawString("Press Enter to Continue", 92, 920); 
+   }
    
    
 }

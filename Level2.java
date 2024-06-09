@@ -68,11 +68,17 @@ import javax.imageio.ImageIO;
  * Modifying comments to generate java docs properly
  * </p>
  *
+ * <p>
+ * Version 1.8
+ * Time Spent: 10 minutes
+ * Changing the graphics of the instructions and community guidelines
+ * </p>
+ *
  * @author Eric Ning, Tsz Fei Wang
- * @version 1.7
+ * @version 1.8
  * 
  * Chat-Mod AI Inc.
- * June 7th, 2024
+ * June 9th, 2024
  */
 public class Level2 extends Level {
 
@@ -260,20 +266,26 @@ public class Level2 extends Level {
          } 
       }
       else if (currScene == 1) { // instructions
-         g.setColor(bg);
-         g.fillRect(0, 0, 810, 1020);
-         g.drawImage(instructionsL2, -10, -70, this);
+         displayInstructions(g);
+         
          if (ch == KeyEvent.VK_ENTER) { // user chooses to continue
             ch = '\\';
             currScene++;
             this.repaint();
          }
       }
-      else if (currScene == 2) { // no user input required, basic animation
+      else if (currScene == 2) { // community guidelines
+         displayCommunityGuidelines(g);
+         
+         if (ch == KeyEvent.VK_ENTER) { // user chooses to continue
+            ch = '\u0000';
+            currScene++;
+            this.repaint();
+         }
+      }
+      else if (currScene == 3) { // no user input required, basic animation
          if (counter < 127) { // screen fades to black
-            g.setColor(bg);
-            g.fillRect(0, 0, 810, 1020);
-            g.drawImage(instructionsL2, -10, -70, this);
+            displayCommunityGuidelines(g);
             g.setColor(new Color(0, 0, 0, counter*2));
             g.fillRect(0, 0, 810, 1020);
             try {Thread.sleep(10);} catch (InterruptedException ie) {}
@@ -413,7 +425,7 @@ public class Level2 extends Level {
          else { // level 2 is complete
             g.setFont(new Font("Calibri", Font.BOLD, 28));
             g.drawImage(results, -3, -10, this);
-            g.drawString(username, 415, 490); 
+            g.drawString(username, 415, 492); 
             g.drawString(""+score, 415, 535);
             g.drawString(""+(totalTime/16), 415, 580);
             
@@ -423,6 +435,34 @@ public class Level2 extends Level {
             }
          }
       }
+   }
+   
+   /**
+    * Utility method to display the instructions of the level
+    * @param g An object which is a painting tool
+    */
+   public void displayInstructions(Graphics g) {
+      // background
+      g.setColor(bg);
+      g.fillRect(0, 0, 810, 1020);
+      
+      // title         
+      g.setColor(new Color(255, 209, 235));
+      g.fillRect(30, 30, 737, 160);
+      
+      g.setColor(Color.black);
+      g.setFont(new Font("Calibri", Font.BOLD, 80));
+      g.drawString("Level 2", 280, 138);
+      
+      // text
+      g.drawImage(instructionsL2, 8, 205, this);
+      
+      // instructions to continue
+      g.setColor(new Color(255, 209, 235));
+      g.fillRect(50, 840, 700, 90);
+      g.setColor(Color.black);
+      g.setFont(new Font("Calibri", Font.BOLD, 64));     
+      g.drawString("Press Enter to Continue", 92, 905); 
    }
    
    /**

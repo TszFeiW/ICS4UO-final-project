@@ -61,18 +61,22 @@ import javax.imageio.ImageIO;
  * Modifying comments to generate java docs properly
  * </p>
  *
+ * <p>
+ * Version 1.8
+ * Time Spent: 10 minutes
+ * Changing the graphics of the instructions and community guidelines
+ * </p>
+ *
  * @author Tsz Fei Wang, Eric Ning
- * @version 1.7
+ * @version 1.8
  * 
  * Chat-Mod AI Inc.
- * June 7th, 2024
+ * June 9th, 2024
  */
 public class Level1 extends Level {
 
    /** image containing the instructions for the level */
    private BufferedImage instructionsL1;
-   /** image of the community guidelines for online conduct */
-   private BufferedImage communityGuidelines;
    /** image of the enter username scene */
    private BufferedImage user; 
    /** image of the person's stool in front of the desk */
@@ -120,7 +124,6 @@ public class Level1 extends Level {
       try {
          // importing images 
          instructionsL1 = ImageIO.read(new File("instructionsL1.png"));
-         communityGuidelines = ImageIO.read(new File("community guidelines.png"));
          user = ImageIO.read(new File("enter username.jpg"));
          stool = ImageIO.read(new File("stool.png"));
          level1text = ImageIO.read(new File("level1text.png"));
@@ -228,9 +231,8 @@ public class Level1 extends Level {
          }
       }
       else if (currScene == 1) { // instructions
-         g.setColor(bg);
-         g.fillRect(0, 0, 810, 1020);
-         g.drawImage(instructionsL1, -10, -70, this);
+         displayInstructions(g);
+         
          if (ch == '\n') { // user chooses to continue
             ch = '\u0000';
             currScene++;
@@ -238,9 +240,8 @@ public class Level1 extends Level {
          }
       }
       else if (currScene == 2) { // community guidelines
-         g.setColor(bg);
-         g.fillRect(0, 0, 810, 1020);
-         g.drawImage(communityGuidelines, -10, -40, this);
+         displayCommunityGuidelines(g);
+         
          if (ch == '\n') { // user chooses to continue
             ch = '\u0000';
             currScene++;
@@ -388,6 +389,34 @@ public class Level1 extends Level {
       g.setColor(Color.black);
       g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 56));             
       g.drawString(username, 150, 600);
+   }
+   
+   /**
+    * Utility method to display the instructions of the level
+    * @param g An object which is a painting tool
+    */
+   public void displayInstructions(Graphics g) {
+      // background
+      g.setColor(bg);
+      g.fillRect(0, 0, 810, 1020);
+   
+      // title         
+      g.setColor(new Color(255, 209, 235));
+      g.fillRect(30, 30, 737, 160);
+      
+      g.setColor(Color.black);
+      g.setFont(new Font("Calibri", Font.BOLD, 80));
+      g.drawString("Level 1", 280, 138);
+      
+      // text
+      g.drawImage(instructionsL1, 17, 205, this);
+      
+      // instructions to continue
+      g.setColor(new Color(255, 209, 235));
+      g.fillRect(50, 840, 700, 90);
+      g.setColor(Color.black);
+      g.setFont(new Font("Calibri", Font.BOLD, 64));     
+      g.drawString("Press Enter to Continue", 92, 905); 
    }
    
    /**

@@ -46,11 +46,17 @@ import javax.imageio.ImageIO;
  * Modifying comments to generate java docs properly
  * </p>
  *
+ * <p>
+ * Version 1.6
+ * Time Spent: 30 minutes
+ * Changing the graphics of the instructions
+ * </p>
+ *
  * @author Tsz Fei Wang, Eric Ning
- * @version 1.5
+ * @version 1.6
  * 
  * Chat-Mod AI Inc.
- * June 7th, 2024
+ * June 9th, 2024
  */
 public class Instructions extends JComponent implements Runnable {
 
@@ -66,6 +72,8 @@ public class Instructions extends JComponent implements Runnable {
    private BufferedImage instructionsL2;
    /** the color of the background */
    private Color bg;
+   /** the color of the background of the title */
+   private Color bg2;
    /** whether this scene of the game is finished */
    private boolean finished;
    /** which instructions panel it is on */
@@ -87,8 +95,9 @@ public class Instructions extends JComponent implements Runnable {
          System.out.println("Missing image file.");
       }
       
-      // initializing other instance variable
+      // initializing other instance variables
       bg = new Color(245, 228, 255);
+      bg2 = new Color(255, 209, 235);
    }
    
    /**
@@ -122,9 +131,63 @@ public class Instructions extends JComponent implements Runnable {
       g.setColor(bg);
       g.fillRect(0, 0, 810, 1020);
       
-      if(currScreen == 0) g.drawImage(generalInstructions, -10, -20, this);
-      else if(currScreen == 1) g.drawImage(instructionsL1, -10, -70, this);
-      else if(currScreen == 2) g.drawImage(instructionsL2, -10, -70, this);
+      if(currScreen == 0) {
+         // title         
+         g.setColor(bg2);
+         g.fillRect(30, 30, 737, 160);
+         
+         g.setColor(Color.black);
+         g.setFont(new Font("Calibri", Font.BOLD, 80));
+         g.drawString("General Instructions", 57, 138);
+         
+         // text
+         g.drawImage(generalInstructions, 80, 215, this);
+         
+         // instructions to continue
+         g.setColor(bg2);
+         g.fillRect(50, 840, 700, 90);
+         g.setColor(Color.black);
+         g.setFont(new Font("Calibri", Font.BOLD, 64));     
+         g.drawString("Press Enter to Continue", 92, 905); 
+      }
+      else if(currScreen == 1) {
+         // title         
+         g.setColor(bg2);
+         g.fillRect(30, 30, 737, 160);
+         
+         g.setColor(Color.black);
+         g.setFont(new Font("Calibri", Font.BOLD, 80));
+         g.drawString("Level 1", 280, 138);
+         
+         // text
+         g.drawImage(instructionsL1, 17, 205, this);
+         
+         // instructions to continue
+         g.setColor(bg2);
+         g.fillRect(50, 840, 700, 90);
+         g.setColor(Color.black);
+         g.setFont(new Font("Calibri", Font.BOLD, 64));     
+         g.drawString("Press Enter to Continue", 92, 905); 
+      }
+      else if(currScreen == 2) {
+         // title         
+         g.setColor(bg2);
+         g.fillRect(30, 30, 737, 160);
+         
+         g.setColor(Color.black);
+         g.setFont(new Font("Calibri", Font.BOLD, 80));
+         g.drawString("Level 2", 280, 138);
+         
+         // text
+         g.drawImage(instructionsL2, 8, 205, this);
+         
+         // instructions to continue
+         g.setColor(bg2);
+         g.fillRect(50, 840, 700, 90);
+         g.setColor(Color.black);
+         g.setFont(new Font("Calibri", Font.BOLD, 64));     
+         g.drawString("Press Enter to Continue", 92, 905); 
+      }
    }
 
    /**
