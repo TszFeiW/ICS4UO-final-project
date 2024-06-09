@@ -429,6 +429,29 @@ public class Level2 extends Level {
             g.drawString(""+score, 415, 535);
             g.drawString(""+(totalTime/16), 415, 580);
             
+            if (score >= 7000) {
+               g.setColor(Color.green);
+               g.fillOval(595, 25, 175, 175);
+               g.setColor(Color.black);
+               int[] x = {645, 630, 665, 740, 725, 665};
+               int[] y = {115, 130, 165, 90, 75, 135};
+               g.fillPolygon(x, y, 6);
+            }
+            else if (score >= 4000) {
+               g.setColor(new Color(200, 150, 50));
+               g.fillOval(595, 25, 175, 175);
+               g.setColor(Color.black);
+               g.fillRect(610, 97, 145, 30); 
+            }
+            else {
+               g.setColor(Color.red);
+               g.fillOval(595, 25, 175, 175);
+               g.setColor(Color.black);
+               int[] x = {700, 740, 725, 685, 645, 630, 670, 630, 645, 685, 725, 740};
+               int[] y = {117, 77, 62, 102, 62, 77, 117, 157, 172, 132, 172, 157};
+               g.fillPolygon(x, y, 12);
+            }
+            
             if (ch == KeyEvent.VK_ENTER) { // user chooses to exit
                addHighscore();
                finished = true;
