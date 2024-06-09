@@ -33,17 +33,11 @@ import java.io.*;
  * and changed the colour of one of the boxes.
  * </p>
  *
- * <p>
- * Version 1.4
- * Time Spent: 5 minutes
- * Removing unused variables / import statements
- * </p>
- *
  * @author Eric Ning, Tsz Fei Wang
- * @version 1.4
+ * @version 1.3
  *
  * Chat-Mod AI Inc.
- * June 9th, 2024
+ * June 8th, 2024
  */
 public class Leaderboard extends JComponent implements Runnable {
 

@@ -42,17 +42,11 @@ import java.lang.Thread;
  * Modifying comments to generate java docs properly
  * </p>
  *
- * <p>
- * Version 1.6
- * Time Spent: 5 minutes
- * Removing unused variables / import statements
- * </p>
- *
  * @author Eric Ning, Tsz Fei Wang
- * @version 1.6
+ * @version 1.5
  * 
  * Chat-Mod AI Inc.
- * June 9th, 2024
+ * June 7th, 2024
  */
 public class Main extends Thread {
    

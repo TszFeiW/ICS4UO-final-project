@@ -152,7 +152,7 @@ public class Credits extends JComponent implements Runnable {
          g.fillRect(795-counter, 0, counter, 980);
          g.fillRect(0, 980-counter, 795, counter);
          counter++;
-         try {Thread.sleep(20);} catch (InterruptedException ie) {}
+         try {Thread.sleep(10);} catch (InterruptedException ie) {}
          this.repaint();
       }
       else if (selected) { // animation finished 
@@ -168,7 +168,7 @@ public class Credits extends JComponent implements Runnable {
    public void run() {
       try {
          while (true) {
-            Thread.sleep(200);
+            Thread.sleep(50);
             if (finished) break; // until the credits screen is complete 
          }
       } catch (InterruptedException ie) {

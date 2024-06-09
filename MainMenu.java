@@ -205,7 +205,7 @@ public class MainMenu extends JComponent implements Runnable {
       g.setColor(Color.black);
       g.setFont(new Font("Calibri", Font.BOLD, 64));
       g.drawString("Use Arrow Keys and press", 50, 860);
-      g.drawString("‘Enter’ to Continue.", 135, 930);
+      g.drawString("'Enter' to Continue.", 135, 930);
       
       if (warning) { // displays warning message if you try to choose level 2 when level 1 is incomplete
          g.setFont(new Font("Calibri", Font.BOLD, 48));
