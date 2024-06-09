@@ -74,8 +74,6 @@ public class Instructions extends JComponent implements Runnable {
    private Color bg;
    /** the color of the background of the title */
    private Color bg2;
-   /** whether this scene of the game is finished */
-   private boolean finished;
    /** which instructions panel it is on */
    private int currScreen;
    

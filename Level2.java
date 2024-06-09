@@ -1,6 +1,5 @@
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
@@ -185,6 +184,7 @@ public class Level2 extends Level {
                messageUser.add(line.charAt(line.length()-1) - '0'); // message user portion of the data
             }
          }
+         br.close();
          
          // reads data to determine next line after user makes a choice
          br = new BufferedReader(new FileReader("level2dat.txt"));
@@ -192,6 +192,7 @@ public class Level2 extends Level {
             String line = br.readLine();
             nextMessage[i] = line.split(" ");
          }
+         br.close();
          
          // reads data to determine the score gained or lost for each possible choice
          br = new BufferedReader(new FileReader("level2scores.txt"));
@@ -199,6 +200,7 @@ public class Level2 extends Level {
             String line = br.readLine();
             scores[i] = line.split(" ");
          }
+         br.close();
       }
       catch (IOException ioe) {  
          System.out.println("IOException Occurred. File(s) may be missing.");

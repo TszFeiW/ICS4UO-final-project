@@ -1,9 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import java.awt.image.BufferedImage;
 import java.io.*;
-import javax.imageio.ImageIO;
 
 /**
  * This class is used as the leaderboard screen/menu for our game. 
@@ -57,8 +55,6 @@ public class Leaderboard extends JComponent implements Runnable {
    private String[] data;
    /** stores character pressed by user for input */
    private char ch;
-   /** stores whether or not the program is done drawing */
-   private boolean doneDrawing;
    /** stores whether or not the user is done with the leaderboard */
    private boolean finished;
    

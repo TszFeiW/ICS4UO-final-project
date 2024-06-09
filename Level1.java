@@ -1,6 +1,5 @@
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
@@ -155,6 +154,7 @@ public class Level1 extends Level {
                messageUser.add(line.charAt(line.length()-1) - '0'); // message user portion of the data
             }
          }
+         br.close();
       }
       catch (IOException ioe) {  
          System.out.println("IOException Occurred. File(s) may be missing.");
