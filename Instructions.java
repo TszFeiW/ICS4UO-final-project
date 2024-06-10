@@ -52,8 +52,14 @@ import javax.imageio.ImageIO;
  * Changing the graphics of the instructions
  * </p>
  *
+ * <p>
+ * Version 1.7
+ * Time Spent: 10 minutes
+ * Modifying the file path for importing files after organizing folders
+ * </p>
+ *
  * @author Tsz Fei Wang, Eric Ning
- * @version 1.6
+ * @version 1.7
  * 
  * Chat-Mod AI Inc.
  * June 9th, 2024
@@ -85,9 +91,10 @@ public class Instructions extends JComponent implements Runnable {
       
       try {
          // importing images
-         generalInstructions = ImageIO.read(new File("generalInstructions.png"));
-         instructionsL1 = ImageIO.read(new File("instructionsL1.png"));
-         instructionsL2 = ImageIO.read(new File("instructionsL2.png"));
+    	 ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+         generalInstructions = ImageIO.read(classLoader.getResourceAsStream("images/generalInstructions.png"));
+         instructionsL1 = ImageIO.read(classLoader.getResourceAsStream("images/instructionsL1.png"));
+         instructionsL2 = ImageIO.read(classLoader.getResourceAsStream("images/instructionsL2.png"));
       }
       catch (IOException ioe) {
          System.out.println("Missing image file.");

@@ -42,11 +42,23 @@ import java.lang.Thread;
  * Modifying comments to generate java docs properly
  * </p>
  *
+ * <p>
+ * Version 1.6
+ * Time Spent: 5 minutes
+ * Removing unused variables / import statements
+ * </p>
+ *
+ * <p>
+ * Version 1.7
+ * Time Spent: 5 minutes
+ * User goes to credits screen from splash screen menu as well when exiting
+ * </p>
+ *
  * @author Eric Ning, Tsz Fei Wang
- * @version 1.5
+ * @version 1.7
  * 
  * Chat-Mod AI Inc.
- * June 7th, 2024
+ * June 10th, 2024
  */
 public class Main extends Thread {
    
@@ -99,8 +111,8 @@ public class Main extends Thread {
       } 
       catch (Exception e) { System.out.println("Exception has occured."); }
       
-      if (ss.getChoice() == 1) // chooses to exit
-         scene = 7;
+      if (ss.getChoice() == 1) // chooses to exit (credits screen)
+         scene = -1;
       else // chooses to proceed to main menu
          scene = 1;
       
@@ -111,7 +123,6 @@ public class Main extends Thread {
     * This method displays the main menu of the game
     */
    public void mainMenu() {
-   level2=true;
       MainMenu mm = new MainMenu(level2);
       Thread thread = new Thread(mm); // creates thread object
       window.getContentPane().add(mm); // adds main menu to JFrame window

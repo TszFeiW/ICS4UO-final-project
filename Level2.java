@@ -73,8 +73,14 @@ import javax.imageio.ImageIO;
  * Changing the graphics of the instructions and community guidelines
  * </p>
  *
+ * <p>
+ * Version 1.9
+ * Time Spent: 10 minutes
+ * Modifying the file path for importing files after organizing folders
+ * </p>
+ *
  * @author Eric Ning, Tsz Fei Wang
- * @version 1.8
+ * @version 1.9
  * 
  * Chat-Mod AI Inc.
  * June 9th, 2024
@@ -131,10 +137,12 @@ public class Level2 extends Level {
    private String[][] nextMessage;
    /** 2D array that stores the base score value of the responses for each scenario */
    private String[][] scores;
-   
+   /** Whether the user chose the correct option */
    private boolean correct;
-   private boolean incorrect;
+   /** Whether the user chose the okay option */
    private boolean okay;
+   /** Whether the user chose the incorrect option */
+   private boolean incorrect;
    
    /**
     * Constructor of the class so that an instance of the class can be created in Main
@@ -146,12 +154,13 @@ public class Level2 extends Level {
       
       try {
          // importing images
-         instructionsL2 = ImageIO.read(new File("instructionsL2.png"));
-         level2text = ImageIO.read(new File("level2text.png"));
-         computer = ImageIO.read(new File("computer.png"));
-         computerPeople = ImageIO.read(new File("computerPeople2.png"));
-         transition2 = ImageIO.read(new File("transition2.png"));
-         results = ImageIO.read(new File("level2Results.png")); 
+    	 ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+         instructionsL2 = ImageIO.read(classLoader.getResourceAsStream("images/instructionsL2.png"));
+         level2text = ImageIO.read(classLoader.getResourceAsStream("images/level2text.png"));
+         computer = ImageIO.read(classLoader.getResourceAsStream("images/computer.png"));
+         computerPeople = ImageIO.read(classLoader.getResourceAsStream("images/computerPeople2.png"));
+         transition2 = ImageIO.read(classLoader.getResourceAsStream("images/transition2.png"));
+         results = ImageIO.read(classLoader.getResourceAsStream("images/level2Results.png")); 
 
          // initializing other instance variables
          messageTextDisplayed = new String[4];
@@ -163,7 +172,7 @@ public class Level2 extends Level {
          ch = '\\';
          
          // reading the information into the arrays inside the pre-created level2.txt file
-         BufferedReader br = new BufferedReader(new FileReader("level2.txt"));
+         BufferedReader br = new BufferedReader(new FileReader("textfiles/level2.txt"));
          while (true) { // assumes that file is functional
             String line = br.readLine();
             if (line == null) break; // end of file
@@ -187,7 +196,7 @@ public class Level2 extends Level {
          br.close();
          
          // reads data to determine next line after user makes a choice
-         br = new BufferedReader(new FileReader("level2dat.txt"));
+         br = new BufferedReader(new FileReader("textfiles/level2dat.txt"));
          for (int i = 0; i < 5; i++) {
             String line = br.readLine();
             nextMessage[i] = line.split(" ");
@@ -195,7 +204,7 @@ public class Level2 extends Level {
          br.close();
          
          // reads data to determine the score gained or lost for each possible choice
-         br = new BufferedReader(new FileReader("level2scores.txt"));
+         br = new BufferedReader(new FileReader("textfiles/level2scores.txt"));
          for (int i = 0; i < 5; i++) {
             String line = br.readLine();
             scores[i] = line.split(" ");
@@ -376,6 +385,8 @@ public class Level2 extends Level {
             }
             else if (!game) { // display same messages
                displayMessages(g);
+               if (counter >= 0 && counter < messageUser.size() && messageUser.get(counter) == -1)
+                  displayTransition(g);
                return;
             }
             
@@ -529,7 +540,7 @@ public class Level2 extends Level {
          g.setColor(Color.black);
          g.setFont(new Font("Calibri", Font.BOLD, 64));
          g.drawString("Use Arrow Keys and press", 50, 860);
-         g.drawString("‘Enter’ to Continue.", 135, 930);
+         g.drawString("'Enter' to Continue.", 135, 930);
       }
    }
    
@@ -603,7 +614,7 @@ public class Level2 extends Level {
     * @param g An object which is a painting tool
     */
    public void displayTransition(Graphics g) {
-      g.drawImage(transition2, 95, 380, this);
+      g.drawImage(transition2, 95, 375, this);
       // press enter to continue message
       g.setColor(new Color(254, 189, 225));
       g.fillRect(50, 880, 700, 90);
@@ -663,7 +674,7 @@ public class Level2 extends Level {
    	String[][] arr = new String[10][2]; // leaderboard data
    	
    	try {
-   	   BufferedReader br = new BufferedReader(new FileReader("highscores.txt"));
+   	   BufferedReader br = new BufferedReader(new FileReader("textfiles/highscores.txt"));
    	   for (int i = 0; i < 10; i++) {
       		String line = br.readLine();
       		
@@ -691,7 +702,7 @@ public class Level2 extends Level {
    	    temp = "0" + temp;
    	}
    	try {
-   	   PrintWriter pw = new PrintWriter(new FileWriter("highscores.txt")); // writes to the highscores.txt file
+   	   PrintWriter pw = new PrintWriter(new FileWriter("textfiles/highscores.txt")); // writes to the highscores.txt file
    	   for (int i = 0; i < 10; i++) {
    		   if (i < idx) pw.println(arr[i][0] + "/" + arr[i][1]); // scores higher than the new score
    		   else if (i == idx) pw.println(username + "/" + temp); // new position for score

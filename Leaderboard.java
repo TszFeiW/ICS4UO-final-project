@@ -33,11 +33,23 @@ import java.io.*;
  * and changed the colour of one of the boxes.
  * </p>
  *
+ * <p>
+ * Version 1.4
+ * Time Spent: 5 minutes
+ * Removing unused variables / import statements
+ * </p>
+ *
+ * <p>
+ * Version 1.5
+ * Time Spent: 10 minutes
+ * Modifying the file path for importing files after organizing folders
+ * </p>
+ *
  * @author Eric Ning, Tsz Fei Wang
- * @version 1.3
+ * @version 1.5
  *
  * Chat-Mod AI Inc.
- * June 8th, 2024
+ * June 9th, 2024
  */
 public class Leaderboard extends JComponent implements Runnable {
 
@@ -111,7 +123,8 @@ public class Leaderboard extends JComponent implements Runnable {
    	
       // reading from the highscores.txt file
       try {
-         br = new BufferedReader(new FileReader("highscores.txt"));
+    	 ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+         br = new BufferedReader(new FileReader("textfiles/highscores.txt"));
          for (int i = 0; i < 10; i++) {
       		String line = br.readLine();
             data[i] = line;
@@ -155,7 +168,7 @@ public class Leaderboard extends JComponent implements Runnable {
    	// if user chooses to reset the highscore file
       if (ch == 'R' || ch == 'r') {
    	   try {
-   		   PrintWriter pw = new PrintWriter(new FileWriter("highscores.txt"));
+   		   PrintWriter pw = new PrintWriter(new FileWriter("textfiles/highscores.txt"));
    		   for (int i = 1; i <= 10; i++) {
    		      pw.println("User" + i + "/00000");
    		   }

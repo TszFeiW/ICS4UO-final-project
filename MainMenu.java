@@ -59,11 +59,17 @@ import javax.imageio.ImageIO;
  * Adjusting the location of the buttons and text slightly.
  * </p>
  *
+ * <p>
+ * Version 1.8
+ * Time Spent: 10 minutes
+ * Modifying the file path for importing files after organizing folders
+ * </p>
+ *
  * @author Eric Ning, Tsz Fei Wang
- * @version 1.6
+ * @version 1.8
  * 
  * Chat-Mod AI Inc.
- * June 7th, 2024
+ * June 9th, 2024
  */
 public class MainMenu extends JComponent implements Runnable {
 
@@ -115,18 +121,19 @@ public class MainMenu extends JComponent implements Runnable {
       
       try {
          // importing images
-         instructions = ImageIO.read(new File("instructionsButton.png"));
-         instructions2 = ImageIO.read(new File("instructionsButton2.png"));
-         firstLevel = ImageIO.read(new File("level1Button.png"));
-         firstLevel2 = ImageIO.read(new File("level1Button2.png"));
-         secondLevel = ImageIO.read(new File("level2Button.png"));
-         secondLevel2 = ImageIO.read(new File("level2Button2.png"));
-         secondLevelUnlocked = ImageIO.read(new File("level2unlocked.png"));
-         secondLevelUnlocked2 = ImageIO.read(new File("level2unlocked2.png"));
-         leaderboard = ImageIO.read(new File("leaderboardButton.png"));
-         leaderboard2 = ImageIO.read(new File("leaderboardButton2.png"));
-         quit = ImageIO.read(new File("quitGameButton.png"));
-         quit2 = ImageIO.read(new File("quitGameButton2.png"));
+    	 ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+         instructions = ImageIO.read(classLoader.getResourceAsStream("images/instructionsButton.png"));
+         instructions2 = ImageIO.read(classLoader.getResourceAsStream("images/instructionsButton2.png"));
+         firstLevel = ImageIO.read(classLoader.getResourceAsStream("images/level1Button.png"));
+         firstLevel2 = ImageIO.read(classLoader.getResourceAsStream("images/level1Button2.png"));
+         secondLevel = ImageIO.read(classLoader.getResourceAsStream("images/level2Button.png"));
+         secondLevel2 = ImageIO.read(classLoader.getResourceAsStream("images/level2Button2.png"));
+         secondLevelUnlocked = ImageIO.read(classLoader.getResourceAsStream("images/level2unlocked.png"));
+         secondLevelUnlocked2 = ImageIO.read(classLoader.getResourceAsStream("images/level2unlocked2.png"));
+         leaderboard = ImageIO.read(classLoader.getResourceAsStream("images/leaderboardButton.png"));
+         leaderboard2 = ImageIO.read(classLoader.getResourceAsStream("images/leaderboardButton2.png"));
+         quit = ImageIO.read(classLoader.getResourceAsStream("images/quitGameButton.png"));
+         quit2 = ImageIO.read(classLoader.getResourceAsStream("images/quitGameButton2.png"));
       }
       catch (IOException ioe) {
          System.out.println("Missing image file.");

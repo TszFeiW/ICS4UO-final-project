@@ -46,11 +46,23 @@ import javax.imageio.ImageIO;
  * Modifying comments to generate java docs properly
  * </p>
  *
- * @author Tsz Fei Wang
- * @version 1.5
+ * <p>
+ * Version 1.6
+ * Time Spent: 10 minutes
+ * Modifying the file path for importing files after organizing folders
+ * </p>
+ *
+ * <p>
+ * Version 1.7
+ * Time Spent: 10 minutes
+ * Changing the coordinates of the graphics
+ * </p>
+ *
+ * @author Tsz Fei Wang, Eric Ning
+ * @version 1.7
  * 
  * Chat-Mod AI Inc.
- * June 7th, 2024
+ * June 10th, 2024
  */
 public class Credits extends JComponent implements Runnable {
 
@@ -79,7 +91,8 @@ public class Credits extends JComponent implements Runnable {
       
       try {
          // importing logo image
-         logo = ImageIO.read(new File("logo.png"));
+    	 ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+         logo = ImageIO.read(classLoader.getResourceAsStream("images/logo.png"));
       }
       catch (IOException ioe) {
          System.out.println("Missing image file.");
@@ -124,25 +137,24 @@ public class Credits extends JComponent implements Runnable {
       g.fillRect(0, 0, 810, 1020);
       
       g.setColor(bg2);
-      g.fillRect(30, 30, 735, 455);
-      g.fillRect(30, 505, 735, 445);
-      
-      g.drawImage(logo, 245, 580, this);
+      g.fillRect(30, 30, 735, 920);
       
       g.setColor(Color.black);
       g.setFont(new Font("Calibri", Font.BOLD, 120));
       g.drawString("Credits", 220, 150);
+      g.fillRect(100, 185, 595, 8);
       
       g.setFont(new Font("Calibri", Font.BOLD, 54));
-      g.drawString("Game made by:", 220, 260);
-      g.drawString("Eric Ning and Tsz Fei Wang", 100, 320);
+      g.drawString("Game made by:", 220, 265);
+      g.drawString("Eric Ning and Tsz Fei Wang", 100, 325);
       
       g.setFont(new Font("Calibri", Font.BOLD, 36));
-      g.drawString("Thanks for playing CMOD Socializer!", 135, 560);
-      g.drawString("Chat-Mod AI Inc.", 280, 930);
+      g.drawString("Thanks for playing CMOD Socializer!", 130, 415);
+      g.drawImage(logo, 235, 435, this);
+      g.drawString("Chat-Mod AI Inc.", 275, 790);
       
       g.setFont(new Font("Calibri", Font.BOLD, 64));
-      g.drawString("Press ‘Enter’ to Exit.", 135, 400);
+      g.drawString("Press 'Enter' to Exit", 135, 900);
       
       if (selected && counter <= 398) { // if the user has chosen to exit and animation is ongoing
          // adds thicker and thicker black borders until the screen is completely black

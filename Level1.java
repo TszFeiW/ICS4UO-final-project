@@ -66,11 +66,23 @@ import javax.imageio.ImageIO;
  * Changing the graphics of the instructions and community guidelines
  * </p>
  *
+ * <p>
+ * Version 1.9
+ * Time Spent: 10 minutes
+ * Modifying the file path for importing files after organizing folders
+ * </p>
+ *
+ * <p>
+ * Version 1.10
+ * Time Spent: 10 minutes
+ * Changing the coordinates of the graphics on the level
+ * </p>
+ *
  * @author Tsz Fei Wang, Eric Ning
- * @version 1.8
+ * @version 1.10
  * 
  * Chat-Mod AI Inc.
- * June 9th, 2024
+ * June 10th, 2024
  */
 public class Level1 extends Level {
 
@@ -122,16 +134,17 @@ public class Level1 extends Level {
       
       try {
          // importing images 
-         instructionsL1 = ImageIO.read(new File("instructionsL1.png"));
-         user = ImageIO.read(new File("enter username.jpg"));
-         stool = ImageIO.read(new File("stool.png"));
-         level1text = ImageIO.read(new File("level1text.png"));
-         desk = ImageIO.read(new File("desk.png"));
-         person = ImageIO.read(new File("person.png"));
-         personComputer = ImageIO.read(new File("personComputer.png"));
-         computer = ImageIO.read(new File("computer.png"));
-         computerPeople = ImageIO.read(new File("computerPeople.png"));
-         transition = ImageIO.read(new File("transition.png"));
+    	 ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+         instructionsL1 = ImageIO.read(classLoader.getResourceAsStream("images/instructionsL1.png"));
+         user = ImageIO.read(classLoader.getResourceAsStream("images/enter username.jpg"));
+         stool = ImageIO.read(classLoader.getResourceAsStream("images/stool.png"));
+         level1text = ImageIO.read(classLoader.getResourceAsStream("images/level1text.png"));
+         desk = ImageIO.read(classLoader.getResourceAsStream("images/desk.png"));
+         person = ImageIO.read(classLoader.getResourceAsStream("images/person.png"));
+         personComputer = ImageIO.read(classLoader.getResourceAsStream("images/personComputer.png"));
+         computer = ImageIO.read(classLoader.getResourceAsStream("images/computer.png"));
+         computerPeople = ImageIO.read(classLoader.getResourceAsStream("images/computerPeople.png"));
+         transition = ImageIO.read(classLoader.getResourceAsStream("images/transition.png"));
          
          // initializing other instance variables
          ch = '\u0000';
@@ -141,7 +154,7 @@ public class Level1 extends Level {
          messageUser = new ArrayList<Integer>();
          
          // reading the information into the arrays inside the pre-created level1.txt file
-         BufferedReader br = new BufferedReader(new FileReader("level1.txt"));
+         BufferedReader br = new BufferedReader(new FileReader("textfiles/level1.txt"));
          while (true) {
             String line = br.readLine();
             if (line == null) break; // end of file
@@ -205,7 +218,7 @@ public class Level1 extends Level {
                username = username.substring(0, username.length() - 1); // deletes the rightmost character
                g.setColor(Color.black);
                g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 56));
-               g.drawString(username, 150, 600); // draws the current username on screen
+               g.drawString(username, 160, 600); // draws the current username on screen
                // resets the character to avoid one key endlessly being added
                ch = '\u0000';
             }
@@ -224,7 +237,7 @@ public class Level1 extends Level {
             
             g.setColor(Color.black);
             g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 56));             
-            g.drawString(username, 150, 600); // draws the current username on screen
+            g.drawString(username, 160, 600); // draws the current username on screen
             
             // resets the character to avoid one key endlessly being added
             ch = '\u0000';
@@ -345,6 +358,8 @@ public class Level1 extends Level {
             } 
             else { // display same messages
                displayMessages(g);
+               if (counter-200 >= 0 && counter-200 < messageUser.size() && messageUser.get(counter-200) == -1)
+                   displayTransition(g);
                return;
             }
             
@@ -388,7 +403,7 @@ public class Level1 extends Level {
       g.drawString(message, 80, 150);
       g.setColor(Color.black);
       g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 56));             
-      g.drawString(username, 150, 600);
+      g.drawString(username, 160, 600);
    }
    
    /**
@@ -486,7 +501,7 @@ public class Level1 extends Level {
     * @param g An object which is a painting tool
     */
    public void displayTransition(Graphics g) {
-      g.drawImage(transition, 55, 380, this);
+      g.drawImage(transition, 48, 370, this);
       // press enter to continue message
       g.setColor(new Color(254, 189, 225));
       g.fillRect(50, 880, 700, 90);

@@ -38,8 +38,14 @@ import javax.imageio.ImageIO;
  * Changing the graphics of the instructions and community guidelines
  * </p>
  *
+ * <p>
+ * Version 1.5
+ * Time Spent: 10 minutes
+ * Modifying the file path for importing files after organizing folders
+ * </p>
+ *
  * @author Eric Ning, Tsz Fei Wang
- * @version 1.4
+ * @version 1.5
  * 
  * Chat-Mod AI Inc.
  * June 9th, 2024
@@ -71,7 +77,8 @@ abstract class Level extends JComponent implements Runnable {
       this.bg = bg;
       try {
          // importing images 
-         communityGuidelines = ImageIO.read(new File("communityGuidelines.png"));
+    	 ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+         communityGuidelines = ImageIO.read(classLoader.getResourceAsStream("images/communityGuidelines.png"));
       }
       catch (IOException ioe) {  
          System.out.println("IOException Occurred. File(s) may be missing.");

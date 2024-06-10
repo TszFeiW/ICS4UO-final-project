@@ -52,11 +52,17 @@ import javax.imageio.ImageIO;
  * Modifying the position of the buttons.
  * </p>
  *
+ * <p>
+ * Version 1.7
+ * Time Spent: 10 minutes
+ * Modifying the file path for importing files after organizing folders
+ * </p>
+ *
  * @author Eric Ning, Tsz Fei Wang
- * @version 1.6
+ * @version 1.7
  * 
  * Chat-Mod AI Inc.
- * June 8th, 2024
+ * June 9th, 2024
  */
 public class SplashScreen extends JComponent implements Runnable {
 
@@ -88,16 +94,16 @@ public class SplashScreen extends JComponent implements Runnable {
     */
    public SplashScreen() {
       this.addKeyListener(new KeyHandler()); // adding KeyListener
-      
+      ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
       try {
          // importing images
-         logo = ImageIO.read(new File("logo.png"));
-         logo2 = ImageIO.read(new File("logo2.png"));
-         logoLarge = ImageIO.read(new File("logoLarge.png"));
-         play = ImageIO.read(new File("playButton.png"));
-         play2 = ImageIO.read(new File("playButton2.png"));
-         exit = ImageIO.read(new File("exitButton.png"));
-         exit2 = ImageIO.read(new File("exitButton2.png"));
+         logo = ImageIO.read(classLoader.getResourceAsStream("images/logo.png"));
+         logo2 = ImageIO.read(classLoader.getResourceAsStream("images/logo2.png"));
+         logoLarge = ImageIO.read(classLoader.getResourceAsStream("images/logoLarge.png"));
+         play = ImageIO.read(classLoader.getResourceAsStream("images/playButton.png"));
+         play2 = ImageIO.read(classLoader.getResourceAsStream("images/playButton2.png"));
+         exit = ImageIO.read(classLoader.getResourceAsStream("images/exitButton.png"));
+         exit2 = ImageIO.read(classLoader.getResourceAsStream("images/exitButton2.png"));
       }
       catch (IOException ioe) {
          System.out.println("Missing image file.");
@@ -199,7 +205,7 @@ public class SplashScreen extends JComponent implements Runnable {
          // instructions to continue
          g.setFont(new Font("Calibri", Font.BOLD, 64));
          g.drawString("Use Arrow Keys and press", 50, 860);
-         g.drawString("‘Enter’ to Continue.", 135, 930);
+         g.drawString("'Enter' to Continue.", 135, 930);
       }
    }
    
