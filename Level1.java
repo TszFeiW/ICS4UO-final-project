@@ -74,8 +74,10 @@ import javax.imageio.ImageIO;
  *
  * <p>
  * Version 1.10
- * Time Spent: 10 minutes
- * Changing the coordinates of the graphics on the level
+ * Time Spent: 35 minutes
+ * Changing the coordinates of the graphics on the level. Adding 
+ * instructions to the username screen. Username prompted only
+ * the first time that Level 1 is run, otherwise uses previous username.
  * </p>
  *
  * @author Tsz Fei Wang, Eric Ning
@@ -106,8 +108,6 @@ public class Level1 extends Level {
    private BufferedImage computerPeople;
    /** image of the transition screen between two blocks of messages */
    private BufferedImage transition;
-   /** whether or not the level is complete */
-   private boolean finished;
    /** the current scene in the level being displayed */
    private int currScene;
    /** counter variable to deal with animation */
@@ -127,14 +127,16 @@ public class Level1 extends Level {
    
    /**
     * Constructor of the class so that an instance of the class can be created in Main
+    * @param username The user's username, stored from previous run of Level 1 if it happened (otherwise empty)
+    * @param level1 Whether the user has ran level 1 before yet
     */
-   public Level1() {
-      super("", new Color(245,228,255)); // calls the constructor of the Level class
+   public Level1(String username, boolean level1) {
+      super(username, new Color(245,228,255)); // calls the constructor of the Level class
       this.addKeyListener(new KeyHandler()); // adds the Key Listener
       
       try {
          // importing images 
-    	 ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+    	   ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
          instructionsL1 = ImageIO.read(classLoader.getResourceAsStream("images/instructionsL1.png"));
          user = ImageIO.read(classLoader.getResourceAsStream("images/enter username.jpg"));
          stool = ImageIO.read(classLoader.getResourceAsStream("images/stool.png"));
@@ -152,6 +154,7 @@ public class Level1 extends Level {
          messageUserDisplayed = new int[4];
          messageText = new ArrayList<String>();
          messageUser = new ArrayList<Integer>();
+         if (level1) currScene = 1;
          
          // reading the information into the arrays inside the pre-created level1.txt file
          BufferedReader br = new BufferedReader(new FileReader("textfiles/level1.txt"));
@@ -202,7 +205,13 @@ public class Level1 extends Level {
          // draws background
          g.setColor(bg);
          g.fillRect(0, 0, 810, 1020);
-         g.drawImage(user, 0, -100, this);
+         g.drawImage(user, 0, -200, this);
+         g.setColor(new Color(255, 209, 235));
+         g.fillRect(50, 790, 695, 140);
+         g.setColor(Color.black);
+         g.setFont(new Font("Calibri", Font.BOLD, 48));     
+         g.drawString("Type letters and numbers then", 90, 845); 
+         g.drawString("press 'Enter' to submit", 165, 905);
          
          try {Thread.sleep(50);} catch (InterruptedException ie) {} // adds delay so less spam can be done
          char c = ch;
@@ -218,7 +227,7 @@ public class Level1 extends Level {
                username = username.substring(0, username.length() - 1); // deletes the rightmost character
                g.setColor(Color.black);
                g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 56));
-               g.drawString(username, 160, 600); // draws the current username on screen
+               g.drawString(username, 160, 500); // draws the current username on screen
                // resets the character to avoid one key endlessly being added
                ch = '\u0000';
             }
@@ -237,7 +246,7 @@ public class Level1 extends Level {
             
             g.setColor(Color.black);
             g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 56));             
-            g.drawString(username, 160, 600); // draws the current username on screen
+            g.drawString(username, 160, 500); // draws the current username on screen
             
             // resets the character to avoid one key endlessly being added
             ch = '\u0000';
@@ -398,12 +407,12 @@ public class Level1 extends Level {
    public void displayWarning(String message, Graphics g) {
       g.setFont(new Font("Calibri", Font.BOLD, 40));
       g.setColor(new Color(162, 210, 255));
-      g.fillRect(50, 80, 710, 120);
+      g.fillRect(50, 30, 710, 120);
       g.setColor(Color.black);
-      g.drawString(message, 80, 150);
+      g.drawString(message, 80, 100);
       g.setColor(Color.black);
       g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 56));             
-      g.drawString(username, 160, 600);
+      g.drawString(username, 160, 500);
    }
    
    /**

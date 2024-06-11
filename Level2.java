@@ -103,8 +103,6 @@ public class Level2 extends Level {
    private boolean game;
    /** whether or not the user chose to skip the question to see all answers */
    private boolean seeAllOptions;
-   /** whether or not the level is complete */
-   private boolean finished;
    /** the current scene in the level being displayed */
    private int currScene;
    /** counter variable to deal with animation */
@@ -154,7 +152,7 @@ public class Level2 extends Level {
       
       try {
          // importing images
-    	 ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+    	   ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
          instructionsL2 = ImageIO.read(classLoader.getResourceAsStream("images/instructionsL2.png"));
          level2text = ImageIO.read(classLoader.getResourceAsStream("images/level2text.png"));
          computer = ImageIO.read(classLoader.getResourceAsStream("images/computer.png"));

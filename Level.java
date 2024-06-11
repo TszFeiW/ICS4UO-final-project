@@ -77,7 +77,7 @@ abstract class Level extends JComponent implements Runnable {
       this.bg = bg;
       try {
          // importing images 
-    	 ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+    	   ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
          communityGuidelines = ImageIO.read(classLoader.getResourceAsStream("images/communityGuidelines.png"));
       }
       catch (IOException ioe) {  

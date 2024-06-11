@@ -50,8 +50,9 @@ import java.lang.Thread;
  *
  * <p>
  * Version 1.7
- * Time Spent: 5 minutes
- * User goes to credits screen from splash screen menu as well when exiting
+ * Time Spent: 10 minutes
+ * User goes to credits screen from splash screen menu as well when exiting.
+ * Username is saved across the program (user cannot change username).
  * </p>
  *
  * @author Eric Ning, Tsz Fei Wang
@@ -68,8 +69,8 @@ public class Main extends Thread {
    private String username;
    /** the current scene number */
    private int scene;
-   /** whether the user can access level 2 or not */
-   private boolean level2;
+   /** whether the user has finished level 1 or not */
+   private boolean level1;
    
    /**
     * Constructor so the main method can access the methods of this class
@@ -83,7 +84,7 @@ public class Main extends Thread {
       // initializing other instance variables
       username = "";
       scene = 0; // starts on the splash screen
-      level2 = false;
+      level1 = false;
    }
    
    /**
@@ -112,7 +113,7 @@ public class Main extends Thread {
       catch (Exception e) { System.out.println("Exception has occured."); }
       
       if (ss.getChoice() == 1) // chooses to exit (credits screen)
-         scene = -1;
+         scene = 6;
       else // chooses to proceed to main menu
          scene = 1;
       
@@ -123,7 +124,7 @@ public class Main extends Thread {
     * This method displays the main menu of the game
     */
    public void mainMenu() {
-      MainMenu mm = new MainMenu(level2);
+      MainMenu mm = new MainMenu(level1);
       Thread thread = new Thread(mm); // creates thread object
       window.getContentPane().add(mm); // adds main menu to JFrame window
       mm.setFocusable(true);
@@ -179,7 +180,7 @@ public class Main extends Thread {
     * This method displays Level 1 of the game
     */
    public void level1() {
-      Level1 l1 = new Level1();
+      Level1 l1 = new Level1(username, level1);
       Thread thread = new Thread(l1); // creates thread object
       window.getContentPane().add(l1); // adds level 1 to JFrame window
       l1.setFocusable(true);
@@ -191,8 +192,8 @@ public class Main extends Thread {
       } 
       catch (Exception e) { System.out.println("Exception has occured."); }
       
-      username = l1.getUsername();
-      level2 = true;
+      username = l1.getUsername();   
+      level1 = true;
       scene = 1;
       cleanWindow();
    }
