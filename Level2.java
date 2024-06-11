@@ -123,6 +123,9 @@ public class Level2 extends Level {
    private int totalTime;
    /** stores the user's input */
    private int ch;
+   private int x; // x coordinate
+   private int y; // y coordinate
+   private int[][] location; // location of the people the user interacts with
    /** text in the currently displayed messages */
    private String[] messageTextDisplayed;
    /** the user that sent each message in currently displayed messages */
@@ -135,6 +138,7 @@ public class Level2 extends Level {
    private String[][] nextMessage;
    /** 2D array that stores the base score value of the responses for each scenario */
    private String[][] scores;
+   private boolean messages; // currenlty messages
    /** Whether the user chose the correct option */
    private boolean correct;
    /** Whether the user chose the okay option */
@@ -333,6 +337,11 @@ public class Level2 extends Level {
       }
       else { // actual messages being displayed in this scene of the level
          if (counter < 96) { // messages appear here
+            if (scenario == 5) { // no more scenarios, this level is over
+                counter = 96;
+                this.repaint();
+                return;
+            }
             displayBackground(g);
             
             try {Thread.sleep(50);} catch (InterruptedException ie) {}
@@ -347,7 +356,7 @@ public class Level2 extends Level {
                timer = 0;
             }
             
-            if (ch == KeyEvent.VK_ENTER) { // next message displays
+            if (ch == KeyEvent.VK_ENTER && messages) { // next message displays
                ch = '\\';
                counter++;
                if (counter == 96) { // end of messages
@@ -381,11 +390,37 @@ public class Level2 extends Level {
                   return;
                }
             }
-            else if (!game) { // display same messages
+            else if (!game && messages) { // display same messages
                displayMessages(g);
                if (counter >= 0 && counter < messageUser.size() && messageUser.get(counter) == -1)
                   displayTransition(g);
                return;
+            }
+            else if (ch == KeyEvent.VK_W) {
+                y--;
+                // something here
+                displayBackground(g);
+            }
+            else if (ch == KeyEvent.VK_A) {
+                x--;
+                displayBackground(g);
+            }
+            else if (ch == KeyEvent.VK_S) {
+                y++;
+                displayBackground(g);
+            }
+            else if (ch == KeyEvent.VK_D) {
+                x++;
+                displayBackground(g);
+            }
+            else if (ch == KeyEvent.VK_F) {
+                if (x >= location[scenario][0] && x <= location[scenario][0] + 50 && y >= location[scenario][1] && y <= location[scenario][1] + 100) {
+                    messages = true;
+                }
+                    
+            }
+            else if (!messages) {
+                return;
             }
             
             int nextMessage = counter; // index of next message in array
@@ -504,42 +539,10 @@ public class Level2 extends Level {
     * @param g An object which is a painting tool
     */
    public void displayBackground(Graphics g) {
-      g.setColor(new Color(224, 240, 244));
-      g.fillRect(0, 0, 810, 1020);
-      g.drawImage(computer, 2, 220, this);
-      g.setColor(new Color(150, 75, 0));
-      g.fillRect(0, 860, 810, 220);
-      g.drawImage(computerPeople, 23, 243, this);
-      g.setColor(new Color(254, 189, 225));
-      g.fillRect(225, 375, 300, 100);
-      g.setColor(Color.black);
-      g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 24));     
-      g.drawString("Hello! My name is", 240, 415);        
-      g.drawString(username, 240, 450);
-      g.setColor(new Color(162, 210, 255, 200));
-      g.fillRect(21, 240, 751, 422);
-      
-      if (!game) {
-         // press enter to continue message
-         g.setColor(Color.black);
-         g.fillRect(45, 875, 710, 100);
-         g.setColor(new Color(254, 189, 225));
-         g.fillRect(50, 880, 700, 90);
-         g.setColor(Color.black);
-         g.setFont(new Font("Calibri", Font.BOLD, 64));     
-         g.drawString("Press Enter to Continue", 95, 945);
-      }
-      else {
-         // instructions to continue
-         g.setColor(Color.black);
-         g.fillRect(35, 795, 730, 170);
-         g.setColor(new Color(254, 189, 225));
-         g.fillRect(40, 800, 720, 160);
-         g.setColor(Color.black);
-         g.setFont(new Font("Calibri", Font.BOLD, 64));
-         g.drawString("Use Arrow Keys and press", 50, 860);
-         g.drawString("'Enter' to Continue.", 135, 930);
-      }
+      g.drawImage(level2background, 0, 0, this);
+      g.drawImage(character, x, y, this);
+       // display other characters here
+      g.drawImage(arrow, location[scenario][0], location[scenario][1], this);
    }
    
    /**
@@ -612,17 +615,9 @@ public class Level2 extends Level {
     * @param g An object which is a painting tool
     */
    public void displayTransition(Graphics g) {
-      g.drawImage(transition2, 95, 375, this);
-      // press enter to continue message
-      g.setColor(new Color(254, 189, 225));
-      g.fillRect(50, 880, 700, 90);
-      g.setColor(Color.black);
-      g.setFont(new Font("Calibri", Font.BOLD, 64));     
-      g.drawString("Press Enter to Continue", 95, 945); 
-      numDisplayed = 0;
-      selected = 0;
-      game = false;
-      seeAllOptions = false;
+      displayBackground(g);
+      scenario++;
+      messages = false;
    }
    
    /**
