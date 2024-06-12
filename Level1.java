@@ -105,7 +105,7 @@ public class Level1 extends Level {
    /** image of the computer zoomed in */
    private BufferedImage computer;
    /** image of people inside the computer screen */
-   private BufferedImage computerPeople;
+   private BufferedImage[] computerPeople;
    /** image of the transition screen between two blocks of messages */
    private BufferedImage transition;
    /** the current scene in the level being displayed */
@@ -124,6 +124,10 @@ public class Level1 extends Level {
    private ArrayList<String> messageText;
    /** contains the corresponding user of all the messages */
    private ArrayList<Integer> messageUser;
+   /** which computer person to draw on the left hand side of the screen */
+   private int computerPerson1; 
+   /** which computer person to draw on the right hand side of the screen */
+   private int computerPerson2;
    
    /**
     * Constructor of the class so that an instance of the class can be created in Main
@@ -136,6 +140,8 @@ public class Level1 extends Level {
       
       try {
          // importing images 
+         computerPeople = new BufferedImage[6];
+         
     	   ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
          instructionsL1 = ImageIO.read(classLoader.getResourceAsStream("images/instructionsL1.png"));
          user = ImageIO.read(classLoader.getResourceAsStream("images/enter username.jpg"));
@@ -145,8 +151,17 @@ public class Level1 extends Level {
          person = ImageIO.read(classLoader.getResourceAsStream("images/person.png"));
          personComputer = ImageIO.read(classLoader.getResourceAsStream("images/personComputer.png"));
          computer = ImageIO.read(classLoader.getResourceAsStream("images/computer.png"));
-         computerPeople = ImageIO.read(classLoader.getResourceAsStream("images/computerPeople.png"));
          transition = ImageIO.read(classLoader.getResourceAsStream("images/transition.png"));
+         
+         
+         computerPeople[0] = ImageIO.read(classLoader.getResourceAsStream("images/man1.png"));
+         computerPeople[1] = ImageIO.read(classLoader.getResourceAsStream("images/man2.png"));
+         computerPeople[2] = ImageIO.read(classLoader.getResourceAsStream("images/man3.png"));
+         computerPeople[3] = ImageIO.read(classLoader.getResourceAsStream("images/woman1.png"));
+         computerPeople[4] = ImageIO.read(classLoader.getResourceAsStream("images/woman2.png"));
+         computerPeople[5] = ImageIO.read(classLoader.getResourceAsStream("images/woman3.png"));
+         computerPerson1 = (int)(Math.random()*3);
+         computerPerson2 = (int)(Math.random()*3)+3;
          
          // initializing other instance variables
          ch = '\u0000';
@@ -324,11 +339,13 @@ public class Level1 extends Level {
             g.fillRect(0, 860, 810, 220);
             g.setColor(new Color(224, 240, 244));
             g.fillRect(20, 240, 750, 420);
-            g.drawImage(computerPeople, 23, 243, this);
             g.setColor(new Color(254, 189, 225, counter*2));
             g.fillRect(225, 375, 300, 100);
             g.setColor(Color.black);
-            g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 24));     
+            g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 24)); 
+            
+            g.drawImage(computerPeople[computerPerson1], 28, 433, this);
+            g.drawImage(computerPeople[computerPerson2], 658, 433, this);   
             try {Thread.sleep(10);} catch (InterruptedException ie) {}
             counter++;
             this.repaint();
@@ -339,7 +356,6 @@ public class Level1 extends Level {
             g.drawImage(computer, 2, 220, this);
             g.setColor(new Color(150, 75, 0));
             g.fillRect(0, 860, 810, 220);
-            g.drawImage(computerPeople, 23, 243, this);
             g.setColor(new Color(254, 189, 225));
             g.fillRect(225, 375, 300, 100);
             g.setColor(Color.black);
@@ -348,6 +364,8 @@ public class Level1 extends Level {
             g.drawString(username, 240, 450);
             g.setColor(new Color(162, 210, 255, (counter-100)*2));
             g.fillRect(21, 240, 751, 422);
+            g.drawImage(computerPeople[computerPerson1], 28, 433, this);
+            g.drawImage(computerPeople[computerPerson2], 658, 433, this);
             try {Thread.sleep(10);} catch (InterruptedException ie) {}
             counter++;
             ch = '\u0000';
@@ -375,6 +393,8 @@ public class Level1 extends Level {
             int nextMessage = counter-200; // index of next message in array
             if (messageUser.get(nextMessage) == -1) { // between scenarios show transition
                displayTransition(g);
+               computerPerson1 = (int)(Math.random()*3);
+               computerPerson2 = (int)(Math.random()*3)+3;
             }
             else if (numDisplayed == 4) { // displays all 4 messages
                // gets rid of oldest message and shifts everything down and replaces it
@@ -453,7 +473,7 @@ public class Level1 extends Level {
       g.drawImage(computer, 2, 220, this);
       g.setColor(new Color(150, 75, 0));
       g.fillRect(0, 860, 810, 220);
-      g.drawImage(computerPeople, 23, 243, this);
+      
       g.setColor(new Color(254, 189, 225));
       g.fillRect(225, 375, 300, 100);
       g.setColor(Color.black);
@@ -462,6 +482,8 @@ public class Level1 extends Level {
       g.drawString(username, 240, 450);
       g.setColor(new Color(162, 210, 255, 200));
       g.fillRect(21, 240, 751, 422);
+      g.drawImage(computerPeople[computerPerson1], 28, 433, this);
+      g.drawImage(computerPeople[computerPerson2], 658, 433, this);
       
       // press enter to continue message
       g.setColor(new Color(254, 189, 225));
