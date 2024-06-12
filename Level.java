@@ -44,11 +44,17 @@ import javax.imageio.ImageIO;
  * Modifying the file path for importing files after organizing folders
  * </p>
  *
+ * <p>
+ * Version 1.6
+ * Time Spent: 1 minute
+ * Level 2 no longer has a transition method, so no longer abstract in Level
+ * </p>
+ *
  * @author Eric Ning, Tsz Fei Wang
- * @version 1.5
+ * @version 1.6
  * 
  * Chat-Mod AI Inc.
- * June 9th, 2024
+ * June 11th, 2024
  */
 abstract class Level extends JComponent implements Runnable {
    
@@ -103,12 +109,6 @@ abstract class Level extends JComponent implements Runnable {
     * @param g An object which is a painting tool
     */
    abstract void displayMessages(Graphics g);
-   
-   /**
-    * Utility method to display the transition between scenarios in the level
-    * @param g An object which is a painting tool
-    */
-   abstract void displayTransition(Graphics g);
    
    /**
     * Utility method to display the community guidelines in the scenarios for the game
