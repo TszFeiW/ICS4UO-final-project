@@ -153,7 +153,6 @@ public class Level1 extends Level {
          computer = ImageIO.read(classLoader.getResourceAsStream("images/computer.png"));
          transition = ImageIO.read(classLoader.getResourceAsStream("images/transition.png"));
          
-         
          computerPeople[0] = ImageIO.read(classLoader.getResourceAsStream("images/man1.png"));
          computerPeople[1] = ImageIO.read(classLoader.getResourceAsStream("images/man2.png"));
          computerPeople[2] = ImageIO.read(classLoader.getResourceAsStream("images/man3.png"));
@@ -357,11 +356,11 @@ public class Level1 extends Level {
             g.setColor(new Color(150, 75, 0));
             g.fillRect(0, 860, 810, 220);
             g.setColor(new Color(254, 189, 225));
-            g.fillRect(225, 375, 300, 100);
+            g.fillRect(315, 375, 300, 100);
             g.setColor(Color.black);
             g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 24));     
-            g.drawString("Hello! My name is", 240, 415);        
-            g.drawString(username, 240, 450);
+            g.drawString("Hello! My name is", 340, 415);        
+            g.drawString(username, 340, 450);
             g.setColor(new Color(162, 210, 255, (counter-100)*2));
             g.fillRect(21, 240, 751, 422);
             g.drawImage(computerPeople[computerPerson1], 28, 433, this);
@@ -475,11 +474,11 @@ public class Level1 extends Level {
       g.fillRect(0, 860, 810, 220);
       
       g.setColor(new Color(254, 189, 225));
-      g.fillRect(225, 375, 300, 100);
+      g.fillRect(315, 375, 300, 100);
       g.setColor(Color.black);
       g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 24));     
-      g.drawString("Hello! My name is", 240, 415);        
-      g.drawString(username, 240, 450);
+      g.drawString("Hello! My name is", 340, 415);        
+      g.drawString(username, 340, 450);
       g.setColor(new Color(162, 210, 255, 200));
       g.fillRect(21, 240, 751, 422);
       g.drawImage(computerPeople[computerPerson1], 28, 433, this);
