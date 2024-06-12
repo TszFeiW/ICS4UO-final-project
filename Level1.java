@@ -80,11 +80,18 @@ import javax.imageio.ImageIO;
  * the first time that Level 1 is run, otherwise uses previous username.
  * </p>
  *
+ * <p>
+ * Version 1.11
+ * Time Spent: 1 hour
+ * Changing the coordinates of some of the graphics in the level. New 
+ * images for characters on the sides, also randomized.
+ * </p>
+ *
  * @author Tsz Fei Wang, Eric Ning
- * @version 1.10
+ * @version 1.11
  * 
  * Chat-Mod AI Inc.
- * June 10th, 2024
+ * June 11th, 2024
  */
 public class Level1 extends Level {
 
@@ -104,7 +111,7 @@ public class Level1 extends Level {
    private BufferedImage personComputer;
    /** image of the computer zoomed in */
    private BufferedImage computer;
-   /** image of people inside the computer screen */
+   /** image of people on the computer screen */
    private BufferedImage[] computerPeople;
    /** image of the transition screen between two blocks of messages */
    private BufferedImage transition;
@@ -159,8 +166,8 @@ public class Level1 extends Level {
          computerPeople[3] = ImageIO.read(classLoader.getResourceAsStream("images/woman1.png"));
          computerPeople[4] = ImageIO.read(classLoader.getResourceAsStream("images/woman2.png"));
          computerPeople[5] = ImageIO.read(classLoader.getResourceAsStream("images/woman3.png"));
-         computerPerson1 = (int)(Math.random()*3);
-         computerPerson2 = (int)(Math.random()*3)+3;
+         computerPerson1 = (int)(Math.random()*3); // either 0, 1, or 2
+         computerPerson2 = (int)(Math.random()*3)+3; // either 3, 4, or 5
          
          // initializing other instance variables
          ch = '\u0000';
@@ -339,10 +346,11 @@ public class Level1 extends Level {
             g.setColor(new Color(224, 240, 244));
             g.fillRect(20, 240, 750, 420);
             g.setColor(new Color(254, 189, 225, counter*2));
-            g.fillRect(225, 375, 300, 100);
+            g.fillRect(315, 375, 300, 100);
             g.setColor(Color.black);
             g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 24)); 
             
+            // draws the two people on the ends of the screen
             g.drawImage(computerPeople[computerPerson1], 28, 433, this);
             g.drawImage(computerPeople[computerPerson2], 658, 433, this);   
             try {Thread.sleep(10);} catch (InterruptedException ie) {}
@@ -363,6 +371,8 @@ public class Level1 extends Level {
             g.drawString(username, 340, 450);
             g.setColor(new Color(162, 210, 255, (counter-100)*2));
             g.fillRect(21, 240, 751, 422);
+            
+            // draws the two people on the ends of the screen
             g.drawImage(computerPeople[computerPerson1], 28, 433, this);
             g.drawImage(computerPeople[computerPerson2], 658, 433, this);
             try {Thread.sleep(10);} catch (InterruptedException ie) {}
