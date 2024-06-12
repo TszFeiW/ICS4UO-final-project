@@ -170,6 +170,8 @@ public class Level2 extends Level {
    private boolean incorrect;
    /** Whether the user has not made any mistakes */
    private boolean perfectGame;
+   /** */
+   private boolean outOfTime;
    
    /**
     * Constructor of the class so that an instance of the class can be created in Main
@@ -368,19 +370,7 @@ public class Level2 extends Level {
                g.setColor(Color.black);
                g.drawString(""+(timer/16), 50, 200); // displays timer
                if (timer/16 == 10) {
-                  g.setFont(new Font("Calibri", Font.BOLD, 48));
-                  g.setColor(new Color(162, 210, 255));
-                  g.fillRect(50, 200, 710, 120);
-                  g.setColor(Color.black);
-                  g.drawString("You have ran out of time!", 100, 270);
-                  
-                  // press enter to continue message
-                  g.setColor(new Color(254, 189, 225));
-                  g.fillRect(50, 880, 700, 90);
-                  g.setColor(Color.black);
-                  g.setFont(new Font("Calibri", Font.BOLD, 64));     
-                  g.drawString("Press Enter to Continue", 95, 945);
-                  
+                  outOfTime = true;
                   seeAllOptions = true;
                   // adds the next message to display
                   counter++;
@@ -500,6 +490,7 @@ public class Level2 extends Level {
             int nextMessage = counter; // index of next message in array
             if (messageUser.get(nextMessage) == -1) { // between scenarios show transition
                displayBackground(g);
+               outOfTime = false;
                messages = false;
                correct = false;
                okay = false;
@@ -681,7 +672,7 @@ public class Level2 extends Level {
             g.drawString(messageTextDisplayed[i], 290, 290+i*100);
          }
       }
-      if (correct) {
+      if (correct) { // check mark (correct)
          g.setColor(Color.green);
          g.fillOval(595, 25, 175, 175);
          g.setColor(Color.black);
@@ -689,13 +680,13 @@ public class Level2 extends Level {
          int[] y = {115, 130, 165, 90, 75, 135};
          g.fillPolygon(x, y, 6);
       }
-      else if (okay) {
+      else if (okay) { // horizontal line (okay)
          g.setColor(new Color(200, 150, 50));
          g.fillOval(595, 25, 175, 175);
          g.setColor(Color.black);
          g.fillRect(610, 97, 145, 30); 
       }
-      else if (incorrect) {
+      else if (incorrect) { // x (incorrect)
          g.setColor(Color.red);
          g.fillOval(595, 25, 175, 175);
          g.setColor(Color.black);
@@ -703,6 +694,24 @@ public class Level2 extends Level {
          int[] y = {117, 77, 62, 102, 62, 77, 117, 157, 172, 132, 172, 157};
          g.fillPolygon(x, y, 12);
       }
+      
+      // instructions to continue
+      g.setColor(Color.black);
+      g.fillRect(45, 875, 710, 100);
+      g.setColor(new Color(254, 189, 225));
+      g.fillRect(50, 880, 700, 90);
+      g.setColor(Color.black);
+      g.setFont(new Font("Calibri", Font.BOLD, 64));     
+      g.drawString("Press Enter to Continue", 95, 945);
+      
+      if (outOfTime) { // user ran out of time so the choices are automatically shown
+         g.setFont(new Font("Calibri", Font.BOLD, 48));
+         g.setColor(new Color(162, 210, 255));
+         g.fillRect(48, 100, 702, 120);
+         g.setColor(Color.black);
+         g.drawString("You have ran out of time!", 150, 175);
+      }
+      
       selected = 0;
       game = false;
    }
@@ -716,12 +725,14 @@ public class Level2 extends Level {
       g.fillRect(15, 240, 760, 415);
       game = true;
       nextCounter = Integer.parseInt(messageText.get(counter));
+      
       g.setFont(new Font("Calibri", Font.BOLD, 28));
       g.setColor(new Color(254, 189, 225));
       g.fillRect(170, 260, 450, 60);
       g.setColor(Color.black); 
       g.drawString("What action should CMod AI take?", 200, 300);
       
+      // selected option in the menu
       if (selected == 0) g.setColor(new Color(253, 95, 95));
       else g.setColor(new Color(255, 128, 128));
       g.fillRect(70, 400, 300, 60);
@@ -744,6 +755,17 @@ public class Level2 extends Level {
       g.drawString("Permanent Ban", 125, 590);
       g.drawString("(Skip) View Scenarios", 455, 590);
       numDisplayed = 0;
+      
+      // instructions to continue
+      g.setColor(Color.black);
+      g.fillRect(35, 795, 730, 170);
+      g.setColor(new Color(254, 189, 225));
+      g.fillRect(40, 800, 720, 160);
+      g.setColor(Color.black);
+      g.setFont(new Font("Calibri", Font.BOLD, 64));
+      g.drawString("Use Arrow Keys and press", 50, 860);
+      g.drawString("'Enter' to Continue.", 135, 930);
+      
       this.repaint();
    }
    
