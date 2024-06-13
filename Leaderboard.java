@@ -45,11 +45,17 @@ import java.io.*;
  * Modifying the file path for importing files after organizing folders
  * </p>
  *
+ * <p>
+ * Version 1.6
+ * Time Spent: 5 minutes
+ * Coordinates of some drawings adjusted after making JFrame window smaller
+ * </p>
+ *
  * @author Eric Ning, Tsz Fei Wang
- * @version 1.5
+ * @version 1.6
  *
  * Chat-Mod AI Inc.
- * June 9th, 2024
+ * June 12th, 2024
  */
 public class Leaderboard extends JComponent implements Runnable {
 
@@ -103,22 +109,22 @@ public class Leaderboard extends JComponent implements Runnable {
    public void paintComponent(Graphics g) {
    	// clears the screen
    	g.setColor(bg);
-      g.fillRect(0, 0, 810, 1020);
+      g.fillRect(0, 0, 810, 950);
       
    	// title
       g.setColor(Color.black);
-   	g.fillRect(185,25,430,80);
+   	g.fillRect(185, 25, 430, 80);
    	g.setColor(bg2);
-   	g.fillRect(190,30,420,70);
+   	g.fillRect(190, 30, 420, 70);
    	g.setColor(Color.black);
    	g.setFont(new Font("Calibri", Font.BOLD, 70));
    	g.drawString("High Scores", 230, 85);
    	
    	// shows highscores
    	g.setColor(Color.black);
-   	g.fillRect(20,135,757,730);
+   	g.fillRect(20, 135, 757, 660);
    	g.setColor(bg2);
-   	g.fillRect(25,140,747,720);
+   	g.fillRect(25, 140, 747, 650);
    	g.setColor(Color.black);
    	
       // reading from the highscores.txt file
@@ -146,24 +152,24 @@ public class Leaderboard extends JComponent implements Runnable {
    		// depending on which highscore #, draws it onto the console at the correct location
    		g.setColor(Color.black);
    		if (i <= 5) {
-   		    g.drawString(i + ". " + name, 50, 200 + (i-1) % 5 * 150);
-   		    g.drawString(score, 300, 200 + (i-1) % 5 * 150);
+   		    g.drawString(i + ". " + name, 50, 200 + (i-1) % 5 * 135);
+   		    g.drawString(score, 300, 200 + (i-1) % 5 * 135);
    		}
    		else {
-   		    g.drawString(i + ". " + name, 410, 200 + (i-1) % 5 * 150);
-   		    g.drawString(score, 685, 200 + (i-1) % 5 * 150);
+   		    g.drawString(i + ". " + name, 410, 200 + (i-1) % 5 * 135);
+   		    g.drawString(score, 685, 200 + (i-1) % 5 * 135);
    		}
 	   }
-   	g.fillRect(384,140,5,720);
+   	g.fillRect(384, 140, 5, 650);
       
    	// waits until the user is ready to continue
    	g.setColor(Color.black);
-   	g.fillRect(70,900,640,50);
+   	g.fillRect(70, 830, 640, 50);
    	g.setColor(bg2);
-   	g.fillRect(75,905,630,40);
+   	g.fillRect(75, 835, 630, 40);
    	g.setColor(Color.black);
    	g.setFont(new Font("Calibri", 1, 20));
-   	g.drawString("Press 'R' to reset highscores, press ENTER to return to the main menu.", 95, 930);
+   	g.drawString("Press 'R' to reset highscores, press ENTER to return to the main menu.", 95, 860);
       
    	// if user chooses to reset the highscore file
       if (ch == 'R' || ch == 'r') {

@@ -50,11 +50,17 @@ import javax.imageio.ImageIO;
  * Level 2 no longer has a transition method, so no longer abstract in Level
  * </p>
  *
+ * <p>
+ * Version 1.7
+ * Time Spent: 5 minutes
+ * Coordinates of some drawings adjusted after making JFrame window smaller
+ * </p>
+ *
  * @author Eric Ning, Tsz Fei Wang
- * @version 1.6
+ * @version 1.7
  * 
  * Chat-Mod AI Inc.
- * June 11th, 2024
+ * June 12th, 2024
  */
 abstract class Level extends JComponent implements Runnable {
    
@@ -117,7 +123,7 @@ abstract class Level extends JComponent implements Runnable {
    public void displayCommunityGuidelines(Graphics g) {
       // background
       g.setColor(bg);
-      g.fillRect(0, 0, 810, 1020);
+      g.fillRect(0, 0, 810, 950);
    
       // title         
       g.setColor(new Color(255, 209, 235));
@@ -128,14 +134,14 @@ abstract class Level extends JComponent implements Runnable {
       g.drawString("Community Guidelines", 55, 138);
       
       // text
-      g.drawImage(communityGuidelines, 17, 205, this);
+      g.drawImage(communityGuidelines, 50, 205, this);
       
       // instructions to continue
       g.setColor(new Color(255, 209, 235));
-      g.fillRect(50, 855, 700, 90);
+      g.fillRect(50, 800, 700, 90);
       g.setColor(Color.black);
       g.setFont(new Font("Calibri", Font.BOLD, 64));     
-      g.drawString("Press Enter to Continue", 92, 920); 
+      g.drawString("Press Enter to Continue", 92, 865); 
    }
    
    

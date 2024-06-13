@@ -8,6 +8,7 @@ import java.lang.Thread;
  * Version 1.0 
  * Time Spent: 2 hours
  * Class was created which runs separate parts of the game in the correct order.
+ * Window size 810x1080 pixels
  * </p>
  *
  * <p>
@@ -21,6 +22,7 @@ import java.lang.Thread;
  * Time Spent: 5 minutes
  * Class was modified so username from level 1 could be accessed
  * Window size modified so that it fits on the school monitors.
+ * Window size decreased to 810x1020 pixels
  * </p>
  *
  * <p>
@@ -55,11 +57,17 @@ import java.lang.Thread;
  * Username is saved across the program (user cannot change username).
  * </p>
  *
+ * <p>
+ * Version 1.8
+ * Time Spent: 5 minutes
+ * JFrame window size decreased to 810x950 pixels. Window now not resizable.
+ * </p>
+ *
  * @author Eric Ning, Tsz Fei Wang
- * @version 1.7
+ * @version 1.8
  * 
  * Chat-Mod AI Inc.
- * June 10th, 2024
+ * June 12th, 2024
  */
 public class Main extends Thread {
    
@@ -78,8 +86,9 @@ public class Main extends Thread {
    public Main() {
       // setting up the window
       window = new JFrame("CMod Socializer");
-      window.setSize(810, 1020);
+      window.setSize(810, 950);
       window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      window.setResizable(false);
       
       // initializing other instance variables
       username = "";

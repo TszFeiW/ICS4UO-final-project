@@ -58,11 +58,17 @@ import javax.imageio.ImageIO;
  * Changing the coordinates of the graphics
  * </p>
  *
+ * <p>
+ * Version 1.8
+ * Time Spent: 5 minutes
+ * Coordinates of some drawings adjusted after making JFrame window smaller
+ * </p>
+ *
  * @author Tsz Fei Wang, Eric Ning
- * @version 1.7
+ * @version 1.8
  * 
  * Chat-Mod AI Inc.
- * June 10th, 2024
+ * June 12th, 2024
  */
 public class Credits extends JComponent implements Runnable {
 
@@ -91,7 +97,7 @@ public class Credits extends JComponent implements Runnable {
       
       try {
          // importing logo image
-    	 ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+    	   ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
          logo = ImageIO.read(classLoader.getResourceAsStream("images/logo.png"));
       }
       catch (IOException ioe) {
@@ -134,10 +140,10 @@ public class Credits extends JComponent implements Runnable {
    public void paintComponent(Graphics g) {
       // draws credits screen
       g.setColor(bg);
-      g.fillRect(0, 0, 810, 1020);
+      g.fillRect(0, 0, 810, 950);
       
       g.setColor(bg2);
-      g.fillRect(30, 30, 735, 920);
+      g.fillRect(30, 30, 735, 850);
       
       g.setColor(Color.black);
       g.setFont(new Font("Calibri", Font.BOLD, 120));
@@ -149,20 +155,20 @@ public class Credits extends JComponent implements Runnable {
       g.drawString("Eric Ning and Tsz Fei Wang", 100, 325);
       
       g.setFont(new Font("Calibri", Font.BOLD, 36));
-      g.drawString("Thanks for playing CMOD Socializer!", 130, 415);
-      g.drawImage(logo, 235, 435, this);
-      g.drawString("Chat-Mod AI Inc.", 275, 790);
+      g.drawString("Thanks for playing CMOD Socializer!", 130, 395);
+      g.drawImage(logo, 235, 415, this);
+      g.drawString("Chat-Mod AI Inc.", 275, 770);
       
       g.setFont(new Font("Calibri", Font.BOLD, 64));
-      g.drawString("Press 'Enter' to Exit", 135, 900);
+      g.drawString("Press 'Enter' to Exit", 135, 850);
       
       if (selected && counter <= 398) { // if the user has chosen to exit and animation is ongoing
          // adds thicker and thicker black borders until the screen is completely black
          g.setColor(Color.black);
-         g.fillRect(0, 0, counter, 980);
+         g.fillRect(0, 0, counter, 910);
          g.fillRect(0, 0, 795, counter);
-         g.fillRect(795-counter, 0, counter, 980);
-         g.fillRect(0, 980-counter, 795, counter);
+         g.fillRect(795-counter, 0, counter, 910);
+         g.fillRect(0, 910-counter, 795, counter);
          counter++;
          try {Thread.sleep(10);} catch (InterruptedException ie) {}
          this.repaint();
@@ -170,7 +176,7 @@ public class Credits extends JComponent implements Runnable {
       else if (selected) { // animation finished 
          finished = true;
          g.setColor(Color.black);
-         g.fillRect(0, 0, 810, 1020);
+         g.fillRect(0, 0, 810, 950);
       }
    }
    
@@ -180,7 +186,7 @@ public class Credits extends JComponent implements Runnable {
    public void run() {
       try {
          while (true) {
-            Thread.sleep(50);
+            Thread.sleep(5);
             if (finished) break; // until the credits screen is complete 
          }
       } catch (InterruptedException ie) {

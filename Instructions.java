@@ -58,11 +58,17 @@ import javax.imageio.ImageIO;
  * Modifying the file path for importing files after organizing folders
  * </p>
  *
+ * <p>
+ * Version 1.8
+ * Time Spent: 10 minutes
+ * Coordinates of some drawings adjusted after making JFrame window smaller
+ * </p>
+ *
  * @author Tsz Fei Wang, Eric Ning
- * @version 1.7
+ * @version 1.8
  * 
  * Chat-Mod AI Inc.
- * June 9th, 2024
+ * June 12th, 2024
  */
 public class Instructions extends JComponent implements Runnable {
 
@@ -91,7 +97,7 @@ public class Instructions extends JComponent implements Runnable {
       
       try {
          // importing images
-    	 ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+    	   ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
          generalInstructions = ImageIO.read(classLoader.getResourceAsStream("images/generalInstructions.png"));
          instructionsL1 = ImageIO.read(classLoader.getResourceAsStream("images/instructionsL1.png"));
          instructionsL2 = ImageIO.read(classLoader.getResourceAsStream("images/instructionsL2.png"));
@@ -134,7 +140,7 @@ public class Instructions extends JComponent implements Runnable {
     */
    public void paintComponent(Graphics g) {
       g.setColor(bg);
-      g.fillRect(0, 0, 810, 1020);
+      g.fillRect(0, 0, 810, 950);
       
       if(currScreen == 0) {
          // title         
@@ -146,14 +152,14 @@ public class Instructions extends JComponent implements Runnable {
          g.drawString("General Instructions", 57, 138);
          
          // text
-         g.drawImage(generalInstructions, 80, 215, this);
+         g.drawImage(generalInstructions, 80, 205, this);
          
          // instructions to continue
          g.setColor(bg2);
-         g.fillRect(50, 840, 700, 90);
+         g.fillRect(50, 800, 700, 90);
          g.setColor(Color.black);
          g.setFont(new Font("Calibri", Font.BOLD, 64));     
-         g.drawString("Press Enter to Continue", 92, 905); 
+         g.drawString("Press Enter to Continue", 92, 865); 
       }
       else if(currScreen == 1) {
          // title         
@@ -165,14 +171,14 @@ public class Instructions extends JComponent implements Runnable {
          g.drawString("Level 1", 280, 138);
          
          // text
-         g.drawImage(instructionsL1, 17, 205, this);
+         g.drawImage(instructionsL1, 44, 205, this);
          
          // instructions to continue
          g.setColor(bg2);
-         g.fillRect(50, 840, 700, 90);
+         g.fillRect(50, 800, 700, 90);
          g.setColor(Color.black);
          g.setFont(new Font("Calibri", Font.BOLD, 64));     
-         g.drawString("Press Enter to Continue", 92, 905); 
+         g.drawString("Press Enter to Continue", 92, 865); 
       }
       else if(currScreen == 2) {
          // title         
@@ -184,14 +190,14 @@ public class Instructions extends JComponent implements Runnable {
          g.drawString("Level 2", 280, 138);
          
          // text
-         g.drawImage(instructionsL2, 8, 205, this);
+         g.drawImage(instructionsL2, 23, 205, this);
          
          // instructions to continue
          g.setColor(bg2);
-         g.fillRect(50, 840, 700, 90);
+         g.fillRect(50, 800, 700, 90);
          g.setColor(Color.black);
          g.setFont(new Font("Calibri", Font.BOLD, 64));     
-         g.drawString("Press Enter to Continue", 92, 905); 
+         g.drawString("Press Enter to Continue", 92, 865); 
       }
    }
 

@@ -58,11 +58,17 @@ import javax.imageio.ImageIO;
  * Modifying the file path for importing files after organizing folders
  * </p>
  *
+ * <p>
+ * Version 1.8
+ * Time Spent: 5 minutes
+ * Coordinates of some drawings adjusted after making JFrame window smaller
+ * </p>
+ *
  * @author Eric Ning, Tsz Fei Wang
- * @version 1.7
+ * @version 1.8
  * 
  * Chat-Mod AI Inc.
- * June 9th, 2024
+ * June 12th, 2024
  */
 public class SplashScreen extends JComponent implements Runnable {
 
@@ -146,12 +152,12 @@ public class SplashScreen extends JComponent implements Runnable {
       if (time <= 360) { // starting animation with loading logo
          Graphics2D g2 = (Graphics2D) g; // need setStroke method only in Graphics2D
          g2.setColor(bg);
-         g2.fillRect(0, 0, 810, 1020);
-         g2.drawImage(logo2, 85, 50, this);
+         g2.fillRect(0, 0, 810, 950);
+         g2.drawImage(logo2, 75, 50, this);
          
          g2.setStroke(new BasicStroke(25));
          g2.setColor(new Color(103, 157, 255));
-         g2.drawArc(111, 73, 594, 594, time, 100);
+         g2.drawArc(101, 73, 594, 594, time, 100);
       
          try { Thread.sleep(10); } catch (InterruptedException ie) {}
          time++;
@@ -159,12 +165,12 @@ public class SplashScreen extends JComponent implements Runnable {
       }
       else if (time <= 615) { // company name fading in
          g.setColor(bg);
-         g.fillRect(0, 0, 810, 1020);
+         g.fillRect(0, 0, 810, 950);
          g.drawImage(logoLarge, 85, 50, this);
          g.setColor(new Color(0, 0, 0, time-360));
          
          g.setFont(new Font("Calibri", Font.BOLD, 50));
-         g.drawString("Chat-Mod AI Inc.", 235, 750);
+         g.drawString("Chat-Mod AI Inc.", 225, 750);
          
          try { Thread.sleep(10); } catch (InterruptedException ie) {}
          time++;
@@ -172,12 +178,12 @@ public class SplashScreen extends JComponent implements Runnable {
       }
       else if (time <= 718) { // logo and company name moving downwards animation
          g.setColor(bg);
-         g.fillRect(0, 0, 810, 1020);
+         g.fillRect(0, 0, 810, 950);
          g.drawImage(logoLarge, 85, 50+10*(time-615), this);
          g.setColor(Color.black);
          
          g.setFont(new Font("Calibri", Font.BOLD, 50));
-         g.drawString("Chat-Mod AI Inc.", 235, 750+10*(time-615));
+         g.drawString("Chat-Mod AI Inc.", 225, 750+10*(time-615));
          
          try { Thread.sleep(10); } catch (InterruptedException ie) {}
          time++;
@@ -185,27 +191,27 @@ public class SplashScreen extends JComponent implements Runnable {
       }
       else { // menu displayed
          g.setColor(bg);
-         g.fillRect(0, 0, 810, 1020);
+         g.fillRect(0, 0, 810, 950);
    
-         g.drawImage(logo, 245, 100, this);
+         g.drawImage(logo, 240, 50, this);
          
          g.setColor(Color.black);
          g.setFont(new Font("Calibri", Font.BOLD, 50));
-         g.drawString("Chat-Mod AI Inc.", 235, 520);
+         g.drawString("Chat-Mod AI Inc.", 235, 450);
          
          if (selected == 0) { // currently on the play button (changes colour)
-            g.drawImage(play2, 255, 570, this);
-            g.drawImage(exit, 255, 690, this);
+            g.drawImage(play2, 255, 500, this);
+            g.drawImage(exit, 255, 620, this);
          }
          else { // currently on the exit button (changes colour)
-            g.drawImage(play, 255, 570, this);
-            g.drawImage(exit2, 255, 690, this);
+            g.drawImage(play, 255, 500, this);
+            g.drawImage(exit2, 255, 620, this);
          }
          
          // instructions to continue
          g.setFont(new Font("Calibri", Font.BOLD, 64));
-         g.drawString("Use Arrow Keys and press", 50, 860);
-         g.drawString("'Enter' to Continue.", 135, 930);
+         g.drawString("Use Arrow Keys and press", 50, 790);
+         g.drawString("'Enter' to Continue.", 135, 860);
       }
    }
    

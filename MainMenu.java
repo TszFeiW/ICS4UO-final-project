@@ -65,11 +65,17 @@ import javax.imageio.ImageIO;
  * Modifying the file path for importing files after organizing folders
  * </p>
  *
+ * <p>
+ * Version 1.9
+ * Time Spent: 5 minutes
+ * Coordinates of some drawings adjusted after making JFrame window smaller
+ * </p>
+ *
  * @author Eric Ning, Tsz Fei Wang
- * @version 1.8
+ * @version 1.9
  * 
  * Chat-Mod AI Inc.
- * June 9th, 2024
+ * June 12th, 2024
  */
 public class MainMenu extends JComponent implements Runnable {
 
@@ -121,7 +127,7 @@ public class MainMenu extends JComponent implements Runnable {
       
       try {
          // importing images
-    	 ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+    	   ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
          instructions = ImageIO.read(classLoader.getResourceAsStream("images/instructionsButton.png"));
          instructions2 = ImageIO.read(classLoader.getResourceAsStream("images/instructionsButton2.png"));
          firstLevel = ImageIO.read(classLoader.getResourceAsStream("images/level1Button.png"));
@@ -182,44 +188,44 @@ public class MainMenu extends JComponent implements Runnable {
    public void paintComponent(Graphics g) {
       // background
       g.setColor(bg);
-      g.fillRect(0, 0, 810, 1020);
+      g.fillRect(0, 0, 810, 950);
       
       // title
       g.setColor(Color.black);
       g.setFont(new Font("Calibri", Font.BOLD, 100));
-      g.drawString("CMOD Socializer", 50, 150);
+      g.drawString("CMOD Socializer", 50, 110);
       
       // drawing default buttons
-      g.drawImage(instructions, 205, 200, this);
-      g.drawImage(firstLevel, 205, 320, this);
-      g.drawImage(allowed ? secondLevelUnlocked : secondLevel, 205, 440, this);
-      g.drawImage(leaderboard, 205, 560, this);
-      g.drawImage(quit, 205, 680, this);
+      g.drawImage(instructions, 205, 150, this);
+      g.drawImage(firstLevel, 205, 270, this);
+      g.drawImage(allowed ? secondLevelUnlocked : secondLevel, 205, 390, this);
+      g.drawImage(leaderboard, 205, 510, this);
+      g.drawImage(quit, 205, 630, this);
       
       // drawing selected button differently
       if (selected == 0)
-         g.drawImage(instructions2, 205, 200, this);
+         g.drawImage(instructions2, 205, 150, this);
       else if (selected == 1)
-         g.drawImage(firstLevel2, 205, 320, this);
+         g.drawImage(firstLevel2, 205, 270, this);
       else if (selected == 2)
-         g.drawImage(allowed ? secondLevelUnlocked2 : secondLevel2, 205, 440, this);
+         g.drawImage(allowed ? secondLevelUnlocked2 : secondLevel2, 205, 390, this);
       else if (selected == 3)
-         g.drawImage(leaderboard2, 205, 560, this);
+         g.drawImage(leaderboard2, 205, 510, this);
       else 
-         g.drawImage(quit2, 205, 680, this);
+         g.drawImage(quit2, 205, 630, this);
       
       // instructions to continue
       g.setColor(Color.black);
       g.setFont(new Font("Calibri", Font.BOLD, 64));
-      g.drawString("Use Arrow Keys and press", 50, 860);
-      g.drawString("'Enter' to Continue.", 135, 930);
+      g.drawString("Use Arrow Keys and press", 50, 790);
+      g.drawString("'Enter' to Continue.", 135, 860);
       
       if (warning) { // displays warning message if you try to choose level 2 when level 1 is incomplete
          g.setFont(new Font("Calibri", Font.BOLD, 48));
          g.setColor(new Color(162, 210, 255));
-         g.fillRect(50, 427, 710, 120);
+         g.fillRect(50, 375, 710, 120);
          g.setColor(Color.black);
-         g.drawString("Cannot Choose Level 2 Currently", 85, 497);
+         g.drawString("Cannot Choose Level 2 Currently", 85, 445);
          warning = false;
       }
    }
