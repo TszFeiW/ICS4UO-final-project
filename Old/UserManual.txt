@@ -1,0 +1,75 @@
+################ User Manual ################
+
+Instructions:
+The instructions explaining how to navigate the game interface, instructions for playing level 1 of the game and level 2 of the game. 
+
+Level 1:
+You will have to input your username accordingly at the start of the level. 
+View several scenarios in the Lich3ss chat room handled by CMod AI. 
+Press ‘Enter’ throughout the level to view the responses of CMod AI and view its flaws. 
+
+Level 2:
+View several scenarios throughout a scene in a game by talking to several people located in the scene. 
+Use WASD to move the character, and F to interact with the appropriate person. 
+The next person to talk to is indicated by a red arrow. 
+You will be given a scenario and will choose the most appropriate response by CMod AI. 
+Use the arrow keys to navigate answer choices and press enter to continue. 
+See FAQ for more information.
+
+Leaderboard:
+View the leaderboard of the program. 
+This data is saved throughout different instances of the game being run. 
+You can always reset the highscores.txt file by pressing ‘R’ in the Leaderboard screen. 
+To exit the screen, press ‘Enter’.
+
+Credits:
+The credits screen gives acknowledgement to the creators of this game. 
+If you would like to exit the game from the credits screen, press Enter and the game will close after a short animation.
+
+################ FAQ ################
+
+Why is my input not registering?
+--------------------------------
+Note that the program window must be focused for your input to register. 
+If you click off the window, be sure to click on it again to refocus into the game window. 
+
+What controls do I use?
+-----------------------
+As mentioned in each of the screens in the game where user input is expected.
+In any given screen, use arrow keys to navigate choices and press enter to continue. 
+When giving the username in Level 1, use any alphanumeric keys (numbers and letters) to input your username. 
+In Level 2, use WASD to move the character and F to interact with other characters. 
+Use arrow keys and the enter key to submit the answer to the scenario. 
+
+What if my program is lagging?
+------------------------------
+The game has an in-built delay of at least 50 milliseconds for each key input. 
+There may be a little delay between transitioning between different screens of the game.
+
+Why does it appear that things are missing?
+-------------------------------------------
+Ensure you have downloaded all the necessary files (images, text files) for the game. 
+If you are missing a file, the game will not run properly. 
+If you are running the .jar file, make sure it is located in the same directory as the folders named "images" and "textfiles" otherwise the game might not run properly.
+
+How do I input the username in the first level?
+-----------------------------------------------
+Type letters and numbers to input a username and then press ‘Enter’. 
+Note that you can only input alphanumeric characters and you cannot input a username with 1 or less characters.
+You also cannot input a username with more than 14 characters.
+
+How do I navigate the second level?
+-----------------------------------
+A red animated arrow appears above the head of the next character. 
+Navigate to them using the WASD keys. 
+Note that you cannot travel through the trees and bushes. 
+There may be a little difficulty navigating through the "forest" to reach the 4th character in the top right corner.
+
+How do I select answer options in the second level?
+---------------------------------------------------
+Press enter to view the next line of dialogue after interacting with a character. 
+Use the arrow keys to navigate between answer options and press enter to submit an answer. 
+
+Other gameplay questions?
+-------------------------
+Check the game instructions which contain detailed information about how to navigate and play our game!
